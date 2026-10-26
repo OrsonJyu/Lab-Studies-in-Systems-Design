@@ -1,0 +1,4 @@
+Library IO Control has been declared precompiled:
+Using precompiled library in /tmp/sd5531-library/IO_Control/src/esp32c3
+Sketch uses 345980 bytes (26%) of program storage space. Maximum is 1310720 bytes.
+Global variables use 15700 bytes (4%) of dynamic memory, leaving 311980 bytes for local variables. Maximum is 327680 bytes.

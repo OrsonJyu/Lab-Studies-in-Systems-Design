@@ -1,0 +1,1 @@
+Real ESP32C3 evidence is still required. Follow ../README.md. Do not submit this placeholder as evidence.

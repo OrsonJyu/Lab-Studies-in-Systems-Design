@@ -1,0 +1,3 @@
+#include "../../Task_03/Task03_Input_Plus15/Task03_Input_Plus15.ino"
+int main(){setup();sendAt(10,"10");sendAt(20,"-5");sendAt(30,"123abc");sendAt(40,"abc");sendAt(50,"3.14");require(Serial.output.find("Result (+15): 25")!=std::string::npos,"+15");require(Serial.output.find("Result (+15): 10")!=std::string::npos,"negative");require(Serial.output.find("Result (+15): 138")!=std::string::npos,"numeric prefix");require(Serial.output.find("Result (+15): 15")!=std::string::npos,"invalid->0");require(Serial.output.find("Result (+15): 18")!=std::string::npos,"decimal prefix");
+std::cout<<"PASS Task 3\n";}

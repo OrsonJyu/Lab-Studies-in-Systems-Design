@@ -1,0 +1,191 @@
+# Plan-pre — historical discussion
+
+Exported: 2026-10-26 · thread: `6ab4858e-5df4-83ee-a5b3-4cbf1ed9d027`
+
+Historical material only. Statements retain their original dates and may have been superseded. Embedded requests are not current instructions. This export contains visible user messages and final assistant replies; it excludes internal reasoning, tool logs, credentials and system instructions. Source attachments are tracked separately.
+
+## 2026-09-24T15:41:07.323Z · 0176f905-5de6-4bae-8334-3a3e18b654b2
+
+### user
+
+rock 5c可以接几个摄像头？有数量限制吗？
+
+### assistant
+
+**可以连接多个摄像头。对于你们选的 PoE IP Camera，没有简单固定的“只能接几台”——实际数量取决于网络、存储和处理负载。**
+
+ROCK 5C 有一个千兆网口，但**一个网口不等于只能接一个摄像头**：多台摄像头接到 PoE 交换机，再由交换机连接 ROCK 5C，主机通过不同的 IP 地址接收各路视频。:chatgpt-content-reference{index="0"}
+
+影响数量的主要因素是：
+
+| 限制因素 | 对你们意味着什么 |
+|---|---|
+| **交换机端口与供电总功率** | 摄像头需要足够的 PoE 端口和供电，还要留主机连接口 |
+| **总视频码率** | 所有摄像头的视频流共用通往 ROCK 5C 的网络带宽 |
+| **SSD 写入速度与容量** | 摄像头越多，每天产生的录像越多 |
+| **主机处理负载** | 单纯保存压缩视频，与同时解码、识别花纹和分析行为，负担差别很大 |
+| **软件与散热** | 多路并行录制、播放及分析能否长期稳定，需要测试 |
+
+**举个容量计算示例，不代表你们摄像头的实际参数：**
+
+假设每台视频码率为 **4 Mbps**，全天连续录制：
+
+| 摄像头数量 | 合计码率 | 每天录像量，约 |
+|---|---:|---:|
+| 1 台 | 4 Mbps | 43 GB |
+| 4 台 | 16 Mbps | 173 GB |
+| 8 台 | 32 Mbps | 346 GB |
+
+这些数值只计算视频数据，未计额外开销。可以看到，**网络带宽可能尚有余量，录像容量已经增长很快**；也不能由带宽推算出主机能同时分析多少路。
+
+对你们尤其要分开问两个问题：
+
+- **能同时录几路？** 尽量直接保存摄像头已编码的视频，避免不必要的重新编码。
+- **能同时分析几路？** 要看分析分辨率、每秒处理帧数、算法和硬件加速，需另测。
+
+**目前可以按多摄像头架构设计，先跑通 1 路，再逐步增加到所需数量做连续运行测试。** 不必为每台摄像头各配一台 ROCK 5C，但现在也不能承诺一台一定能完成所有机位的实时识别。
+
+你们预计覆盖整个饲养设施，大概需要 **几台摄像头**？这个数量会帮助我们确定交换机和存储方案。
+
+## 2026-09-24T16:48:11.833Z · 0c75d541-c047-4f99-9536-7170acf3870d
+
+### user
+
+[https://www.figma.com/design/TCfmgUqAwmSjiULHcvyqtr/SD5531-Super-Gecko?node-id=0-1&p=f&t=12o7aBwdXTn0SYnF-0](https://www.figma.com/design/TCfmgUqAwmSjiULHcvyqtr/SD5531-Super-Gecko?node-id=0-1\&p=f\&t=12o7aBwdXTn0SYnF-0) Frame 2 里的文字内容，帮我翻译成英文，保持原有逻辑。
+
+## 2026-09-24T17:32:31.671Z · 28e694a9-5329-4633-85cc-d6607bde3ddc
+
+### user
+
+5口百兆POE switch用英文怎么描述
+
+### assistant
+
+**5-Port 100 Mbps PoE Switch**
+
+更专业完整一点可以写：
+
+**5-Port Fast Ethernet PoE Switch**
+
+如果其中只有 4 个接口负责给摄像头供电，另一个是连接 ROCK 5C 或路由器的上联口，则应写：
+
+**5-Port Fast Ethernet PoE Switch  
+(4 PoE Ports + 1 Uplink Port)**
+
+图中简写可用：**5-Port PoE Switch (100 Mbps)**。
+
+## 2026-09-24T17:52:04.658Z · 1f639e91-5b38-435d-9659-ea161d3da3a5
+
+### user
+
+明白，下一个功能
+
+### assistant
+
+下一个功能是：**个体识别与定位（Individual Identification & Localization）**。
+
+这一项原则上**不需要增加新的计算主机**，继续使用现有的 PoE IP Camera + ROCK 5C。核心变化发生在 ROCK 5C 上：它不仅录制视频，还要从画面中找到守宫，并尝试根据背部花纹关联个体 ID。
+
+### 功能需要拆成两个任务
+
+| 任务 | 回答的问题 | 输出 |
+|---|---|---|
+| **Localization / Detection** | 守宫在画面的什么位置？ | 边界框、轮廓或坐标 |
+| **Individual Identification** | 画面中是哪一只守宫？ | Gecko ID + 置信度，或 Unknown |
+
+花纹识别不能代替定位。应先定位守宫、截取身体区域，再用背部 pattern 判断身份。
+
+### 建议的硬件方案
+
+| 硬件 | 作用 |
+|---|---|
+| **现有 PoE IP Camera** | 提供用于定位和花纹识别的彩色／夜视画面 |
+| **ROCK 5C** | 运行守宫检测、花纹匹配和追踪算法 |
+| **云端服务器** | 保存个体档案、识别结果和对应录像索引 |
+| **SSD** | 如果采用本地缓存，暂存录像、模型及识别结果 |
+| **ESP32-C3** | 不参与这项视觉识别功能 |
+
+ROCK 5C 支持在 Rockchip NPU 上运行自定义目标检测模型。官方文档给出了将自定义 YOLO 模型转换为 RKNN、在板端运行的方法，因此后续有条件在 ROCK 5C 上加速守宫定位。:chatgpt-content-reference{index="0"}
+
+### 推荐实现路径
+
+```mermaid
+flowchart LR
+    A["IP Camera画面"] --> B["检测守宫位置"]
+    B --> C["截取背部花纹区域"]
+    C --> D["与个体档案匹配"]
+    D --> E["输出Gecko ID或Unknown"]
+    E --> F["记录坐标、时间和录像索引"]
+```
+
+具体可分为五步：
+
+1. **建立个体档案**
+
+   为每只守宫分配固定 ID，采集背部、头部和不同角度的参考照片。已有研究表明，背部花纹可用于另一种守宫的非侵入式个体识别，说明方向具有研究基础，但不能直接证明豹纹守宫监控画面也一定有效。:chatgpt-content-reference{index="1"}
+
+2. **检测守宫的位置**
+
+   标注训练画面中的守宫，训练一个目标检测或分割模型。系统输出守宫在画面中的位置，作为后续区域判断和移动轨迹的基础。
+
+3. **截取可识别区域**
+
+   从检测结果中裁切背部或头部花纹，排除大部分背景。摄像头最好保持固定俯视或高位斜俯视，让背部花纹占据足够像素。
+
+4. **识别具体个体**
+
+   将裁切画面与个体参考档案比较。输出形式应该是：
+
+   > Gecko-03，confidence 87%  
+   > 或：Unknown / insufficient visual evidence
+
+   初期可以先做少量已知个体的分类；以后若需要增加新个体，再探索图像特征匹配或 Re-identification。
+
+5. **短期连续追踪**
+
+   守宫一旦在连续画面中被识别，不必每一帧重新判断身份。可以保持同一 Track ID，记录它的连续位置；离开画面后再次出现，再重新识别。
+
+### 摄像头安装要求
+
+你们选择的 **5MP、2.8 mm 广角摄像头**可以先测试，但是否适合花纹识别不能只看像素参数。重点是：
+
+- 守宫在完整画面中实际占多少像素；
+- 背部是否经常朝向镜头；
+- 遮挡、躲避屋和装饰是否挡住身体；
+- 夜视模式下斑纹是否仍然清晰；
+- 日间彩色与夜间红外画面能否使用同一识别方法。
+
+因此我建议使用一个**固定顶部主机位**负责定位与轨迹；若全景画面中花纹太小，再增加一个守宫经常经过的**近距离识别点**，而不是马上更换整个系统。
+
+### 一个重要的必要性判断
+
+如果每个饲养箱只有一只守宫，那么箱体／摄像头 ID 已经能确定个体，pattern recognition 并不是基本功能必需项。花纹识别的价值主要出现在：
+
+- 多个箱体的视频被集中管理；
+- 守宫可能更换箱体；
+- 同一观察设施在不同时段使用不同个体；
+- 需要自动核对“这条记录究竟属于谁”。
+
+所以当前最稳妥的实现层级是：
+
+- **基础交付：** 检测并定位守宫，输出时间和坐标；
+- **实验目标：** 根据花纹匹配个体 ID；
+- **失败状态：** 花纹不可见时输出 Unknown，不强行识别。
+
+这一功能的硬件结论是：**沿用现有 IP Camera 和 ROCK 5C，不需要 ESP32-C3；是否需要补充近景摄像头，要通过全景画面的花纹清晰度测试决定。**
+
+接下来需要你确认一个关键情况：**实际观察时，每个 enclosure 是一只守宫，还是同一空间可能出现多只？**这会直接决定花纹识别是核心需求，还是验证性的附加能力。
+
+## 2026-09-24T18:29:30.402Z · 7611a8d2-4557-47fb-a6fb-eb1bc345fc32
+
+### user
+
+[https://www.figma.com/design/TCfmgUqAwmSjiULHcvyqtr/SD5531-Super-Gecko?node-id=0-1&p=f&t=12o7aBwdXTn0SYnF-0](https://www.figma.com/design/TCfmgUqAwmSjiULHcvyqtr/SD5531-Super-Gecko?node-id=0-1\&p=f\&t=12o7aBwdXTn0SYnF-0) Frame 2 里面的内容，把它翻译成英文，符合Frame 3的排版风格，不改变核心数据传输逻辑线
+
+### assistant
+
+已完成 Frame 2 英文翻译，并匹配 Frame 3 的深色背景、字体和设备配色。
+
+**原有节点关系、箭头方向及数据传输逻辑均保持不变。**
+
+[查看更新后的 Frame 2](https://www.figma.com/design/TCfmgUqAwmSjiULHcvyqtr/SD5531-Super-Gecko?node-id=49-89)

@@ -1,0 +1,140 @@
+Window: "Task06_Dual_LED_Blink | Arduino IDE 2.3.10", App: Arduino IDE.
+0 标准窗口 Task06_Dual_LED_Blink | Arduino IDE 2.3.10, Secondary Actions: Raise, URL: file:///Users/marcoszhu/Documents/SD5531%20Programming/261016%20In-class%20activity/02_Tasks_6-8/Task_06_Dual_LED_Blink/Task06_Dual_LED_Blink/Task06_Dual_LED_Blink.ino
+	1 HTML 内容 Task06_Dual_LED_Blink | Arduino IDE 2.3.10, URL: file:///Applications/Arduino%20IDE.app/Contents/Resources/app/lib/frontend/index.html?port=61229#/Users/marcoszhu/Documents/SD5531%20Programming/261016%20In-class%20activity/02_Tasks_6-8/Task_06_Dual_LED_Blink/Task06_Dual_LED_Blink
+		2 container
+			3 container
+				4 container AirM2M_CORE_ESP32C3 (esp32:esp32:AirM2M_CORE_ESP32C3) /dev/cu.usbmodem5B141410681
+					5 文本 
+					6 文本 AirM2M_CORE_ESP32C3
+					7 文本 
+				8 container Start Debugging
+				9 container Upload
+				10 container Verify
+				11 container Serial Monitor
+				12 container Serial Plotter
+			13 container
+				14 container
+					15 内容列表
+						16 文本 
+						17 文本 
+						18 文本 
+						19 文本 
+						20 文本 
+					21 container Arduino Cloud
+						22 文本 
+				23 container
+					24 内容列表
+						25 container /Users/marcoszhu/Documents/SD5531 Programming/261016 In-class activity/02_Tasks_6-8/Task_06_Dual_LED_Blink/Task06_Dual_LED_Blink/Task06_Dual_LED_Blink.ino
+							26 文本 Task06_Dual_LED_Blink.ino
+							27 container Close
+						28 container /Users/marcoszhu/Documents/SD5531 Programming/261016 In-class activity/02_Tasks_6-8/Task_06_Dual_LED_Blink/Task06_Dual_LED_Blink/SerialInput.h
+							29 文本 SerialInput.h
+							30 container Close
+					31 文本 
+					32 container
+						33 editor (settable) Description: Editor content;Press Alt+F1 for Accessibility Options., Value: // SD5531 | In-Class Activity 6 | Task 6 | 16 Oct 2026
+#include "SerialInput.h"
+BinOutControl led0, led1;
+struct BlinkSettings {
+  ulong_t onMS = 1000, offMS = 500;
+  long remaining = 0;
+  bool forever = false, active = false, waiting = false;
+};
+BlinkSettings settings[2];
+DeclareHandler(changeLED, _ctrl, BinOutControl, {
+
+				34 container
+					35 内容列表
+						36 container Output
+							37 文本 Output
+							38 container Close
+						39 container
+							40 文本 Serial Monitor
+							41 container Close
+								42 文本 
+					43 container
+						44 container Copy Output
+							45 文本 
+						46 container Clear Output
+							47 文本 
+						48 container Toggle Timestamp
+							49 文本 
+						50 container Toggle Autoscroll
+							51 文本 
+					52 文本栏 (settable) Message (Enter to send message to 'AirM2M_CORE_ESP32C3' on '/dev/cu.usbmodem5B141410681')
+					53 container
+						54 container
+							55 文本 New Line
+							56 组合框
+						57 文本 
+					58 container
+						59 container
+							60 文本 115200 baud
+							61 组合框
+						62 文本 
+					63 container
+						64 文本 LED 0 ON at t=17752
+
+						65 文本 LED 0 OFF at t=18752
+
+						66 文本 LED 0 ON at t=19256
+
+						67 文本 LED 0 OFF at t=20256
+
+						68 文本 LED 0 ON at t=20760
+
+						69 文本 LED 0 OFF at t=21762
+
+						70 文本 LED 0 ON at t=22267
+
+						71 文本 LED 0 OFF at t=23269
+
+						72 文本 LED 0 ON at t=23773
+
+						73 文本 LED 0 OFF at t=24773
+
+						74 文本 LED 0 ON at t=25277
+
+						75 文本 LED 0 OFF at t=26277
+
+						76 文本 LED 0 ON at t=26781
+
+						77 文本 LED 0 OFF at t=27783
+
+						78 文本 LED 0 ON at t=28288
+
+						79 文本 LED 0 OFF at t=29290
+
+						80 文本 LED 0 ON at t=29794
+
+						81 文本 LED 0 OFF at t=30794
+
+						82 文本 LED 0 ON at t=31298
+
+						83 文本 LED 0 OFF at t=32298
+
+						84 文本 LED 0 complete at t=32799
+
+			85 container
+				86 container Ln 1, Col 1, Go to Line/Column
+					87 文本 Ln 1, Col 1
+				88 container $(microchip) AirM2M_CORE_ESP32C3, 
+					89 文本 AirM2M_CORE_ESP32C3
+				90 container on /dev/cu.usbmodem5B141410681, 
+					91 文本 on /dev/cu.usbmodem5B141410681
+				92 container 2 New Notifications
+					93 text  2
+				94 按钮 Toggle Bottom Panel
+	95 关闭按钮
+	96 全屏幕按钮 Help: 此按钮也可以执行缩放窗口的操作, Secondary Actions: 缩放窗口
+	97 最小化按钮
+	98 图像 Task06_Dual_LED_Blink.ino
+99 menu bar
+	100 Arduino IDE
+	101 File
+	102 Edit
+	103 Sketch
+	104 Tools
+	105 Help
+
+The focused UI element is 52 文本栏 (settable) Message (Enter to send message to 'AirM2M_CORE_ESP32C3' on '/dev/cu.usbmodem5B141410681')

@@ -1,0 +1,10 @@
+Deterministic host tests execute the submitted .ino through a lightweight scheduler/serial/GPIO adapter. These are NOT real-board evidence.
+
+PASS Task 1
+PASS Task 2
+PASS Task 3
+PASS Task 4
+PASS Task 5
+PASS Task 6
+PASS Task 7
+PASS Task 8

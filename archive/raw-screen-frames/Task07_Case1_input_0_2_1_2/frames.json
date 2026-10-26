@@ -1,0 +1,506 @@
+{
+  "source": "Actual live ESP32C3 serial output captured in Arduino IDE",
+  "frames": [
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00000.png",
+      "time": 1792142711995
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00001.png",
+      "time": 1792142713140
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00002.png",
+      "time": 1792142713251
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00003.png",
+      "time": 1792142713342
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00004.png",
+      "time": 1792142713429
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00005.png",
+      "time": 1792142713620
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00006.png",
+      "time": 1792142713736
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00007.png",
+      "time": 1792142713834
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00008.png",
+      "time": 1792142713917
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00009.png",
+      "time": 1792142714007
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00010.png",
+      "time": 1792142714200
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00011.png",
+      "time": 1792142714326
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00012.png",
+      "time": 1792142714417
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00013.png",
+      "time": 1792142714501
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00014.png",
+      "time": 1792142714584
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00015.png",
+      "time": 1792142714796
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00016.png",
+      "time": 1792142714921
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00017.png",
+      "time": 1792142715013
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00018.png",
+      "time": 1792142715106
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00019.png",
+      "time": 1792142715203
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00020.png",
+      "time": 1792142715412
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00021.png",
+      "time": 1792142715530
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00022.png",
+      "time": 1792142715629
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00023.png",
+      "time": 1792142715834
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00024.png",
+      "time": 1792142715987
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00025.png",
+      "time": 1792142716134
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00026.png",
+      "time": 1792142716227
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00027.png",
+      "time": 1792142716457
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00028.png",
+      "time": 1792142716591
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00029.png",
+      "time": 1792142716692
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00030.png",
+      "time": 1792142716889
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00031.png",
+      "time": 1792142717037
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00032.png",
+      "time": 1792142717194
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00033.png",
+      "time": 1792142717315
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00034.png",
+      "time": 1792142717508
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00035.png",
+      "time": 1792142717647
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00036.png",
+      "time": 1792142717738
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00037.png",
+      "time": 1792142717830
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00038.png",
+      "time": 1792142717928
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00039.png",
+      "time": 1792142718097
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00040.png",
+      "time": 1792142718213
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00041.png",
+      "time": 1792142718294
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00042.png",
+      "time": 1792142718405
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00043.png",
+      "time": 1792142718491
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00044.png",
+      "time": 1792142718691
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00045.png",
+      "time": 1792142718808
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00046.png",
+      "time": 1792142718937
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00047.png",
+      "time": 1792142719039
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00048.png",
+      "time": 1792142719277
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00049.png",
+      "time": 1792142719397
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00050.png",
+      "time": 1792142719497
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00051.png",
+      "time": 1792142719589
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00052.png",
+      "time": 1792142719672
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00053.png",
+      "time": 1792142719869
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00054.png",
+      "time": 1792142719988
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00055.png",
+      "time": 1792142720076
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00056.png",
+      "time": 1792142720171
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00057.png",
+      "time": 1792142720271
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00058.png",
+      "time": 1792142720471
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00059.png",
+      "time": 1792142720571
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00060.png",
+      "time": 1792142720671
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00061.png",
+      "time": 1792142720771
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00062.png",
+      "time": 1792142720960
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00063.png",
+      "time": 1792142721201
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00064.png",
+      "time": 1792142721302
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00065.png",
+      "time": 1792142721401
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00066.png",
+      "time": 1792142721485
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00067.png",
+      "time": 1792142721576
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00068.png",
+      "time": 1792142721676
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00069.png",
+      "time": 1792142721769
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00070.png",
+      "time": 1792142721860
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00071.png",
+      "time": 1792142721951
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00072.png",
+      "time": 1792142722059
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00073.png",
+      "time": 1792142722151
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00074.png",
+      "time": 1792142722243
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00075.png",
+      "time": 1792142722351
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00076.png",
+      "time": 1792142722443
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00077.png",
+      "time": 1792142722535
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00078.png",
+      "time": 1792142722626
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00079.png",
+      "time": 1792142722726
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00080.png",
+      "time": 1792142722818
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00081.png",
+      "time": 1792142722909
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00082.png",
+      "time": 1792142723018
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00083.png",
+      "time": 1792142723110
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00084.png",
+      "time": 1792142723201
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00085.png",
+      "time": 1792142723293
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00086.png",
+      "time": 1792142723402
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00087.png",
+      "time": 1792142723509
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00088.png",
+      "time": 1792142723625
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00089.png",
+      "time": 1792142723718
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00090.png",
+      "time": 1792142723810
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00091.png",
+      "time": 1792142723909
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00092.png",
+      "time": 1792142724009
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00093.png",
+      "time": 1792142724102
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00094.png",
+      "time": 1792142724198
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00095.png",
+      "time": 1792142724300
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00096.png",
+      "time": 1792142724405
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00097.png",
+      "time": 1792142724510
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00098.png",
+      "time": 1792142724601
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00099.png",
+      "time": 1792142724693
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00100.png",
+      "time": 1792142724800
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00101.png",
+      "time": 1792142724891
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00102.png",
+      "time": 1792142724978
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00103.png",
+      "time": 1792142725077
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00104.png",
+      "time": 1792142725168
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00105.png",
+      "time": 1792142725275
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00106.png",
+      "time": 1792142725368
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00107.png",
+      "time": 1792142725459
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00108.png",
+      "time": 1792142725551
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00109.png",
+      "time": 1792142725660
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00110.png",
+      "time": 1792142725768
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00111.png",
+      "time": 1792142725860
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00112.png",
+      "time": 1792142725959
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00113.png",
+      "time": 1792142726043
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00114.png",
+      "time": 1792142726135
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00115.png",
+      "time": 1792142726227
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00116.png",
+      "time": 1792142726327
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00117.png",
+      "time": 1792142726418
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00118.png",
+      "time": 1792142726501
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00119.png",
+      "time": 1792142726602
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00120.png",
+      "time": 1792142726701
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00121.png",
+      "time": 1792142726793
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00122.png",
+      "time": 1792142726893
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00123.png",
+      "time": 1792142726985
+    },
+    {
+      "file": "/Users/marcoszhu/.codex/.chatgpt-projects/g-p-6aa94ecae4388191a7c9a4c1266b6b83/output/261016_In_class_activity/04_Actual_Screen_Frames/Task07_Case1_input_0_2_1_2/00124.png",
+      "time": 1792142727076
+    }
+  ],
+  "end": 1792142727176
+}

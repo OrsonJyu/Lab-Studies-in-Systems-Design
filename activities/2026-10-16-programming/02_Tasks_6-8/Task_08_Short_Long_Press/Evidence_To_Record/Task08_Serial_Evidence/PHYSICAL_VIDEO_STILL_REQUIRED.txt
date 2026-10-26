@@ -1,0 +1,1 @@
+The attached image and MP4 show real short pressed / long pressed serial output from the ESP32C3. They show the computer screen only. The course separately requires a video that also shows the physical BOOT button action; film that with a phone and submit it with this sketch. No physical-button footage is included here.

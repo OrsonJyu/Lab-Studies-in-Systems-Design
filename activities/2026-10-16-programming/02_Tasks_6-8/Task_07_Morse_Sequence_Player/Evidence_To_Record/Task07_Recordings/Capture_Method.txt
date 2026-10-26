@@ -1,0 +1,1 @@
+Real ESP32C3 serial output, sampled from the live Arduino IDE screen and encoded with original capture timings. Filename Case 1 is input 0,2,1,2; Case 2 is input 1,2,-1,0. No simulated serial output.

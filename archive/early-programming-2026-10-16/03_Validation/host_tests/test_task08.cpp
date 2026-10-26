@@ -1,0 +1,3 @@
+#include "../../Task_08/Task08_Short_Long_Press/Task08_Short_Long_Press.ino"
+int main(){setup();auto edge=[](unsigned long at,int v){runUntil(at-1);binInCtrl0.inject(v);runUntil(at+25);};edge(100,LOW);edge(300,HIGH);edge(500,LOW);edge(1000,HIGH);edge(1200,LOW);edge(2200,HIGH);require(occurrences(Serial.output,"short pressed\n")==1,"200ms short");require(occurrences(Serial.output,"long pressed\n")==2,"500ms boundary long /1000ms long");require(Serial.output.find("duration=500ms")!=std::string::npos,"duration from interrupt timestamps");runUntil(2500);binInCtrl0.inject(LOW);runUntil(2505);binInCtrl0.inject(HIGH);runUntil(2600);require(occurrences(Serial.output,"pressed\n")==3,"bounce does not add press");
+std::cout<<"PASS Task 8\n";}

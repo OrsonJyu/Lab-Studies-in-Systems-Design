@@ -1,0 +1,94 @@
+Window: "Task08_Short_Long_Press | Arduino IDE 2.3.10", App: Arduino IDE.
+0 标准窗口 Task08_Short_Long_Press | Arduino IDE 2.3.10, Secondary Actions: Raise, URL: file:///Users/marcoszhu/Documents/SD5531%20Programming/261016%20In-class%20activity/02_Tasks_6-8/Task_08_Short_Long_Press/Task08_Short_Long_Press/Task08_Short_Long_Press.ino
+	1 HTML 内容 Task08_Short_Long_Press | Arduino IDE 2.3.10, URL: file:///Applications/Arduino%20IDE.app/Contents/Resources/app/lib/frontend/index.html?port=61229#/Users/marcoszhu/Documents/SD5531%20Programming/261016%20In-class%20activity/02_Tasks_6-8/Task_08_Short_Long_Press/Task08_Short_Long_Press
+		2 container
+			3 container
+				4 container AirM2M_CORE_ESP32C3 (esp32:esp32:AirM2M_CORE_ESP32C3) /dev/cu.usbmodem5B141410681
+					5 文本 
+					6 文本 AirM2M_CORE_ESP32C3
+					7 文本 
+				8 container Start Debugging
+				9 container Upload
+				10 container Verify
+				11 container Serial Monitor
+				12 container Serial Plotter
+			13 container
+				14 container
+					15 内容列表
+						16 文本 
+						17 文本 
+						18 文本 
+						19 文本 
+						20 文本 
+					21 container Arduino Cloud
+						22 文本 
+				23 container
+					24 内容列表
+						25 container /Users/marcoszhu/Documents/SD5531 Programming/261016 In-class activity/02_Tasks_6-8/Task_08_Short_Long_Press/Task08_Short_Long_Press/Task08_Short_Long_Press.ino
+							26 文本 Task08_Short_Long_Press.ino
+							27 container Close
+					28 文本 
+					29 container
+						30 editor (settable) Description: Editor content;Press Alt+F1 for Accessibility Options., Value: // SD5531 | In-Class Activity 6 | Task 8 | 16 Oct 2026
+#include <IO_Control.h>
+BinInControl binInCtrl0;
+const uint32_t DEBOUNCE_MS = 20;
+int candidate = HIGH, stableState = HIGH;
+uint32_t candidateTime = 0, pressedAt = 0;
+bool pressRecorded = false;
+DeclareHandler(binInHandler, _ctrl, BinInControl, {
+  uint32_t now = _ctrl.getUpdateTime();
+  // Retain edge timestamps; only accept a new state once stable for 20ms.
+
+				31 container
+					32 内容列表
+						33 container Output
+							34 文本 Output
+							35 container Close
+						36 container
+							37 文本 Serial Monitor
+							38 container Close
+								39 文本 
+					40 container
+						41 container Copy Output
+							42 文本 
+						43 container Clear Output
+							44 文本 
+						45 container Toggle Timestamp
+							46 文本 
+						47 container Toggle Autoscroll
+							48 文本 
+					49 文本栏 (settable) Message (Enter to send message to 'AirM2M_CORE_ESP32C3' on '/dev/cu.usbmodem5B141410681')
+					50 container
+						51 container
+							52 文本 New Line
+							53 组合框
+						54 文本 
+					55 container
+						56 container
+							57 文本 115200 baud
+							58 组合框
+						59 文本 
+			60 container
+				61 container Ln 1, Col 1, Go to Line/Column
+					62 文本 Ln 1, Col 1
+				63 container $(microchip) AirM2M_CORE_ESP32C3, 
+					64 文本 AirM2M_CORE_ESP32C3
+				65 container on /dev/cu.usbmodem5B141410681, 
+					66 文本 on /dev/cu.usbmodem5B141410681
+				67 container 2 New Notifications
+					68 text  2
+				69 按钮 Toggle Bottom Panel
+	70 关闭按钮
+	71 全屏幕按钮 Help: 此按钮也可以执行缩放窗口的操作, Secondary Actions: 缩放窗口
+	72 最小化按钮
+	73 图像 Task08_Short_Long_Press.ino
+74 menu bar
+	75 Arduino IDE
+	76 File
+	77 Edit
+	78 Sketch
+	79 Tools
+	80 Help
+
+The focused UI element is 49 文本栏 (settable) Message (Enter to send message to 'AirM2M_CORE_ESP32C3' on '/dev/cu.usbmodem5B141410681')

@@ -1,0 +1,118 @@
+Window: "Task07_Morse_Sequence_Player | Arduino IDE 2.3.10", App: Arduino IDE.
+0 标准窗口 Task07_Morse_Sequence_Player | Arduino IDE 2.3.10, Secondary Actions: Raise, URL: file:///Users/marcoszhu/Documents/SD5531%20Programming/261016%20In-class%20activity/02_Tasks_6-8/Task_07_Morse_Sequence_Player/Task07_Morse_Sequence_Player/Task07_Morse_Sequence_Player.ino
+	1 HTML 内容 Task07_Morse_Sequence_Player | Arduino IDE 2.3.10, URL: file:///Applications/Arduino%20IDE.app/Contents/Resources/app/lib/frontend/index.html?port=61229#/Users/marcoszhu/Documents/SD5531%20Programming/261016%20In-class%20activity/02_Tasks_6-8/Task_07_Morse_Sequence_Player/Task07_Morse_Sequence_Player
+		2 container
+			3 container
+				4 container AirM2M_CORE_ESP32C3 (esp32:esp32:AirM2M_CORE_ESP32C3) /dev/cu.usbmodem5B141410681
+					5 文本 
+					6 文本 AirM2M_CORE_ESP32C3
+					7 文本 
+				8 container Start Debugging
+				9 container Upload
+				10 container Verify
+				11 container Serial Monitor
+				12 container Serial Plotter
+			13 container
+				14 container
+					15 内容列表
+						16 文本 
+						17 文本 
+						18 文本 
+						19 文本 
+						20 文本 
+					21 container Arduino Cloud
+						22 文本 
+				23 container
+					24 内容列表
+						25 container /Users/marcoszhu/Documents/SD5531 Programming/261016 In-class activity/02_Tasks_6-8/Task_07_Morse_Sequence_Player/Task07_Morse_Sequence_Player/Task07_Morse_Sequence_Player.ino
+							26 文本 Task07_Morse_Sequence_Player.ino
+							27 container Close
+						28 container /Users/marcoszhu/Documents/SD5531 Programming/261016 In-class activity/02_Tasks_6-8/Task_07_Morse_Sequence_Player/Task07_Morse_Sequence_Player/SerialInput.h
+							29 文本 SerialInput.h
+							30 container Close
+					31 文本 
+					32 container
+						33 editor (settable) Description: Editor content;Press Alt+F1 for Accessibility Options., Value: // SD5531 | In-Class Activity 6 | Task 7 | 16 Oct 2026
+#include "SerialInput.h"
+BinOutControl binOutCtrl0;
+BinOutSequence binOutSeq0, binOutSeq1, binOutSeq2, pauseSeq;
+int requested[4]; int position = 0; bool playing = false;
+const uint32_t DOT_MS = 200;
+const uint32_t PAUSE_MS = 2000; // Example 2 says 2000ms; slide 41 says 200ms.
+void addMorse(BinOutSequence &seq, const char *pattern) {
+  for (int i = 0; i < 4; ++i) {
+    seq.addSetState(pattern[i] == '-' ? 3 * DOT_MS : DOT_MS, HIGH);
+
+				34 container
+					35 内容列表
+						36 container Output
+							37 文本 Output
+							38 container Close
+						39 container
+							40 文本 Serial Monitor
+							41 container Close
+								42 文本 
+					43 container
+						44 container Copy Output
+							45 文本 
+						46 container Clear Output
+							47 文本 
+						48 container Toggle Timestamp
+							49 文本 
+						50 container Toggle Autoscroll
+							51 文本 
+					52 文本栏 (settable) Message (Enter to send message to 'AirM2M_CORE_ESP32C3' on '/dev/cu.usbmodem5B141410681')
+					53 container
+						54 container
+							55 文本 New Line
+							56 组合框
+						57 文本 
+					58 container
+						59 container
+							60 文本 115200 baud
+							61 组合框
+						62 文本 
+					63 container
+						64 文本 Accepted: 1,2,-1,0
+
+						65 文本 Step 1: play binOutSeq1
+
+						66 文本 at t=83697
+
+						67 文本 Step 2: play binOutSeq2
+
+						68 文本 at t=86915
+
+						69 文本 Step 3: LED OFF for 2000ms
+
+						70 文本 at t=89732
+
+						71 文本 Step 4: play binOutSeq0
+
+						72 文本 at t=91735
+
+						73 文本 Command complete.
+
+			74 container
+				75 container Ln 1, Col 1, Go to Line/Column
+					76 文本 Ln 1, Col 1
+				77 container $(microchip) AirM2M_CORE_ESP32C3, 
+					78 文本 AirM2M_CORE_ESP32C3
+				79 container on /dev/cu.usbmodem5B141410681, 
+					80 文本 on /dev/cu.usbmodem5B141410681
+				81 container 2 New Notifications
+					82 text  2
+				83 按钮 Toggle Bottom Panel
+	84 关闭按钮
+	85 全屏幕按钮 Help: 此按钮也可以执行缩放窗口的操作, Secondary Actions: 缩放窗口
+	86 最小化按钮
+	87 图像 Task07_Morse_Sequence_Player.ino
+88 menu bar
+	89 Arduino IDE
+	90 File
+	91 Edit
+	92 Sketch
+	93 Tools
+	94 Help
+
+The focused UI element is 52 文本栏 (settable) Message (Enter to send message to 'AirM2M_CORE_ESP32C3' on '/dev/cu.usbmodem5B141410681')

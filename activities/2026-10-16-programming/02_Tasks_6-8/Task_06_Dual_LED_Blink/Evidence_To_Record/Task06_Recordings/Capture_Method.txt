@@ -1,0 +1,1 @@
+Real ESP32C3 serial output, sampled from the live Arduino IDE screen and encoded with original capture timings. Case 1/2/3 filenames contain the exact required input. Extra video tests both LEDs concurrently. No simulated serial output.

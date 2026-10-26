@@ -1,0 +1,3 @@
+#include "../../Task_06/Task06_Two_LED_Blink/Task06_Two_LED_Blink.ino"
+int main(){setup();sendAt(10,"0,1000,1000,500,10");runUntil(1009);require(leds[0].read()==LOW,"relative start delay");runUntil(1011);require(leds[0].read()==HIGH,"on after delay");sendAt(1100,"1,500,1000,0");runUntil(16011);require(!blink[0].active&&blink[0].completed==10&&leds[0].read()==LOW,"ten full cycles then low");require(blink[1].active,"count0 infinite independent LED");sendAt(16200,"1,100,100,1");runUntil(16403);require(!blink[1].active&&blink[1].completed==1,"replacement ends infinite sequence");sendAt(16500,"2,1,1,1");require(occurrences(Serial.output,"Error:")==1,"invalid led rejected");
+std::cout<<"PASS Task 6\n";}

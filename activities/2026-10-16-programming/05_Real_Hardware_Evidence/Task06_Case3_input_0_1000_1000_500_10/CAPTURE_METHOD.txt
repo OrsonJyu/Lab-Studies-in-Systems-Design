@@ -1,0 +1,1 @@
+Live real ESP32C3 serial output captured as successive Arduino IDE screenshots and encoded at their recorded wall-clock intervals. Sampled screen recording; no generated or simulated serial output.

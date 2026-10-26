@@ -1,0 +1,138 @@
+Window: "Task05_Configurable_FSM | Arduino IDE 2.3.10", App: Arduino IDE.
+0 标准窗口 Task05_Configurable_FSM | Arduino IDE 2.3.10, Secondary Actions: Raise, URL: file:///Users/marcoszhu/Documents/SD5531%20Programming/261016%20In-class%20activity/01_Tasks_1-5/Task_05_Configurable_FSM/Task05_Configurable_FSM/Task05_Configurable_FSM.ino
+	1 HTML 内容 Task05_Configurable_FSM | Arduino IDE 2.3.10, URL: file:///Applications/Arduino%20IDE.app/Contents/Resources/app/lib/frontend/index.html?port=61229#/Users/marcoszhu/Documents/SD5531%20Programming/261016%20In-class%20activity/01_Tasks_1-5/Task_05_Configurable_FSM/Task05_Configurable_FSM
+		2 container
+			3 container
+				4 container AirM2M_CORE_ESP32C3 (esp32:esp32:AirM2M_CORE_ESP32C3) /dev/cu.usbmodem5B141410681
+					5 文本 
+					6 文本 AirM2M_CORE_ESP32C3
+					7 文本 
+				8 container Start Debugging
+				9 container Upload
+				10 container Verify
+				11 container Serial Monitor
+				12 container Serial Plotter
+			13 container
+				14 container
+					15 内容列表
+						16 文本 
+						17 文本 
+						18 文本 
+						19 文本 
+						20 文本 
+					21 container Arduino Cloud
+						22 文本 
+				23 container
+					24 内容列表
+						25 container /Users/marcoszhu/Documents/SD5531 Programming/261016 In-class activity/01_Tasks_1-5/Task_05_Configurable_FSM/Task05_Configurable_FSM/Task05_Configurable_FSM.ino
+							26 文本 Task05_Configurable_FSM.ino
+							27 container Close
+						28 container /Users/marcoszhu/Documents/SD5531 Programming/261016 In-class activity/01_Tasks_1-5/Task_05_Configurable_FSM/Task05_Configurable_FSM/SerialInput.h
+							29 文本 SerialInput.h
+							30 container Close
+					31 文本 
+					32 container
+						33 editor (settable) Description: Editor content;Press Alt+F1 for Accessibility Options., Value: // SD5531 | In-Class Activity 6 | Task 5 | 16 Oct 2026
+#include "SerialInput.h"
+int state = -1;
+ulong_t stateDuration[4] = {1000, 1500, 2000, 2500};
+DeclareHandler(printCurrentState, _ctrl, IOControl, {
+  Serial.print("current state="); Serial.print(state);
+  Serial.print(" at time t="); Serial.println(_ctrl.getUpdateTime());
+  _ctrl.setTimeoutByRelTime(1, printCurrentState, 500, true);
+});
+DeclareHandler(setNextState, _ctrl, IOControl, {
+
+				34 container
+					35 内容列表
+						36 container Output
+							37 文本 Output
+							38 container Close
+						39 container
+							40 文本 Serial Monitor
+							41 container Close
+								42 文本 
+					43 container
+						44 container Copy Output
+							45 文本 
+						46 container Clear Output
+							47 文本 
+						48 container Toggle Timestamp
+							49 文本 
+						50 container Toggle Autoscroll
+							51 文本 
+					52 文本栏 (settable) Message (Enter to send message to 'AirM2M_CORE_ESP32C3' on '/dev/cu.usbmodem5B141410681')
+					53 container
+						54 container
+							55 文本 New Line
+							56 组合框
+						57 文本 
+					58 container
+						59 container
+							60 文本 115200 baud
+							61 组合框
+						62 文本 
+					63 container
+						64 文本 current state=0 at time t=103601
+
+						65 文本 current state=0 at time t=104101
+
+						66 文本 entering state=1 at t=104200, duration = 1500ms
+
+						67 文本 current state=1 at time t=104601
+
+						68 文本 current state=1 at time t=105101
+
+						69 文本 current state=1 at time t=105601
+
+						70 文本 entering state=2 at t=105700, duration = 2000ms
+
+						71 文本 current state=2 at time t=106101
+
+						72 文本 current state=2 at time t=106601
+
+						73 文本 current state=2 at time t=107101
+
+						74 文本 current state=2 at time t=107601
+
+						75 文本 entering state=3 at t=107700, duration = 800ms
+
+						76 文本 current state=3 at time t=108101
+
+						77 文本 entering state=0 at t=108500, duration = 1200ms
+
+						78 文本 current state=0 at time t=108601
+
+						79 文本 current state=0 at time t=109101
+
+						80 文本 current state=0 at time t=109601
+
+						81 文本 entering state=1 at t=109700, duration = 1500ms
+
+						82 文本 current state=1 at time t=110101
+
+						83 文本 current state=1 at time t=110601
+
+			84 container
+				85 container Ln 1, Col 1, Go to Line/Column
+					86 文本 Ln 1, Col 1
+				87 container $(microchip) AirM2M_CORE_ESP32C3, 
+					88 文本 AirM2M_CORE_ESP32C3
+				89 container on /dev/cu.usbmodem5B141410681, 
+					90 文本 on /dev/cu.usbmodem5B141410681
+				91 container 2 New Notifications
+					92 text  2
+				93 按钮 Toggle Bottom Panel
+	94 关闭按钮
+	95 全屏幕按钮 Help: 此按钮也可以执行缩放窗口的操作, Secondary Actions: 缩放窗口
+	96 最小化按钮
+	97 图像 Task05_Configurable_FSM.ino
+98 menu bar
+	99 Arduino IDE
+	100 File
+	101 Edit
+	102 Sketch
+	103 Tools
+	104 Help
+
+The focused UI element is 52 文本栏 (settable) Message (Enter to send message to 'AirM2M_CORE_ESP32C3' on '/dev/cu.usbmodem5B141410681')

@@ -1,0 +1,3 @@
+#include "../../Task_04/Task04_Repeat_Messages/Task04_Repeat_Messages.ino"
+int main(){setup();runUntil(100);require(Serial.output.empty(),"silent startup");sendAt(200,"2");runUntil(6500);require(occurrences(Serial.output,"hello\n")==2&&occurrences(Serial.output,"world\n")==2&&occurrences(Serial.output,"!!!\n")==2,"exactly two complete repetitions");sendAt(6600,"0");sendAt(6700,"-1");sendAt(6800,"1.5");sendAt(6900,"abc");require(occurrences(Serial.output,"Please enter")==4,"strict positive integer validation");sendAt(7000,"1");runUntil(9500);require(occurrences(Serial.output,"hello\n")==3,"recovery after invalid input");
+std::cout<<"PASS Task 4\n";}
