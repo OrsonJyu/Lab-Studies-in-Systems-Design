@@ -83,6 +83,23 @@ def main() -> int:
             if not (ROOT / source).is_file():
                 errors.append(f'Missing knowledge source: {source}')
 
+    snapshots_dir = ROOT / 'project-camera/design/snapshots'
+    snapshots = json.loads((snapshots_dir / 'index.json').read_text())['exports']
+    snapshot_ids: set[str] = set()
+    for record in snapshots:
+        if record['node_id'] in snapshot_ids:
+            errors.append(f'Duplicate Figma snapshot ID: {record["node_id"]}')
+        snapshot_ids.add(record['node_id'])
+        path = snapshots_dir / record['file']
+        if not path.resolve().is_relative_to(snapshots_dir):
+            errors.append(f'Snapshot path escapes its directory: {record["file"]}')
+        elif not path.is_file():
+            errors.append(f'Missing Figma snapshot: {record["file"]}')
+        elif args.hash and hashlib.sha256(path.read_bytes()).hexdigest() != record['sha256']:
+            errors.append(f'Figma snapshot checksum differs: {record["file"]}')
+    if len(snapshots) != state['archive']['figma_visual_exports']:
+        errors.append('Figma snapshot count differs from PROJECT_STATE.json.')
+
     # Imported originals and historical transcripts keep old URLs verbatim.
     # Validate only newly maintained navigation, including alias/landing pages.
     imported = set(destinations)
@@ -108,7 +125,7 @@ def main() -> int:
         return 1
     print(f'PASS: version {version}; {len(entries)} source records; {len(destinations)} imported paths; '
           f'{len(node_ids)} graph nodes / {len(edge_ids)} edges; {checked_docs} maintained Markdown files; '
-          f'{len(checked)} original checksums verified.')
+          f'{len(checked)} original checksums verified; {len(snapshots)} Figma exports checked.')
     return 0
 
 

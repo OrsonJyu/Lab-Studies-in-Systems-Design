@@ -7,7 +7,7 @@
 | 摄像头项目展示 | [PDF](../project-camera/references/SD5531_Gecko_Presentation_Group2.pdf)、[PPTX](../project-camera/references/SD5531_Gecko_Presentation_final.pptx) | 展示 scope 和探索方案；不证明部署、算法准确率或采购 |
 | 跨组合作计划 | [合作计划 PDF](../project-camera/references/Gecko_各组合作计划.pdf) | 对接内容与机位讨论稿；责任需双方确认 |
 | 会议资料 | [Tutorial 入口](../project-camera/references/Tutorial/README.md) | 机器转录与 AI 解读；原始音视频和质量报告尚未找到 |
-| Figma | [设计档案](../project-camera/design/README.md) | 当前在线节点文字和部分视觉快照；仍包含旧方案，不等于最新硬件状态 |
+| Figma | [设计档案](../project-camera/design/README.md) | 当前在线节点文字和26 份顶层架构图可视快照；仍包含旧方案，不等于最新硬件状态 |
 | 编程任务 | [Tasks 1–8 总入口](../activities/2026-10-16-programming/README.md) | 八题源码、ZIP、英文测试步骤 |
 | 编译结果 | [VALIDATION](../activities/2026-10-16-programming/VALIDATION.md)、[日志目录](../activities/2026-10-16-programming/03_Validation/) | 历史编译/链接通过；不等于电气或实际时序正确 |
 | 实机记录 | [HARDWARE_PROGRESS](../activities/2026-10-16-programming/HARDWARE_PROGRESS.md) | 历史串口实机观察；拍屏与物理动作证据分开 |

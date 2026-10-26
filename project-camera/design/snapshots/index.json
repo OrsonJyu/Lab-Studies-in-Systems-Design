@@ -1,0 +1,216 @@
+{
+  "captured_on": "2026-10-26",
+  "file_key": "TCfmgUqAwmSjiULHcvyqtr",
+  "format": "PNG, width 1280px",
+  "limits": "Read-only visual exports, not native .fig backup. Blank Frame 1 and empty Page 2 have no visual content and are excluded.",
+  "exports": [
+    {
+      "node_id": "17:2",
+      "name": "硬件路径-功能1",
+      "type": "SECTION",
+      "file": "node-17-2.png",
+      "bytes": 157281,
+      "sha256": "a67288c39226b739d61f30e26b8180d547184e7ffec48b41cf16df0594b6afa5"
+    },
+    {
+      "node_id": "41:2",
+      "name": "硬件路径-功能1",
+      "type": "SECTION",
+      "file": "node-41-2.png",
+      "bytes": 61566,
+      "sha256": "5323c897241f71d59772fa7805dbee5c3c3b0c0b317ec2ba64fd2c1d87395594"
+    },
+    {
+      "node_id": "38:25",
+      "name": "硬件路径-功能1",
+      "type": "SECTION",
+      "file": "node-38-25.png",
+      "bytes": 35125,
+      "sha256": "c36ac618875633733e80ec64384817a0fc5f6734d396f9bb533399161f163168"
+    },
+    {
+      "node_id": "59:173",
+      "name": "硬件路径-功能1",
+      "type": "SECTION",
+      "file": "node-59-173.png",
+      "bytes": 35948,
+      "sha256": "73ea412f9df9b330eeab20503ce3beb3df7fabb36f85b818dfddf5aa37bf50c0"
+    },
+    {
+      "node_id": "49:89",
+      "name": "Frame 2",
+      "type": "FRAME",
+      "file": "node-49-89.png",
+      "bytes": 121122,
+      "sha256": "fe672c6897ac652066907f03eafa9db20905100f49b7668c7bfecc24dc789d3b"
+    },
+    {
+      "node_id": "81:1142",
+      "name": "Frame 12",
+      "type": "FRAME",
+      "file": "node-81-1142.png",
+      "bytes": 117022,
+      "sha256": "cb995edfeeadc8fbb3a34b928e835e5b25f8ad8667ee1c6c03a9d5e55dbc4958"
+    },
+    {
+      "node_id": "59:48",
+      "name": "Frame 7",
+      "type": "FRAME",
+      "file": "node-59-48.png",
+      "bytes": 66697,
+      "sha256": "a77ab6781f09a6ce3c7113751bb4228df09d438e9529643d53b74c32f9a2e290"
+    },
+    {
+      "node_id": "81:1199",
+      "name": "Frame 13",
+      "type": "FRAME",
+      "file": "node-81-1199.png",
+      "bytes": 66674,
+      "sha256": "74a157dad00c3c9c5e0569f5c3e5e9ca319c6b9617495b8e3e0f24aa200c09e3"
+    },
+    {
+      "node_id": "38:314",
+      "name": "Frame 8",
+      "type": "FRAME",
+      "file": "node-38-314.png",
+      "bytes": 63777,
+      "sha256": "cb17008cd3088430bab2bebac6dfb7c020a4613517d183a7a38911af2f0c16be"
+    },
+    {
+      "node_id": "81:1267",
+      "name": "Frame 14",
+      "type": "FRAME",
+      "file": "node-81-1267.png",
+      "bytes": 63403,
+      "sha256": "f4236ec452246b4135dd614cd205fbb2df3997eaa54c623272f2cd857ac535e3"
+    },
+    {
+      "node_id": "59:580",
+      "name": "Frame 9",
+      "type": "FRAME",
+      "file": "node-59-580.png",
+      "bytes": 488547,
+      "sha256": "423e26bc2e777ad072810d004e7b1856371ce2df744f021d9a67ca0654713770"
+    },
+    {
+      "node_id": "81:1331",
+      "name": "Frame 15",
+      "type": "FRAME",
+      "file": "node-81-1331.png",
+      "bytes": 488765,
+      "sha256": "ab2964df0ed158a6dac67fbafc3793f249e722eec88ffae4e6edcced2a8af659"
+    },
+    {
+      "node_id": "38:395",
+      "name": "Frame 10",
+      "type": "FRAME",
+      "file": "node-38-395.png",
+      "bytes": 66906,
+      "sha256": "f05381a9d0c4896751fa379a17924931e8110280003aa6612cf5144b2215f665"
+    },
+    {
+      "node_id": "81:1398",
+      "name": "Frame 16",
+      "type": "FRAME",
+      "file": "node-81-1398.png",
+      "bytes": 66992,
+      "sha256": "26c5f47024c7851103d40a08f9086d25be4110734a4cac81b0306f2d54adbe5b"
+    },
+    {
+      "node_id": "78:663",
+      "name": "Frame 11",
+      "type": "FRAME",
+      "file": "node-78-663.png",
+      "bytes": 64852,
+      "sha256": "25468c8b48e14a5d0f225abb284a249bd9288e5b25173b9386da8b21ec7f542f"
+    },
+    {
+      "node_id": "81:1465",
+      "name": "Frame 17",
+      "type": "FRAME",
+      "file": "node-81-1465.png",
+      "bytes": 65617,
+      "sha256": "d2487683a5feccd9d9388515e4c845f02c774fbd252fe771ac14e8b058d8c99e"
+    },
+    {
+      "node_id": "59:45",
+      "name": "Frame 6",
+      "type": "FRAME",
+      "file": "node-59-45.png",
+      "bytes": 71744,
+      "sha256": "460838c5d36d4fc666b753f3301a112fe0d0815ef1491aa05c7d7791ab4cf5a7"
+    },
+    {
+      "node_id": "81:1479",
+      "name": "Frame 18",
+      "type": "FRAME",
+      "file": "node-81-1479.png",
+      "bytes": 71334,
+      "sha256": "c7b929a893be30454a9b5e018cd4d8a586b198788838cfb84532d000737bfcf0"
+    },
+    {
+      "node_id": "59:42",
+      "name": "Frame 5",
+      "type": "FRAME",
+      "file": "node-59-42.png",
+      "bytes": 60476,
+      "sha256": "88390dd0256095684ca37c3b0b1052ed0883afe51c3bad37f0c796e0a60d701a"
+    },
+    {
+      "node_id": "81:1549",
+      "name": "Frame 19",
+      "type": "FRAME",
+      "file": "node-81-1549.png",
+      "bytes": 59721,
+      "sha256": "a9fc92e30be73a7432a9e31ac19a8cfb3719c14fd27d27cc93de13b9a2592d1e"
+    },
+    {
+      "node_id": "59:39",
+      "name": "Frame 4",
+      "type": "FRAME",
+      "file": "node-59-39.png",
+      "bytes": 220571,
+      "sha256": "3687d3653ea1cd44e9b43b8ed6b664eb47af367f643af07059fb01d7775bb884"
+    },
+    {
+      "node_id": "81:1620",
+      "name": "Frame 20",
+      "type": "FRAME",
+      "file": "node-81-1620.png",
+      "bytes": 220887,
+      "sha256": "c3cbe099f95657dab4be55b806b51761d701bd603e86078b5de9e9ffcbcd6dee"
+    },
+    {
+      "node_id": "59:36",
+      "name": "Frame 3",
+      "type": "FRAME",
+      "file": "node-59-36.png",
+      "bytes": 52900,
+      "sha256": "3348c0a32ba66675686898bba237b3b4b7d7f11215c46a0dba9b9352df8e11fb"
+    },
+    {
+      "node_id": "81:1650",
+      "name": "Frame 21",
+      "type": "FRAME",
+      "file": "node-81-1650.png",
+      "bytes": 52558,
+      "sha256": "e12550a4524efc3b677021ae4056e2a4e05146e373c0c41de6346d6149962863"
+    },
+    {
+      "node_id": "57:2",
+      "name": "硬件路径-功能1｜云端服务器版",
+      "type": "SECTION",
+      "file": "node-57-2.png",
+      "bytes": 175204,
+      "sha256": "5ba01c8f0e4ef3eb08143a2ea93463ace84b7245d9cc8b2ad9665828610e6553"
+    },
+    {
+      "node_id": "59:19",
+      "name": "SD5531_Gecko_Presentation_A_Draft 2",
+      "type": "FRAME",
+      "file": "node-59-19.png",
+      "bytes": 63094,
+      "sha256": "9ac4d85437dd98393f4050089d65bf5bb538f47065ce023afda28351b8d5b33c"
+    }
+  ]
+}

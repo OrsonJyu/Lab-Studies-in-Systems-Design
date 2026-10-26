@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "repository_version": "0.1.0",
+  "repository_version": "1.0.0",
   "updated_on": "2026-10-26",
   "timezone": "Asia/Hong_Kong",
   "course": {
@@ -61,7 +61,16 @@
     "source_records": 1701,
     "distinct_imported_paths": 1624,
     "lfs_required": true,
-    "remote_sync_status": "pending"
+    "remote_sync_status": "complete",
+    "git_lfs_paths": 1414,
+    "git_lfs_unique_objects": 1029,
+    "git_lfs_unique_bytes": 1982396680,
+    "figma_visual_exports": 26,
+    "remote_lfs_objects_available": 1029,
+    "remote_verified_on": "2026-10-26",
+    "import_commit": "464fa5f25633b9a1bfbe5fb8f023a3bcb7163b71",
+    "release_tag": "v1.0.0",
+    "tracked_files": 1699
   },
   "entrypoints": {
     "index": "docs/INDEX.md",

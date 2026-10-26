@@ -157,6 +157,16 @@
       "sources": [
         "docs/EVIDENCE.md"
       ]
+    },
+    {
+      "id": "figma",
+      "label": "历史 Figma 架构图",
+      "kind": "artifact",
+      "status": "visual_snapshot_only",
+      "sources": [
+        "project-camera/design/README.md",
+        "project-camera/design/figma-text-snapshot-2026-10-26.json"
+      ]
     }
   ],
   "edges": [
@@ -351,6 +361,30 @@
       "reason": "串口和物理影像支持指定课堂任务；补拍文件需整段核对",
       "sources": [
         "docs/EVIDENCE.md"
+      ]
+    },
+    {
+      "id": "e18",
+      "source": "figma",
+      "target": "hardware-early",
+      "relation": "documents",
+      "status": "historical_proposal",
+      "reason": "在线图保留 ROCK 5C、SSD/云端旧路线；不覆盖用户后续硬件修订。",
+      "sources": [
+        "project-camera/design/figma-text-snapshot-2026-10-26.json",
+        "docs/DECISIONS.md"
+      ]
+    },
+    {
+      "id": "e19",
+      "source": "figma",
+      "target": "scope",
+      "relation": "documents",
+      "status": "partial_historical",
+      "reason": "架构图记录各阶段功能探索；范围边界以带来源的当前说明为入口。",
+      "sources": [
+        "project-camera/design/README.md",
+        "docs/SCOPE.md"
       ]
     }
   ]

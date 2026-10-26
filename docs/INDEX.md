@@ -12,6 +12,7 @@
 | [ROADMAP](ROADMAP.md) | 下一步问题、建议验证与依赖 |
 | [HISTORY](HISTORY.md) | 从早期探索到当前方向的可检索时间线 |
 | [SYNC_REPORT](SYNC_REPORT.md) | 归档来源、同步状态、缺失材料与旧链接 |
+| [IMPORT_VALIDATION](IMPORT_VALIDATION.md) | 原始字节、Git/LFS 指针、链接及知识网的导入校验 |
 | [VERSIONING](VERSIONING.md) | 版本号、提交、标签及历史管理 |
 | [Knowledge network](../knowledge/NETWORK.md) | 概念、决定、成果、验证之间的关系 |
 | [Project deliverables](../project-camera/README.md) | 展示稿、跨组计划、会议资料及 Figma |

@@ -12,7 +12,7 @@
 | iCloud 课程文件夹 | `references/course/`、`project-camera/references/`、`activities/` | 保存课程、展示、会议、电路与焊接素材 |
 | Documents 编程工作目录 | `activities/2026-10-16-programming/`、`archive/board-diagnostics/` | 相同文件共用路径；新增物理录像纳入 |
 | 可读取的相关 chats | `docs/history/` | 保存用户文字与助手最终答复，带日期/原始 turn ID |
-| Figma | `project-camera/design/` | 文字/节点索引、代表性 PNG、原在线入口 |
+| Figma | `project-camera/design/` | 文字/节点索引、26 份顶层可视 PNG、原在线入口 |
 
 逐文件映射与 SHA-256 见 [source-manifest.json](../provenance/source-manifest.json)。它记录 **1,701 条来源文件记录、1,624 个不同归档路径**（不含本次新写的维护文档及新增 Figma 快照）。同内容复制到同一目的路径时去重；不丢弃不同版本。有冲突时保存到 `archive/mirror-differences/`。忽略系统 `.DS_Store`。
 
@@ -20,7 +20,11 @@
 
 ## 当前传输状态
 
-文档、代码与小型附件已在本地整理。完整远端上传及 LFS 验证仍待完成；在完成前不应把此报告称作全量同步成功。最终状态将在实际核对后更新。
+**目前可取得的资料已完成上传与校验。** 原始资料导入提交 `464fa5f25633b9a1bfbe5fb8f023a3bcb7163b71` 已发布到 main，接续原有历史。
+
+Git LFS 的 **1,414 个文件路径对应 1,029 个独立对象，约 1.98 GB**；全部 1,029 个对象已逐批确认在远端可读取，[核对记录](../provenance/remote-lfs-check-2026-10-26.json)中缺失数为 0。原件保持原始字节，完整性检查见 [IMPORT_VALIDATION](IMPORT_VALIDATION.md)。
+
+正式资料基线：[v1.0.0](https://github.com/OrsonJyu/Lab-Studies-in-Systems-Design/releases/tag/v1.0.0)。此前的 v0.1.0 文档基线保留为版本标签；不可取得的历史原件仍按下表登记，未伪称已经补齐。
 
 ## 尚未取得的历史材料
 
@@ -30,7 +34,7 @@
 | 两段教师会议原始录像/音轨 | 已有转录；无法独立回听关键语句，不能把 ASR 升级成教师确认 |
 | Tutorial 的 `QUALITY_REVIEW.md`、`working/` 字幕/文本/概率 JSON | 原始引用仍保留；需要原处理文件夹才能恢复完整转录复核链 |
 | 旧 `00_CONFLUENCE_SYNC` JSON 快照 | 会议纪要引用了这些本地快照，但当前课程目录没有；不能冒充本次在线核实 |
-| Figma 原生 `.fig` 完整导出 | 当前有在线入口、文字及代表性图；不等同于可离线恢复整个设计的原生文件 |
+| Figma 原生 `.fig` 完整导出 | 当前有在线入口、文字及完整顶层可视快照；不等同于可离线恢复整个设计的原生文件 |
 | 课程平台提交回执 | 当前没有，提交状态待用户确认 |
 | 未暴露到当前可访问 chats 的内容/附件 | 目前已归档相关可访问返回页；其他历史内容不能保证可取全 |
 

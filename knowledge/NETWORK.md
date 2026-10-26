@@ -10,6 +10,7 @@ flowchart TD
     S --> B[行为与空间信息]
     S --> X[跨组数据对齐]
     H[ROCK 4C+ + SATA HDD: user confirmed] --> V
+    Z[Historical Figma diagrams] --> O
     O[ROCK 5C / SSD / cloud: historical] -. superseded baseline .-> H
     V --> P[近期预录制工作流]
     P --> F[FFmpeg: media operations]
