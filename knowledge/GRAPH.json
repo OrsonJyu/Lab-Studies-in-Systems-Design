@@ -1,0 +1,357 @@
+{
+  "schema_version": "1.0",
+  "version": "1.0",
+  "updated_on": "2026-10-26",
+  "scope": "SD5531 only",
+  "interpretation": "Source-backed navigation graph. Edges do not imply causation, completed implementation, or instructor approval.",
+  "nodes": [
+    {
+      "id": "goal",
+      "label": "学校观察、比较与学习",
+      "kind": "goal",
+      "status": "proposed",
+      "sources": [
+        "project-camera/references/SD5531_Gecko_Presentation_Group2.pdf"
+      ]
+    },
+    {
+      "id": "scope",
+      "label": "视频与热阵列观察项目",
+      "kind": "scope",
+      "status": "documented",
+      "sources": [
+        "docs/SCOPE.md"
+      ]
+    },
+    {
+      "id": "video",
+      "label": "视频采集与保存",
+      "kind": "capability",
+      "status": "planned",
+      "sources": [
+        "docs/SCOPE.md"
+      ]
+    },
+    {
+      "id": "thermal",
+      "label": "热阵列记录",
+      "kind": "capability",
+      "status": "requires_validation",
+      "sources": [
+        "docs/SCOPE.md"
+      ]
+    },
+    {
+      "id": "analysis",
+      "label": "定位、身份与行为信息",
+      "kind": "capability",
+      "status": "requires_validation",
+      "sources": [
+        "docs/SCOPE.md"
+      ]
+    },
+    {
+      "id": "integration",
+      "label": "跨组记录对齐",
+      "kind": "capability",
+      "status": "planned",
+      "sources": [
+        "project-camera/references/Gecko_各组合作计划.pdf"
+      ]
+    },
+    {
+      "id": "hardware-current",
+      "label": "ROCK 4C+ + SATA HDD",
+      "kind": "hardware",
+      "status": "user_confirmed",
+      "sources": [
+        "docs/DECISIONS.md"
+      ]
+    },
+    {
+      "id": "hardware-early",
+      "label": "ROCK 5C / SSD / cloud",
+      "kind": "hardware",
+      "status": "historical_proposal",
+      "sources": [
+        "docs/history/main-videoing.md"
+      ]
+    },
+    {
+      "id": "preroll",
+      "label": "事件前画面保留",
+      "kind": "milestone",
+      "status": "user_confirmed_direction",
+      "sources": [
+        "docs/history/main-videoing.md"
+      ]
+    },
+    {
+      "id": "ffmpeg",
+      "label": "FFmpeg 视频接收/分段",
+      "kind": "tool_role",
+      "status": "proposed",
+      "sources": [
+        "docs/ARCHITECTURE.md"
+      ]
+    },
+    {
+      "id": "controller",
+      "label": "事件与保留控制逻辑",
+      "kind": "tool_role",
+      "status": "proposed",
+      "sources": [
+        "docs/ARCHITECTURE.md"
+      ]
+    },
+    {
+      "id": "metadata",
+      "label": "时间、设备、事件与文件索引",
+      "kind": "data_contract",
+      "status": "draft",
+      "sources": [
+        "docs/ARCHITECTURE.md"
+      ]
+    },
+    {
+      "id": "review",
+      "label": "人工核对、可见性与缺口",
+      "kind": "validation",
+      "status": "required",
+      "sources": [
+        "docs/SCOPE.md"
+      ]
+    },
+    {
+      "id": "presentation",
+      "label": "展示及合作计划",
+      "kind": "artifact",
+      "status": "preserved",
+      "sources": [
+        "project-camera/references/SD5531_Gecko_Presentation_Group2.pdf"
+      ]
+    },
+    {
+      "id": "coursework",
+      "label": "Arduino Tasks 1–8",
+      "kind": "coursework",
+      "status": "archived",
+      "sources": [
+        "activities/2026-10-16-programming/README.md"
+      ]
+    },
+    {
+      "id": "compile",
+      "label": "编译与主机模拟",
+      "kind": "evidence",
+      "status": "historical_report",
+      "sources": [
+        "docs/EVIDENCE.md"
+      ]
+    },
+    {
+      "id": "physical",
+      "label": "实机串口与补拍影像",
+      "kind": "evidence",
+      "status": "preserved_with_limits",
+      "sources": [
+        "docs/EVIDENCE.md"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "e01",
+      "source": "goal",
+      "target": "scope",
+      "relation": "motivates",
+      "status": "analysis",
+      "reason": "完整记录支持观察与比较，不把技术演示当学习效果证明",
+      "sources": [
+        "docs/SCOPE.md"
+      ]
+    },
+    {
+      "id": "e02",
+      "source": "scope",
+      "target": "video",
+      "relation": "includes",
+      "status": "documented",
+      "reason": "展示范围包含此能力；不证明已实现",
+      "sources": [
+        "docs/SCOPE.md",
+        "project-camera/references/SD5531_Gecko_Presentation_Group2.pdf"
+      ]
+    },
+    {
+      "id": "e03",
+      "source": "scope",
+      "target": "thermal",
+      "relation": "includes",
+      "status": "documented",
+      "reason": "展示范围包含此能力；不证明已实现",
+      "sources": [
+        "docs/SCOPE.md",
+        "project-camera/references/SD5531_Gecko_Presentation_Group2.pdf"
+      ]
+    },
+    {
+      "id": "e04",
+      "source": "scope",
+      "target": "analysis",
+      "relation": "includes",
+      "status": "documented",
+      "reason": "展示范围包含此能力；不证明已实现",
+      "sources": [
+        "docs/SCOPE.md",
+        "project-camera/references/SD5531_Gecko_Presentation_Group2.pdf"
+      ]
+    },
+    {
+      "id": "e05",
+      "source": "scope",
+      "target": "integration",
+      "relation": "includes",
+      "status": "documented",
+      "reason": "展示范围包含此能力；不证明已实现",
+      "sources": [
+        "docs/SCOPE.md",
+        "project-camera/references/SD5531_Gecko_Presentation_Group2.pdf"
+      ]
+    },
+    {
+      "id": "e06",
+      "source": "hardware-current",
+      "target": "hardware-early",
+      "relation": "supersedes",
+      "status": "user_confirmed",
+      "reason": "2026-10-23 用户硬件修订；旧方案保留",
+      "sources": [
+        "docs/DECISIONS.md",
+        "docs/history/main-videoing.md"
+      ]
+    },
+    {
+      "id": "e07",
+      "source": "hardware-current",
+      "target": "video",
+      "relation": "proposed_role",
+      "status": "user_confirmed_hardware_only",
+      "reason": "确定设备方向，具体录制性能仍需实测",
+      "sources": [
+        "docs/ARCHITECTURE.md",
+        "docs/DECISIONS.md"
+      ]
+    },
+    {
+      "id": "e08",
+      "source": "video",
+      "target": "preroll",
+      "relation": "includes",
+      "status": "planned",
+      "reason": "近期先解决触发前画面保留",
+      "sources": [
+        "docs/history/main-videoing.md"
+      ]
+    },
+    {
+      "id": "e09",
+      "source": "preroll",
+      "target": "ffmpeg",
+      "relation": "proposed_role",
+      "status": "proposed",
+      "reason": "负责接收、分段与媒体处理",
+      "sources": [
+        "docs/ARCHITECTURE.md"
+      ]
+    },
+    {
+      "id": "e10",
+      "source": "preroll",
+      "target": "controller",
+      "relation": "depends_on",
+      "status": "proposed",
+      "reason": "需要协调触发、片段保护、窗口与清理",
+      "sources": [
+        "docs/ARCHITECTURE.md"
+      ]
+    },
+    {
+      "id": "e11",
+      "source": "preroll",
+      "target": "metadata",
+      "relation": "depends_on",
+      "status": "draft",
+      "reason": "需要建立事件与实际片段时间的对应",
+      "sources": [
+        "docs/ARCHITECTURE.md"
+      ]
+    },
+    {
+      "id": "e12",
+      "source": "integration",
+      "target": "metadata",
+      "relation": "depends_on",
+      "status": "requires_agreement",
+      "reason": "时间戳、区域/个体/设备 ID 与标签需共同确认",
+      "sources": [
+        "project-camera/references/Gecko_各组合作计划.pdf"
+      ]
+    },
+    {
+      "id": "e13",
+      "source": "analysis",
+      "target": "review",
+      "relation": "requires_validation",
+      "status": "required",
+      "reason": "身份和候选行为须核对；不可见保持未知",
+      "sources": [
+        "docs/SCOPE.md"
+      ]
+    },
+    {
+      "id": "e14",
+      "source": "thermal",
+      "target": "review",
+      "relation": "requires_validation",
+      "status": "required",
+      "reason": "测量条件和性能需实验；保留不可测缺口",
+      "sources": [
+        "docs/SCOPE.md"
+      ]
+    },
+    {
+      "id": "e15",
+      "source": "presentation",
+      "target": "scope",
+      "relation": "documents",
+      "status": "documented",
+      "reason": "展示稿记录完整范围与边界，不是部署证据",
+      "sources": [
+        "project-camera/references/SD5531_Gecko_Presentation_Group2.pdf"
+      ]
+    },
+    {
+      "id": "e16",
+      "source": "coursework",
+      "target": "compile",
+      "relation": "documents",
+      "status": "historical_report",
+      "reason": "八题有历史编译记录；早期主机测试是模拟",
+      "sources": [
+        "docs/EVIDENCE.md"
+      ]
+    },
+    {
+      "id": "e17",
+      "source": "physical",
+      "target": "coursework",
+      "relation": "evidence_for",
+      "status": "limited",
+      "reason": "串口和物理影像支持指定课堂任务；补拍文件需整段核对",
+      "sources": [
+        "docs/EVIDENCE.md"
+      ]
+    }
+  ]
+}

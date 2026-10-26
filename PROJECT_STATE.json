@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "repository_version": "0.1.0",
+  "updated_on": "2026-10-26",
+  "timezone": "Asia/Hong_Kong",
+  "course": {
+    "code": "SD5531",
+    "name": "Lab Studies in Systems Design"
+  },
+  "repository": "OrsonJyu/Lab-Studies-in-Systems-Design",
+  "project": {
+    "name": "Leopard Gecko Observation and Recording",
+    "course_project": "Project 2 - Video Recording Module",
+    "current_hardware": {
+      "host": "Radxa ROCK 4C+",
+      "storage": "local SATA mechanical hard disk",
+      "status": "user_confirmed",
+      "confirmed_on": "2026-10-23",
+      "decision": "D002"
+    },
+    "scope": [
+      "video and thermal-array capture",
+      "recording, retention and access",
+      "localization and identity exploration",
+      "behavior timeline and spatial use",
+      "cross-team data alignment"
+    ],
+    "immediate_milestone": "Validate video reception, rolling segments, pre-event retention, playable clips and event metadata",
+    "camera_implementation_status": "not_established_by_collected_evidence",
+    "candidate_tools": [
+      "FFmpeg",
+      "Python",
+      "Node-RED",
+      "MQTT",
+      "MongoDB",
+      "PostgreSQL"
+    ],
+    "unconfirmed": [
+      "camera model and video/event interfaces",
+      "SATA connection and power",
+      "software stack and deployment",
+      "retention policy and pre/post durations",
+      "shared timestamps, IDs, event labels and owners"
+    ],
+    "outside_current_deliverables": [
+      "automated health diagnosis",
+      "automatic anomaly detection"
+    ]
+  },
+  "coursework": {
+    "activity": "In-Class Activity 6 / 2026-10-16",
+    "tasks": 8,
+    "compilation_status": "historically_reported_pass",
+    "hardware_status": "historical_serial_evidence_preserved",
+    "new_physical_footage": "Tasks 4, 5, 7 and 8 files found; full requirement coverage not revalidated",
+    "task_1_first_1500ms_screenshot": "not_found_in_collected_files",
+    "course_platform_submission": "unknown_no_receipt"
+  },
+  "archive": {
+    "source_manifest": "provenance/source-manifest.json",
+    "source_records": 1701,
+    "distinct_imported_paths": 1624,
+    "lfs_required": true,
+    "remote_sync_status": "pending"
+  },
+  "entrypoints": {
+    "index": "docs/INDEX.md",
+    "status": "docs/STATUS.md",
+    "scope": "docs/SCOPE.md",
+    "architecture": "docs/ARCHITECTURE.md",
+    "decisions": "docs/DECISIONS.md",
+    "evidence": "docs/EVIDENCE.md",
+    "roadmap": "docs/ROADMAP.md",
+    "history": "docs/HISTORY.md",
+    "sync_report": "docs/SYNC_REPORT.md",
+    "knowledge_graph": "knowledge/GRAPH.json"
+  },
+  "evidence_policy": "Do not infer implementation from plans, physical results from compilation, submission from local files, or health from behavior alone."
+}

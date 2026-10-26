@@ -1,0 +1,14 @@
+*.md text eol=lf
+*.json text eol=lf
+*.py text eol=lf
+*.ino text eol=lf
+*.h text eol=lf
+*.cpp text eol=lf
+# Preserve imported originals byte-for-byte, including original line endings.
+activities/** -text
+references/** -text
+project-camera/references/** -text
+archive/** -text
+*.MOV filter=lfs diff=lfs merge=lfs -text
+*.mov filter=lfs diff=lfs merge=lfs -text
+archive/raw-screen-frames/**/*.png filter=lfs diff=lfs merge=lfs -text
