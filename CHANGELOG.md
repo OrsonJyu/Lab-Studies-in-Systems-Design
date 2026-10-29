@@ -2,6 +2,16 @@
 
 版本按[版本规则](docs/VERSIONING.md)管理。日期采用香港时区。历史工作日期与本次导入日期分开记录。
 
+## [Unreleased]
+
+### Changed
+
+- 版本流程在打标签之后增加“用该标签建立 GitHub Release 并核对页面”一步，并说明标签与 Release 的区别（[VERSIONING](docs/VERSIONING.md)）。
+
+### Fixed
+
+- v1.2.0 发布时只推送了标签，未建立 GitHub Release；2026-10-30 已用原 `v1.2.0` 标签补建 [Release 页面](https://github.com/OrsonJyu/Lab-Studies-in-Systems-Design/releases/tag/v1.2.0)，标签未移动。
+
 ## [1.2.0] - 2026-10-30
 
 本节为阶段更新的 PR 候选；合并 main 后再建立 v1.2.0 标签，不提前声称已发布。

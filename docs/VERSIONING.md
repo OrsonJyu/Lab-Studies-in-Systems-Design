@@ -18,6 +18,8 @@
 
 ## 每次阶段更新
 
-更新状态、来源、决定和知识网 → 检查链接与文件校验 → 提交 → 上传源码及 LFS 对象 → 核对远端 → 建立版本标签。走 PR 的改动在合并进 `main` 后再打标签；分支规则见 [CONTRIBUTING](../CONTRIBUTING.md)。不要移动旧标签，不要 force-push 覆盖共享历史。
+更新状态、来源、决定和知识网 → 检查链接与文件校验 → 提交 → 上传源码及 LFS 对象 → 核对远端 → 建立版本标签 → 用该标签建立 GitHub Release → 核对 Release 页面。走 PR 的改动在合并进 `main` 后再打标签；分支规则见 [CONTRIBUTING](../CONTRIBUTING.md)。不要移动旧标签，不要 force-push 覆盖共享历史。
+
+Git 标签和 GitHub Release 是两回事：只推送标签时，Releases 页面的 Latest 仍停在上一版。Release 用已推送的标签建立（`gh release create vX.Y.Z --verify-tag`，不另建标签），标题写 `vX.Y.Z · 简述`，说明取自 CHANGELOG 对应一节并去掉候选/审阅过程备注，末尾链接完整 CHANGELOG。建好后确认它标为 Latest、不是草稿或预发布，且标签仍指向原提交。
 
 只有在用户明确要求时才建立定时同步/提醒。当前是按工作阶段维护，不声称后台持续监控。
