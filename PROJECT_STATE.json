@@ -69,7 +69,7 @@
     "remote_lfs_objects_available": 1029,
     "remote_verified_on": "2026-10-26",
     "import_commit": "464fa5f25633b9a1bfbe5fb8f023a3bcb7163b71",
-    "release_tag": "v1.0.0",
+    "release_tag": "v1.1.0",
     "tracked_files": 1707
   },
   "entrypoints": {
