@@ -13,6 +13,7 @@
 | D007 | 2026-10-16 起 | 实现中的课件歧义处理 | Task 7 的 `-1` 使用 worked example 的 **2000ms**；保留课件另一页的 200ms 矛盾，等待教师澄清，不伪称已确认。原说明与代码。 |
 | D008 | 2026-10-26 | 用户授权的仓库维护要求 | 将可取得的文件、过程、成果和知识网同步到指定仓库；提供访客与 agent 导航、版本及历史。仓库维持现有私有属性；未授权改公开或自动提交课程作业。 |
 | D009 | 2026-10-29 | 用户确认 | 仓库按[记忆指南](guides/GIT_MARKDOWN_MEMORY_GUIDE.md)组织：当前状态沿用 STATUS + PROJECT_STATE（不另建 PROJECT_STATUS.md）；新增 `docs/workstreams/`、`project-camera/src/`、`project-camera/experiments/`；`CLAUDE.md` 只指向 AGENTS.md。分支：日常文档直推 main，源码、改变结论的实验和大重组走分支 + PR，取代 CONTRIBUTING 原第 5 条"新成果一律 PR"。本会话用户确认。 |
+| D010 | 2026-10-29 | 用户确认；修订 D009 及原"原始文件不修改"规则 | 原始资料可以按新要求修改，但**每项修改都须先得到用户在对话中的明确同意**。修改单独提交；manifest 保留导入时的 `original_sha256`/`original_bytes`，登记新校验值、`modified_with_approval` 状态及修改原因；导入版本仍可从 Git 历史与 v1.0.0 取回。本会话用户确认。 |
 
 主讨论全文见 [history/main-videoing.md](history/main-videoing.md)；早期 scope 见[原始迁移历史](../references/project-migration/历史对话.md)。
 

@@ -49,6 +49,13 @@ def main() -> int:
         prior = destinations.setdefault(relative, record['sha256'])
         if prior != record['sha256']:
             errors.append(f'Different source bytes assigned to the same path: {relative}')
+        if record.get('archive_status') == 'modified_with_approval':
+            # D010: approved edits keep the imported checksum and a dated reason.
+            if not record.get('original_sha256') or not record.get('modifications'):
+                errors.append(f'Approved modification lacks original_sha256 or modifications: {relative}')
+            for change in record.get('modifications', []):
+                if not all(change.get(key) for key in ('date', 'reason', 'decision')):
+                    errors.append(f'Modification entry lacks date, reason or decision: {relative}')
         if not path.is_file():
             errors.append(f'Missing imported file: {relative}')
             continue

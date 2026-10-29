@@ -168,7 +168,7 @@ entities/people/person-lin/
 |---|---|---|
 | 当前说明 | STATUS、PROJECT_STATE、SCOPE、ARCHITECTURE、ROADMAP、EVIDENCE、各 README、workstreams | 直接改写为最新理解，不堆叠旧说法 |
 | 记录 | DECISIONS、CHANGELOG、HISTORY、实验记录 | 只追加；被取代的决定标"取代 Dxxx"，不删旧条 |
-| 原始来源 | `provenance/source-manifest.json` 登记的导入文件、`docs/history/` | 永不修改内容；新解释写到当前说明里 |
+| 原始来源 | `provenance/source-manifest.json` 登记的导入文件、`docs/history/` | 默认不改，新解释写到当前说明里；因新要求确需修改时，先征得用户对该项修改的同意（[D010](../DECISIONS.md)），单独提交并在 manifest 登记 |
 
 ### 其他适配
 

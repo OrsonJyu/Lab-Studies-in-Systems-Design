@@ -15,6 +15,7 @@
 
 - 分支规则（D009）：日常文档直推 main；源码、改变结论的实验和大重组走分支 + PR。CONTRIBUTING、AGENTS、VERSIONING 同步更新。
 - AGENTS.md 增加"信息放哪"与"分支"两节；明确当前状态沿用 STATUS + PROJECT_STATE。
+- 原始资料规则（D010）：可按新要求修改，但每项修改须先经用户同意，并在来源清单中保留原校验值和修改登记；校验脚本相应检查这些字段。
 
 ### Limits
 

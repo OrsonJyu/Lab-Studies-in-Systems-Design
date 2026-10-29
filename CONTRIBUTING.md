@@ -5,7 +5,8 @@
 1. 先阅读 [AGENTS.md](AGENTS.md) 和[当前状态](docs/STATUS.md)，确认课程与项目边界。
 2. 新资料按用途归档（规则见[仓库记忆指南](docs/guides/GIT_MARKDOWN_MEMORY_GUIDE.md)）：
    - 项目成果与资料放 `project-camera/`；摄像头代码放 `project-camera/src/`，每次测试放 `project-camera/experiments/YYYY-MM-DD-主题/`。
-   - 课堂实验放 `activities/`，旧版放 `archive/`。原始文件保持内容不变。
+   - 课堂实验放 `activities/`，旧版放 `archive/`。
+   - 原始文件默认保持不变。因新要求需要修改时，**必须先得到用户对该项修改的明确同意**（D010），单独提交，并在 `provenance/source-manifest.json` 中保留原校验值、登记修改原因与日期。
    - 当前状态写 `docs/STATUS.md` 与 `PROJECT_STATE.json`；进行中的事项写 `docs/workstreams/active/`；决定写 `docs/DECISIONS.md`；时间线写 `docs/HISTORY.md`。
    - 当前说明类文件直接改写为最新理解；决定、变更记录和实验记录只追加。
 3. 每项实验记录日期、设备/软件版本、方法、输入、观察结果、原始证据、失败与限制、贡献人（仅在可确认时填写）。
