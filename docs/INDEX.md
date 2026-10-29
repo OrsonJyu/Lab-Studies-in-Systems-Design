@@ -11,6 +11,7 @@
 | [EVIDENCE](EVIDENCE.md) | 成果与实验记录位置、证明什么及不能证明什么 |
 | [ROADMAP](ROADMAP.md) | 下一步问题、建议验证与依赖 |
 | [Workstreams](workstreams/README.md) | 正在进行与已完成的工作，各自的现状与待定项 |
+| [测试环境](../project-camera/environments/README.md) | home 已测条件；school / hotspot 预留；跨网络结果不能混用 |
 | [HISTORY](HISTORY.md) | 从早期探索到当前方向的可检索时间线 |
 | [SYNC_REPORT](SYNC_REPORT.md) | 归档来源、同步状态、缺失材料与旧链接 |
 | [IMPORT_VALIDATION](IMPORT_VALIDATION.md) | 原始字节、Git/LFS 指针、链接及知识网的导入校验 |
@@ -25,7 +26,7 @@
 ## 建议阅读路线
 
 - **访客 5 分钟**：首页 → STATUS → 项目成果 → 知识网。
-- **协作者**：SCOPE → ARCHITECTURE → DECISIONS → ROADMAP → 进行中的 workstream → 相关原始材料。
+- **协作者**：SCOPE → ARCHITECTURE → DECISIONS → ROADMAP → 进行中的 workstream → 对应环境 → 相关原始材料。
 - **核对者**：EVIDENCE → 原始文件 → manifest → 对应历史讨论。
 - **Agents**：AGENTS → PROJECT_STATE → STATUS → 进行中的 workstream → DECISIONS；按问题查来源，避免仅凭摘要重建事实。
 

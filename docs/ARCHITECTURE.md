@@ -1,52 +1,69 @@
 # 系统角色与预录制 / Architecture
 
-状态：**方案整理，待实现/验证**。硬件基线来自用户 2026-10-23 的明确修订。技术角色来自当日讨论；具体产品与协议支持没有在本次归档中重新实测。
+更新：2026-10-30。**home 的单路短录像与 Mac 实时预览已有实测；循环分段、事件控制和预录制仍待实现/验证。** 完整范围见 [SCOPE](SCOPE.md)，适用条件见[环境目录](../project-camera/environments/README.md)。
 
-## 当前工作流
+## home 已验证的基础链路
 
 ```mermaid
 flowchart LR
-    C[PoE IP Camera] -->|Video stream: interface to verify| F[FFmpeg on ROCK 4C+]
-    F --> B[Recent segments on local SATA HDD]
-    E[Camera / cross-team / manual test event] --> Q[Controller: proposed Python or Node-RED]
-    B --> Q
-    Q -->|Protect and assemble segments| V[Retained event clip]
-    V --> H[Local SATA HDD]
-    Q --> M[Event metadata: storage to choose]
-    H --> A[Playback / API: planned]
-    M --> A
-    A --> U[Shared interface: planned]
+    P[48V PoE injector] -. power .-> C[Physical IP camera]
+    C -->|RTSP over TCP| S[Ordinary gigabit switch]
+    S --> R[ROCK 4C+ / FFmpeg]
+    R -->|One short recording| SD[System microSD / MP4]
+    R -->|SSH forwarding| L[Mac localhost port]
+    L --> V[FFplay / user-confirmed live picture]
 ```
 
-图示表达方案角色，不是接线图或已部署拓扑。SATA 硬盘的实际供电与连接适配方式还需记录。
+图示仅标明本次证据覆盖的角色。PoE 供电器 LAN 口连接数据网络，POE 输出口连接匹配的摄像头；普通交换机不提供摄像头电源。路由器承担 home 的管理网络接入，具体接线见 [home](../project-camera/environments/home/README.md)。
 
-| 部分 | 负责什么 | 当前确定程度 |
+已验证：ONVIF 只读获取配置和流 URI；RTSP/TCP 主码流接收；约 60 秒保存、完整软件解码和 Mac 动态预览。ROCK 摄像头网段辅助地址与 SSH 本机转发尚未持久化，不是已完成的开机自启服务。
+
+## 仍待实现的目标链路
+
+```mermaid
+flowchart LR
+    C[Camera video] --> F[FFmpeg / continuous segments]
+    F --> B[Rolling local storage]
+    E[Camera / cross-team / manual event] --> Q[Controller / to implement]
+    B --> Q
+    Q -->|Protect and assemble| V[Retained pre-event and post-event clip]
+    Q --> M[Event metadata / schema to agree]
+    V --> A[Playback / API / planned]
+    M --> A
+```
+
+项目存储方向继续采用用户确认的 SATA HDD（D002），本次仅以系统卡测试（D012）。SATA 接法、供电、挂载、保留策略和实际性能尚需验证。上图不是已部署拓扑。
+
+| 部分 | 角色 | 当前确定程度 |
 | --- | --- | --- |
-| 摄像头与 PoE 网络 | 影像/编码、传输；可能提供运动事件 | 型号、RTSP/事件接口、PoE 规格需核对 |
-| ROCK 4C+ | 承载现场录制和控制；分析负载另测 | 用户确认的设备方向 |
-| FFmpeg | 接收视频、生成分段、拼接/裁剪 | 候选工作流；没有归档部署证明 |
-| 控制程序 | 接收事件、选时间窗、保护片段、等待尾段、清理与恢复 | 必需的逻辑角色；Python/Node-RED 实现待定 |
-| SATA 机械硬盘 | 保存近期缓存、正式录像、原始数据 | 用户确认本地存储；保留策略待定 |
-| Node-RED | 流程编排和设备/服务连接 | 不是数据库；不等于另需一整套 Node.js 后端 |
-| MQTT / broker | 传递事件、状态和指令 | 跨组协议候选；不承载原始视频的角色 |
-| MongoDB / PostgreSQL | 保存可查询的事件、设备、位置、文件索引等 | 数据库候选；不是两套都已选择 |
-| 分析程序 | 定位、追踪、候选事件与统计、热阵列处理 | 后续探索；指标和性能待验证 |
-| API / 共享界面 | 查找、回放、时间线和跨组记录访问 | 实现及整合负责人待确认 |
+| 摄像头、供电与交换机 | 输出视频，提供摄像头供电和网络通信 | home 实物标签和基础链路已观察；完整型号/固件、运动通知与 IEEE 供电认证未确定 |
+| ROCK 4C+ | 现场接收、录像、控制与访问 | Debian 12 / aarch64，已实际运行短采集；负载和长期能力未验证 |
+| FFmpeg | 接收、封装、分段/拼接等媒体操作 | 5.1.9 的短录封装和解码已实测；循环分段和预录尚未实现 |
+| 控制程序 | 事件、时间窗、片段保护、尾段等待、清理和恢复 | 完整控制逻辑未实现；测试中用 Python 标准库读取 ONVIF |
+| 系统 microSD | 本阶段测试视频文件 | home 基础短测试通过，不作为正式保留策略 |
+| SATA HDD | 项目本地正式存储方向 | 本次未验证 |
+| SSH + FFplay | Mac 查看板卡可达的视频 | home 用户确认动态画面；本机端口转发，不新增公网视频服务；延迟未量测 |
+| Node-RED / Python 框架 | 编排或定制控制/分析 | 完整框架组合仍待选择；Node-RED 不是数据库 |
+| MQTT / broker | 事件、状态和指令 | 跨组候选，不承担原始视频传输 |
+| MongoDB / PostgreSQL | 元数据、设备和文件索引 | 候选，并非两套均已选定 |
+| 分析、API 与共享界面 | 定位、轨迹、候选行为、查询和整合 | 后续探索；指标、协议和负责人仍待验证/确认 |
 
-## 为什么要持续缓存
+## 为什么仍需要预录控制
 
-若收到 T 时刻事件后才启动录像，触发前画面可能从未保存。当前方向是平时持续接收并暂存近期分段；收到事件后保护覆盖 T−n 的分段，继续收集尾段，再生成正式录像。被保护的事件片段与循环缓存使用不同清理策略。
+触发之后才开始接收和保存，无法补回之前没有保留的画面。目标机制是平时持续接收近期分段，事件到来后保护覆盖 T−n 的内容，继续等尾段，再生成保留录像。
 
-FFmpeg 的输入缓存能力不等于完整事件录像系统。事件接收、时间窗、片段保护、重复/重叠事件、清理、断流和磁盘失败，需要控制逻辑。分段边界可能受关键帧影响；是否精确裁剪与是否重新编码应通过测试决定。
+FFmpeg 的输入缓存不等于完整事件系统。时间窗、分段保护、重叠事件、清理、断流和磁盘失败仍需控制逻辑。关键帧对分段边界的影响也要实测，不能以此次连续短录代替预录验收。
 
-## 时间与记录约定草案
+## 时间与记录约定
 
-以下字段是基于讨论的**待协商草案**，不是已确认的全班 schema：`camera_id`、`event_id`、事件源、源事件时间、接收时间、片段起止时间、文件位置、生成状态和失败原因。说明时间源及同步误差，避免将服务器接收时间直接当成画面事件时间。
+home 的画面叠加日期与实际测试日期不符，日志还有未设置时间戳及两处 DTS 修正警告。录像可解码不等于时间准确，应分别记录相机时间、板卡接收时间与媒体时间，再核对实际边界。
 
-预录能保留已接收的历史画面，不能恢复从未到达的丢失数据。事件片段也不能单独证明全天活动分布。
+实验必须写环境 ID；生产事件字段仍是待协商草案：`camera_id`、`event_id`、事件源、源事件时间、接收时间、片段起止、文件位置、生成状态和失败原因。此草案不是已批准的全班 schema。
 
-## 与旧图的关系
+不可见和断流保持缺口；预录不能补回未收到的数据。仅凭事件片段不能推算全天活动或健康状态。
 
-Figma 与展示稿中的 ROCK 5C、SSD、云端服务器保留为历史版本。本页采用新硬件方向；云端是否承担长期保存与远程服务仍未定。服务器是服务角色，不必预先等同于新增一台云端主机。
+## 环境与旧方案
 
-来源：[主讨论](history/main-videoing.md)、[设计快照](../project-camera/design/README.md)、[决定 D002–D005](DECISIONS.md)。
+home、学校和热点的地址分配、设备互通与管理路径分开记录。学校或热点可能有客户端隔离，互联网可用不等于摄像头/ROCK/Mac 互通。真实地址和访问参数留本地，仓库保存拓扑、示例与验证结果。
+
+ROCK 5C、SSD、云端与旧摄像头芯片/商品参数仍保留在历史展示和 Figma 中。当前设备与实测以 [home 证据](../project-camera/environments/home/README.md)及 D002/D011/D012 为入口；云端服务仍未定。

@@ -14,6 +14,8 @@
 | D008 | 2026-10-26 | 用户授权的仓库维护要求 | 将可取得的文件、过程、成果和知识网同步到指定仓库；提供访客与 agent 导航、版本及历史。仓库维持现有私有属性；未授权改公开或自动提交课程作业。 |
 | D009 | 2026-10-29 | 用户确认 | 仓库按[记忆指南](guides/GIT_MARKDOWN_MEMORY_GUIDE.md)组织：当前状态沿用 STATUS + PROJECT_STATE（不另建 PROJECT_STATUS.md）；新增 `docs/workstreams/`、`project-camera/src/`、`project-camera/experiments/`；`CLAUDE.md` 只指向 AGENTS.md。分支：日常文档直推 main，源码、改变结论的实验和大重组走分支 + PR，取代 CONTRIBUTING 原第 5 条"新成果一律 PR"。本会话用户确认。 |
 | D010 | 2026-10-29 | 用户确认；修订 D009 及原"原始文件不修改"规则 | 原始资料可以按新要求修改，但**每项修改都须先得到用户在对话中的明确同意**。修改单独提交；manifest 保留导入时的 `original_sha256`/`original_bytes`，登记新校验值、`modified_with_approval` 状态及修改原因；导入版本仍可从 Git 历史与 v1.0.0 取回。本会话用户确认。 |
+| D011 | 2026-10-30 | 用户确认 | 本次家庭测试环境命名为 **`home`**；移动办公时按环境分别记录配置、拓扑、实验和限制。用户说明后续可能在学校或考虑热点，学校网络不一定支持互通。`school` / `hotspot` 仅预留、未测试，不把 home 的地址或成功结果推广到它们。来源：本次用户要求更新仓库的明确消息；见[环境目录](../project-camera/environments/README.md)。 |
+| D012 | 2026-10-30 | 用户确认的本次测试选择 | 本阶段先用**系统 microSD 卡**保存测试录像。此项限定测试介质，不取代 D002 的 SATA HDD 项目方向，也不表示 SATA 已接通。来源：本次用户“目前我们先测试系统卡”；实测见[home 录像](../project-camera/experiments/2026-10-30-home-camera-recording/README.md)。 |
 
 主讨论全文见 [history/main-videoing.md](history/main-videoing.md)；早期 scope 见[原始迁移历史](../references/project-migration/历史对话.md)。
 

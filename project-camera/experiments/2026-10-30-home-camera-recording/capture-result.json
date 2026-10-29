@@ -1,0 +1,33 @@
+{
+  "started_utc": "2026-10-29T17:53:09.885766+00:00",
+  "wall_seconds": 60.84,
+  "capture_exit": 0,
+  "first_frames_received": true,
+  "source": "physical camera over RTSP/TCP; direct from ROCK",
+  "requested_duration_seconds": 60,
+  "onvif_reported_profile": {
+    "token": "000",
+    "name": "mainStream",
+    "encoding": "H264",
+    "width": 2560,
+    "height": 1440,
+    "fps": "20"
+  },
+  "audio_recorded": false,
+  "last_progress": {
+    "frame": "1201",
+    "fps": "20.43",
+    "stream_0_0_q": "-1.0",
+    "bitrate": "2142.0kbits/s",
+    "total_size": "16051971",
+    "out_time_us": "59950022",
+    "out_time_ms": "59950022",
+    "out_time": "00:00:59.950022",
+    "dup_frames": "0",
+    "drop_frames": "0",
+    "speed": "1.02x",
+    "progress": "end"
+  },
+  "bytes": 16051971,
+  "environment": "home"
+}

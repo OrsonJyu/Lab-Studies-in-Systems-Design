@@ -1,0 +1,187 @@
+{
+  "schema_version": "1.0",
+  "environment": "home",
+  "experiment_date": "2026-10-30",
+  "timezone": "Asia/Hong_Kong",
+  "hash_scope": "Materialized artifact bytes; manifest does not hash itself.",
+  "entries": [
+    {
+      "path": "README.md",
+      "bytes": 4009,
+      "sha256": "4572a5a1e78ec0d6a62f7ab5ae6522f02f8d1a55b6900622687309d9f6ceef36",
+      "storage": "git"
+    },
+    {
+      "path": "camera-main-60s.mp4",
+      "bytes": 16051971,
+      "sha256": "003758aec06e08d8132bc48d5d51b58dd827bd4c4d85a92f75a1e31fd89089e5",
+      "storage": "git-lfs",
+      "source_file": "2026-10-30-camera-first-recording/camera-main-60s.mp4",
+      "source_sha256": "003758aec06e08d8132bc48d5d51b58dd827bd4c4d85a92f75a1e31fd89089e5",
+      "transformations": []
+    },
+    {
+      "path": "capture-result.json",
+      "bytes": 812,
+      "sha256": "bfe1772c922f19d1b8e74aaf94fde91157fd3591240f964facaa14a2d83929da",
+      "storage": "git",
+      "source_file": "2026-10-30-camera-first-recording/capture-result.json",
+      "source_sha256": "8957fc35deaa671664afc55820ca62b738b52cf2255a72ca575a54d00c992b55",
+      "transformations": [
+        "environment field added",
+        "personal output paths replaced with $OUT where present"
+      ]
+    },
+    {
+      "path": "contact-sheet.jpg",
+      "bytes": 204939,
+      "sha256": "a28de6eecd250426bbdbb4be69e4d108c642a5a9129edce171689af6ecc2d0ca",
+      "storage": "git",
+      "source_file": "2026-10-30-camera-first-recording/contact-sheet.jpg",
+      "source_sha256": "a28de6eecd250426bbdbb4be69e4d108c642a5a9129edce171689af6ecc2d0ca",
+      "transformations": []
+    },
+    {
+      "path": "decode.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "storage": "git",
+      "source_file": "2026-10-30-camera-first-recording/decode.log",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": []
+    },
+    {
+      "path": "previews/preview-01.jpg",
+      "bytes": 21710,
+      "sha256": "a8ee18cefb2a6c13b1e0d08300652c78b0515d604d5e075ad52334cc2d666f85",
+      "storage": "git",
+      "source_file": "2026-10-30-camera-first-recording/preview-01.jpg",
+      "source_sha256": "a8ee18cefb2a6c13b1e0d08300652c78b0515d604d5e075ad52334cc2d666f85",
+      "transformations": []
+    },
+    {
+      "path": "previews/preview-02.jpg",
+      "bytes": 29426,
+      "sha256": "22ecfee0bc475ad2cfec7c1e89584f75796f6e8bf4aecc5621e42c712c60a883",
+      "storage": "git",
+      "source_file": "2026-10-30-camera-first-recording/preview-02.jpg",
+      "source_sha256": "22ecfee0bc475ad2cfec7c1e89584f75796f6e8bf4aecc5621e42c712c60a883",
+      "transformations": []
+    },
+    {
+      "path": "previews/preview-03.jpg",
+      "bytes": 38596,
+      "sha256": "ea9d99ac73084b078340e29236b7a77abaa3d85c215115bf4dbbd34822d413b6",
+      "storage": "git",
+      "source_file": "2026-10-30-camera-first-recording/preview-03.jpg",
+      "source_sha256": "ea9d99ac73084b078340e29236b7a77abaa3d85c215115bf4dbbd34822d413b6",
+      "transformations": []
+    },
+    {
+      "path": "previews/preview-04.jpg",
+      "bytes": 38673,
+      "sha256": "0489d4379631ab16a23d2fa2a2bddb0719ab907c52c4179208eb5e84548d5ee4",
+      "storage": "git",
+      "source_file": "2026-10-30-camera-first-recording/preview-04.jpg",
+      "source_sha256": "0489d4379631ab16a23d2fa2a2bddb0719ab907c52c4179208eb5e84548d5ee4",
+      "transformations": []
+    },
+    {
+      "path": "previews/preview-05.jpg",
+      "bytes": 38668,
+      "sha256": "2a17328fe80d48f77b2cd6b72adb35b7e6aa896aa921462bb8042f384b71be38",
+      "storage": "git",
+      "source_file": "2026-10-30-camera-first-recording/preview-05.jpg",
+      "source_sha256": "2a17328fe80d48f77b2cd6b72adb35b7e6aa896aa921462bb8042f384b71be38",
+      "transformations": []
+    },
+    {
+      "path": "previews/preview-06.jpg",
+      "bytes": 38627,
+      "sha256": "b6661ca1566bd702df1dd1655a808317695cc742f8ba12bfee2a1fe631e08b89",
+      "storage": "git",
+      "source_file": "2026-10-30-camera-first-recording/preview-06.jpg",
+      "source_sha256": "b6661ca1566bd702df1dd1655a808317695cc742f8ba12bfee2a1fe631e08b89",
+      "transformations": []
+    },
+    {
+      "path": "previews/preview-07.jpg",
+      "bytes": 38620,
+      "sha256": "cb18bf783a45c9d4f883c8bbf4996603e224f47f026b5e0d73bbfc881edb1f15",
+      "storage": "git",
+      "source_file": "2026-10-30-camera-first-recording/preview-07.jpg",
+      "source_sha256": "cb18bf783a45c9d4f883c8bbf4996603e224f47f026b5e0d73bbfc881edb1f15",
+      "transformations": []
+    },
+    {
+      "path": "previews/preview-08.jpg",
+      "bytes": 38687,
+      "sha256": "198ccbdbb0e9ee1d09a5d7b45f6c13f2d944b89fa1a96a677fe988d73b721528",
+      "storage": "git",
+      "source_file": "2026-10-30-camera-first-recording/preview-08.jpg",
+      "source_sha256": "198ccbdbb0e9ee1d09a5d7b45f6c13f2d944b89fa1a96a677fe988d73b721528",
+      "transformations": []
+    },
+    {
+      "path": "previews/preview-09.jpg",
+      "bytes": 38610,
+      "sha256": "1bade6146bfa8bfb1335b4408b598855725a4083e74253d09f138e0346db20ef",
+      "storage": "git",
+      "source_file": "2026-10-30-camera-first-recording/preview-09.jpg",
+      "source_sha256": "1bade6146bfa8bfb1335b4408b598855725a4083e74253d09f138e0346db20ef",
+      "transformations": []
+    },
+    {
+      "path": "previews/preview-10.jpg",
+      "bytes": 28343,
+      "sha256": "88cdeb4dddb34ba437fc9d647a5a28e4db38b4db5ac841d68ccb3132fcdeb69c",
+      "storage": "git",
+      "source_file": "2026-10-30-camera-first-recording/preview-10.jpg",
+      "source_sha256": "88cdeb4dddb34ba437fc9d647a5a28e4db38b4db5ac841d68ccb3132fcdeb69c",
+      "transformations": []
+    },
+    {
+      "path": "previews/preview-11.jpg",
+      "bytes": 24944,
+      "sha256": "0860f7667527a5c1f8a50536da3067a94bed7bcdbfba4f6ec8e7cdfe673d88ce",
+      "storage": "git",
+      "source_file": "2026-10-30-camera-first-recording/preview-11.jpg",
+      "source_sha256": "0860f7667527a5c1f8a50536da3067a94bed7bcdbfba4f6ec8e7cdfe673d88ce",
+      "transformations": []
+    },
+    {
+      "path": "previews/preview-12.jpg",
+      "bytes": 31909,
+      "sha256": "f128d55a2d05b61bea15fe79bd69c02c3e0b459174fd1a29324fc6c655993caa",
+      "storage": "git",
+      "source_file": "2026-10-30-camera-first-recording/preview-12.jpg",
+      "source_sha256": "f128d55a2d05b61bea15fe79bd69c02c3e0b459174fd1a29324fc6c655993caa",
+      "transformations": []
+    },
+    {
+      "path": "recording.log",
+      "bytes": 1441,
+      "sha256": "b8cd19321819827c03111dda7dea7537b1dba6c8a38f81ce4936a44bedb4b347",
+      "storage": "git",
+      "source_file": "2026-10-30-camera-first-recording/recording.log",
+      "source_sha256": "c47b6b5c01257d2c8b6db5ab6e84d53ed58a5fd8b69bf43c080e2ad8439fca2f",
+      "transformations": [
+        "personal output paths replaced with $OUT",
+        "terminal line-end whitespace normalized"
+      ]
+    },
+    {
+      "path": "validation-result.json",
+      "bytes": 1181,
+      "sha256": "647fdb3497170e70d0cae738b242f5e19963932562fce72e9baab71b9d7a9617",
+      "storage": "git",
+      "source_file": "2026-10-30-camera-first-recording/validation-result.json",
+      "source_sha256": "c4142ab7bcab12517e5f787415c96435f7962b7b5b6307428a363274e3a84171",
+      "transformations": [
+        "preview paths point to previews/",
+        "environment field added",
+        "personal output paths replaced with $OUT where present"
+      ]
+    }
+  ]
+}

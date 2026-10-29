@@ -1,0 +1,31 @@
+{
+  "environment": "home",
+  "date": "2026-10-30",
+  "timezone": "Asia/Hong_Kong",
+  "source": "physical_camera_rtsp_tcp_via_rock_and_localhost_ssh_forward",
+  "camera_video_decoded_on_mac": true,
+  "player": "FFplay",
+  "player_version": "8.0.1",
+  "audio_enabled": false,
+  "preview_recorded_to_file": false,
+  "user_confirmation": {
+    "type": "direct_chat_reply",
+    "text": "看到了，画面在更新"
+  },
+  "rtsp_probe_observation": {
+    "codec_name": "h264",
+    "width": 2560,
+    "height": 1440,
+    "reported_avg_frame_rate": "25/1",
+    "note": "Startup probe report, not an independent measured frame-rate test; separate from the 20 fps recorded-file result."
+  },
+  "launcher_existing_process_check_exit": 0,
+  "initial_iina_attempt": "Connection established but visible video not confirmed; not counted as success",
+  "latency_measured": false,
+  "network_persisted": false,
+  "limitations": [
+    "home only",
+    "No cross-network validation",
+    "No endurance or pre-roll validation"
+  ]
+}

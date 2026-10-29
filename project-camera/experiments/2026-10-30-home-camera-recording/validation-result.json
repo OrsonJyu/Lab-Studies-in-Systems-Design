@@ -1,0 +1,44 @@
+{
+  "media": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_tag_string": "avc1",
+        "width": 2560,
+        "height": 1440,
+        "r_frame_rate": "20/1",
+        "avg_frame_rate": "108090000/5400001",
+        "start_time": "0.000000",
+        "duration": "60.000011",
+        "nb_frames": "1201"
+      }
+    ],
+    "format": {
+      "duration": "60.001000",
+      "size": "16051971"
+    }
+  },
+  "full_decode_and_previews_exit": 0,
+  "decode_wall_seconds": 15.06,
+  "preview_files": [
+    "previews/preview-01.jpg",
+    "previews/preview-02.jpg",
+    "previews/preview-03.jpg",
+    "previews/preview-04.jpg",
+    "previews/preview-05.jpg",
+    "previews/preview-06.jpg",
+    "previews/preview-07.jpg",
+    "previews/preview-08.jpg",
+    "previews/preview-09.jpg",
+    "previews/preview-10.jpg",
+    "previews/preview-11.jpg",
+    "previews/preview-12.jpg"
+  ],
+  "video_sha256": "003758aec06e08d8132bc48d5d51b58dd827bd4c4d85a92f75a1e31fd89089e5",
+  "limitations": [
+    "Short recording only; not an endurance or pre-roll test",
+    "ONVIF profile metadata and measured file metadata kept separate"
+  ],
+  "environment": "home"
+}

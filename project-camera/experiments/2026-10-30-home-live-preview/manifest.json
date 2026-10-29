@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "environment": "home",
+  "experiment_date": "2026-10-30",
+  "timezone": "Asia/Hong_Kong",
+  "hash_scope": "Materialized artifact bytes; manifest does not hash itself.",
+  "entries": [
+    {
+      "path": "README.md",
+      "bytes": 2581,
+      "sha256": "49c42f1400b6b7ce56093d4fcbef6b992c7b2960902e6f374121a11827f7b09c",
+      "storage": "git"
+    },
+    {
+      "path": "result.json",
+      "bytes": 1014,
+      "sha256": "b065d804b46b997b5bd55161dadd886ed5a542ed827993e1a3e76996c89d106f",
+      "storage": "git"
+    }
+  ]
+}

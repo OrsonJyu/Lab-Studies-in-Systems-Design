@@ -1,0 +1,87 @@
+{
+  "test": "synthetic video basic save and full decode on system storage",
+  "started_utc": "2026-10-29T17:02:01.757646+00:00",
+  "ffmpeg_version": "ffmpeg version 5.1.9-0+deb12u1 Copyright (c) 2000-2026 the FFmpeg developers",
+  "wall_seconds": 60.76,
+  "media": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1",
+        "nb_read_frames": "900"
+      }
+    ],
+    "format": {
+      "duration": "60.000000",
+      "size": "8915986"
+    }
+  },
+  "duration_and_frame_count_pass": true,
+  "full_decode_exit": 0,
+  "free_bytes": 111325569024,
+  "limitations": [
+    "Synthetic source; camera is not connected",
+    "Not a SATA, RTSP, pre-roll, endurance, or maximum-throughput test"
+  ],
+  "commands": [
+    [
+      "ffmpeg",
+      "-version"
+    ],
+    [
+      "ffmpeg",
+      "-hide_banner",
+      "-nostdin",
+      "-n",
+      "-re",
+      "-f",
+      "lavfi",
+      "-i",
+      "testsrc2=size=640x360:rate=15",
+      "-t",
+      "60",
+      "-an",
+      "-c:v",
+      "libx264",
+      "-threads",
+      "2",
+      "-preset",
+      "ultrafast",
+      "-crf",
+      "23",
+      "-pix_fmt",
+      "yuv420p",
+      "-movflags",
+      "+faststart",
+      "$OUT/synthetic-60s.mp4"
+    ],
+    [
+      "ffprobe",
+      "-v",
+      "error",
+      "-count_frames",
+      "-show_entries",
+      "stream=codec_name,width,height,avg_frame_rate,nb_read_frames:format=duration,size",
+      "-of",
+      "json",
+      "$OUT/synthetic-60s.mp4"
+    ],
+    [
+      "ffmpeg",
+      "-hide_banner",
+      "-nostdin",
+      "-v",
+      "error",
+      "-xerror",
+      "-i",
+      "$OUT/synthetic-60s.mp4",
+      "-f",
+      "null",
+      "-"
+    ]
+  ],
+  "environment": "home"
+}

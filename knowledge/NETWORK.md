@@ -1,6 +1,6 @@
 # 知识网 / Knowledge network
 
-版本 1.0 · 整理日期 2026-10-26。对应[机器可读图 GRAPH.json](GRAPH.json)。本图由既有材料整理，用于找到概念、决定、成果与验证之间的关系；不把关系线视为因果证明或已实现的数据链。
+版本 1.1 · 更新日期 2026-10-30。对应[机器可读图 GRAPH.json](GRAPH.json)。本图由既有材料整理，用于找到概念、决定、成果与验证之间的关系；不把关系线视为因果证明或已实现的数据链。
 
 ```mermaid
 flowchart TD
@@ -13,6 +13,12 @@ flowchart TD
     Z[Historical Figma diagrams] --> O
     O[ROCK 5C / SSD / cloud: historical] -. superseded baseline .-> H
     V --> P[近期预录制工作流]
+    HOME[home 家庭测试条件] --> REC[真实短录像和解码: 有限通过]
+    REC --> V
+    HOME --> LIVE[Mac 实时预览: 用户确认]
+    REC --> CLOCK[相机日期和包时间戳: 待核]
+    CLOCK --> P
+    HOME -. 不证明其他环境 .-> MOBILE[school / hotspot: 未测试]
     P --> F[FFmpeg: media operations]
     P --> C[Controller: proposed event/retention logic]
     P --> M[时间与事件元数据草案]
@@ -22,6 +28,8 @@ flowchart TD
     A[Arduino课堂活动] --> E[编译/串口/物理证据]
     D[展示与历史讨论] --> S
 ```
+
+home 证据仅覆盖系统卡短录与预览；SATA、预录制、长期稳定性和跨环境互通仍待验证。环境、实物参数及限制见 [home](../project-camera/environments/home/README.md)。
 
 ## 如何读取
 

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "version": "1.0",
-  "updated_on": "2026-10-26",
+  "version": "1.1",
+  "updated_on": "2026-10-30",
   "scope": "SD5531 only",
   "interpretation": "Source-backed navigation graph. Edges do not imply causation, completed implementation, or instructor approval.",
   "nodes": [
@@ -27,9 +27,10 @@
       "id": "video",
       "label": "视频采集与保存",
       "kind": "capability",
-      "status": "planned",
+      "status": "partially_verified_in_home",
       "sources": [
-        "docs/SCOPE.md"
+        "docs/SCOPE.md",
+        "project-camera/experiments/2026-10-30-home-camera-recording/README.md"
       ]
     },
     {
@@ -90,9 +91,10 @@
       "id": "ffmpeg",
       "label": "FFmpeg 视频接收/分段",
       "kind": "tool_role",
-      "status": "proposed",
+      "status": "short_capture_verified_in_home",
       "sources": [
-        "docs/ARCHITECTURE.md"
+        "docs/ARCHITECTURE.md",
+        "project-camera/experiments/2026-10-30-home-camera-recording/README.md"
       ]
     },
     {
@@ -166,6 +168,52 @@
       "sources": [
         "project-camera/design/README.md",
         "project-camera/design/figma-text-snapshot-2026-10-26.json"
+      ]
+    },
+    {
+      "id": "environment-home",
+      "label": "home 家庭测试条件",
+      "kind": "environment",
+      "status": "limited_hardware_baseline_verified",
+      "sources": [
+        "project-camera/environments/home/README.md"
+      ]
+    },
+    {
+      "id": "home-recording",
+      "label": "系统卡真实短录像与完整解码",
+      "kind": "evidence",
+      "status": "verified_with_timestamp_limits",
+      "sources": [
+        "project-camera/experiments/2026-10-30-home-camera-recording/README.md"
+      ]
+    },
+    {
+      "id": "home-live-preview",
+      "label": "Mac 实时预览",
+      "kind": "evidence",
+      "status": "user_confirmed",
+      "sources": [
+        "project-camera/experiments/2026-10-30-home-live-preview/README.md"
+      ]
+    },
+    {
+      "id": "environment-portability",
+      "label": "学校与热点的独立环境验证",
+      "kind": "requirement",
+      "status": "not_tested",
+      "sources": [
+        "project-camera/environments/README.md",
+        "docs/DECISIONS.md"
+      ]
+    },
+    {
+      "id": "home-time-limits",
+      "label": "相机时钟和包时间戳待核",
+      "kind": "validation",
+      "status": "open",
+      "sources": [
+        "project-camera/experiments/2026-10-30-home-camera-recording/README.md"
       ]
     }
   ],
@@ -385,6 +433,75 @@
       "sources": [
         "project-camera/design/README.md",
         "docs/SCOPE.md"
+      ]
+    },
+    {
+      "id": "e20",
+      "source": "environment-home",
+      "target": "home-recording",
+      "relation": "conditions",
+      "status": "hardware_observed",
+      "reason": "录像结果只适用于本次 home / 系统卡条件",
+      "sources": [
+        "project-camera/environments/home/README.md",
+        "project-camera/experiments/2026-10-30-home-camera-recording/README.md"
+      ]
+    },
+    {
+      "id": "e21",
+      "source": "home-recording",
+      "target": "video",
+      "relation": "evidence_for",
+      "status": "limited",
+      "reason": "真实短录保存与解码通过；不推广为完整部署或长期性能",
+      "sources": [
+        "project-camera/experiments/2026-10-30-home-camera-recording/README.md"
+      ]
+    },
+    {
+      "id": "e22",
+      "source": "environment-home",
+      "target": "home-live-preview",
+      "relation": "conditions",
+      "status": "user_confirmed",
+      "reason": "用户在 home 确认 FFplay 动态画面；延迟未量测",
+      "sources": [
+        "project-camera/experiments/2026-10-30-home-live-preview/README.md"
+      ]
+    },
+    {
+      "id": "e23",
+      "source": "home-recording",
+      "target": "home-time-limits",
+      "relation": "documents",
+      "status": "observed_limit",
+      "reason": "OSD 日期不符并有时间戳/DTS 警告，解码通过不消除这些限制",
+      "sources": [
+        "project-camera/experiments/2026-10-30-home-camera-recording/README.md"
+      ]
+    },
+    {
+      "id": "e24",
+      "source": "preroll",
+      "target": "home-time-limits",
+      "relation": "requires_validation",
+      "status": "open",
+      "reason": "预录事件时间与片段边界仍需独立验证",
+      "sources": [
+        "docs/ARCHITECTURE.md",
+        "docs/workstreams/active/ws-preroll-recording.md"
+      ]
+    },
+    {
+      "id": "e25",
+      "source": "environment-home",
+      "target": "environment-portability",
+      "relation": "does_not_validate",
+      "status": "user_confirmed_scope",
+      "reason": "D011 要求分环境记录；home 成功不证明学校或热点互通",
+      "sources": [
+        "docs/DECISIONS.md",
+        "project-camera/environments/README.md"
       ]
     }
   ]

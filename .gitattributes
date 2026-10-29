@@ -12,3 +12,5 @@ archive/** -text
 *.MOV filter=lfs diff=lfs merge=lfs -text
 *.mov filter=lfs diff=lfs merge=lfs -text
 archive/raw-screen-frames/**/*.png filter=lfs diff=lfs merge=lfs -text
+# New camera experiments retain MP4 evidence through LFS without changing old imports.
+project-camera/experiments/**/*.mp4 filter=lfs diff=lfs merge=lfs -text

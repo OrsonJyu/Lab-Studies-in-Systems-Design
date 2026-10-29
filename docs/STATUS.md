@@ -1,19 +1,24 @@
 # 当前状态 / Current status
 
-核对日期：**2026-10-26，香港**。本页区分“找到文件”“历史报告的结果”和“本次重新验收”。
+核对日期：**2026-10-30，香港**。当前实测环境为 **home**（[D011](DECISIONS.md)）。课堂历史记录与本次摄像头硬件测试分别记录。
 
-## 项目基线
+## 项目基线与本次进展
 
-| 项目 | 状态 | 依据 |
+| 项目 | 当前状态 | 依据 |
 | --- | --- | --- |
-| 课程 | SD5531 Lab Studies in Systems Design | 原始课程资料与用户说明 |
-| 项目定位 | 学校豹纹守宫观察、记录与学习支持 | 展示 PDF p.3–9 |
-| 当前现场计算与存储 | 用户确认 ROCK 4C+ + SATA 机械硬盘 | 2026-10-23 主讨论，见决定 D002 |
-| 摄像头 | PoE IP Camera 路线；确切型号/接口待核 | 历史 scope、图与讨论 |
-| 当前优先事项 | 跑通持续接收、缓存、触发、保存和事件记录 | 2026-10-23 用户说明 |
-| 摄像头软件实现 | 已收集资料中未发现可证明已部署的实现代码 | 当前源码清单；不能据讨论推定完成 |
-| 热阵列、识别、轨迹、行为判断 | 规划/探索；实际性能需验证 | 展示稿及会议纪要的明确边界 |
-| 数据库、消息协议、远程部署 | 候选方案/跨组待定 | 最新角色讨论与开放问题 |
+| 课程与目标 | SD5531；豹纹守宫观察、记录与学习支持，完整范围未缩小 | [SCOPE](SCOPE.md) |
+| 主机 | ROCK 4C+，Debian 12 bookworm、aarch64，已通过 SSH 操作 | [home 环境](../project-camera/environments/home/README.md) |
+| 项目存储方向 | SATA 机械硬盘仍保留；本阶段按用户要求先测试系统 microSD（D012） | [DECISIONS](DECISIONS.md) |
+| 摄像头与供电 | 实物标称 4MP / 2.8mm / PoE 48V 4W；普通交换机配独立 PoE 供电器；ONVIF 读取及 RTSP/TCP 接收成功 | [home 实物记录](../project-camera/environments/home/hardware-observations.json) |
+| 系统卡基础保存 | 60 秒合成片段保存、读回及完整软件解码通过 | [系统卡实验](../project-camera/experiments/2026-10-30-home-system-card/README.md) |
+| 实物短录像 | 60.001 秒，H.264，2560 × 1440，约 20 fps；1201 帧，完整解码通过，末段可见手进入画面 | [真实录像实验](../project-camera/experiments/2026-10-30-home-camera-recording/README.md) |
+| Mac 实时预览 | ROCK 转发到 Mac 本机，FFplay 动态画面由用户确认；延迟未量测 | [预览实验](../project-camera/experiments/2026-10-30-home-live-preview/README.md) |
+| 时间与持续部署 | OSD 日期不正确、存在包时间戳/DTS 警告；网络辅助地址未持久化；尚无完整服务部署 | [录像限制](../project-camera/experiments/2026-10-30-home-camera-recording/README.md) |
+| 分段缓存、事件和预录制 | 尚未实现/验收；SATA、长期及故障恢复均未通过本次测试 | [当前工作流](workstreams/active/ws-preroll-recording.md) |
+| 学校与热点 | 仅预留，未测试；学校网络互通限制及热点有线接入方式未知 | [测试环境](../project-camera/environments/README.md) |
+| 热阵列、定位/识别、行为信息、跨组接口 | 规划/探索，性能与责任需验证或共同确认；数据库和消息栈仍待选择 | [完整范围](SCOPE.md) |
+
+本次结果只适用于记录下来的 home 条件。单次短录成功不等于全天记录稳定、预录制完成、事件时间准确或其他环境可用；Mac 连接失败的唯一原因仍未确认。
 
 ## 已保存的成果
 
