@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "repository_version": "1.1.0",
-  "updated_on": "2026-10-29",
+  "repository_version": "1.2.0",
+  "updated_on": "2026-10-30",
   "timezone": "Asia/Hong_Kong",
   "course": {
     "code": "SD5531",
@@ -16,7 +16,9 @@
       "storage": "local SATA mechanical hard disk",
       "status": "user_confirmed",
       "confirmed_on": "2026-10-23",
-      "decision": "D002"
+      "decision": "D002",
+      "storage_scope": "SATA is the user-confirmed project direction; home tests used system microSD only",
+      "last_verified_test_storage": "system microSD / ext4"
     },
     "scope": [
       "video and thermal-array capture",
@@ -25,27 +27,64 @@
       "behavior timeline and spatial use",
       "cross-team data alignment"
     ],
-    "immediate_milestone": "Validate video reception, rolling segments, pre-event retention, playable clips and event metadata",
-    "camera_implementation_status": "not_established_by_collected_evidence",
+    "immediate_milestone": "Resolve clock/timestamp and temporary-network limitations, then validate rolling segments, pre-event retention and event metadata; preserve the full project scope",
+    "camera_implementation_status": "home_short_recording_and_user_confirmed_live_preview_verified; persistent_service_and_preroll_not_established",
     "candidate_tools": [
-      "FFmpeg",
-      "Python",
+      "Python production controller",
       "Node-RED",
       "MQTT",
       "MongoDB",
       "PostgreSQL"
     ],
     "unconfirmed": [
-      "camera model and video/event interfaces",
-      "SATA connection and power",
-      "software stack and deployment",
+      "exact camera commercial model/chipset/firmware and motion-event interface; ONVIF reads and RTSP/TCP verified in home",
+      "SATA connection, power, mounting and recording",
+      "persistent network and production recording-service deployment",
+      "camera clock, packet timestamps and event alignment",
       "retention policy and pre/post durations",
-      "shared timestamps, IDs, event labels and owners"
+      "shared timestamps, IDs, event labels and owners",
+      "school and hotspot topology, addressing and peer reachability"
     ],
     "outside_current_deliverables": [
       "automated health diagnosis",
       "automatic anomaly detection"
-    ]
+    ],
+    "tools_used_in_home_tests": {
+      "board": "FFmpeg / ffprobe 5.1.9-0+deb12u1 and Python standard library",
+      "mac_preview": "FFplay 8.0.1 over localhost SSH forwarding"
+    },
+    "environments": {
+      "last_verified": "home",
+      "registry": "project-camera/environments/registry.json",
+      "home_status": "limited_hardware_baseline_verified",
+      "school_status": "reserved_not_tested",
+      "hotspot_status": "reserved_not_tested",
+      "decision": "D011",
+      "real_configuration_location": "ignored local/private configuration; not committed"
+    },
+    "home_validation": {
+      "tested_on": "2026-10-30",
+      "storage": "system_microSD",
+      "sata_validated": false,
+      "synthetic_video_save_decode": "passed",
+      "real_camera_short_recording": {
+        "status": "passed_with_timestamp_limits",
+        "duration_seconds": 60.001,
+        "frames": 1201,
+        "width": 2560,
+        "height": 1440,
+        "codec": "h264",
+        "nominal_fps": 20,
+        "evidence": "project-camera/experiments/2026-10-30-home-camera-recording/README.md"
+      },
+      "live_preview": "user_confirmed_dynamic_picture_in_FFplay",
+      "latency_measured": false,
+      "clock_calibrated": false,
+      "timestamp_alignment_validated": false,
+      "network_configuration_persisted": false,
+      "preroll_tested": false,
+      "endurance_tested": false
+    }
   },
   "coursework": {
     "activity": "In-Class Activity 6 / 2026-10-16",
@@ -70,7 +109,8 @@
     "remote_verified_on": "2026-10-26",
     "import_commit": "464fa5f25633b9a1bfbe5fb8f023a3bcb7163b71",
     "release_tag": "v1.1.0",
-    "tracked_files": 1707
+    "tracked_files": 1707,
+    "scope": "Historical imported archive baseline; counts and remote verification date below do not describe the new home experiments"
   },
   "entrypoints": {
     "index": "docs/INDEX.md",
@@ -86,7 +126,8 @@
     "workstreams": "docs/workstreams/README.md",
     "memory_guide": "docs/guides/GIT_MARKDOWN_MEMORY_GUIDE.md",
     "camera_source": "project-camera/src/README.md",
-    "camera_experiments": "project-camera/experiments/README.md"
+    "camera_experiments": "project-camera/experiments/README.md",
+    "camera_environments": "project-camera/environments/README.md"
   },
   "evidence_policy": "Do not infer implementation from plans, physical results from compilation, submission from local files, or health from behavior alone.",
   "active_workstreams": [
@@ -103,5 +144,6 @@
     "direct_to_main": "documentation, status, workstream and archive-index updates",
     "branch_and_pr": "camera source code, conclusion-changing experiment results, large restructures; user reviews, no auto-merge",
     "agent_entry": "AGENTS.md (CLAUDE.md only points to it)"
-  }
+  },
+  "version_status": "candidate_pending_pull_request_review_and_merge_before_tag"
 }

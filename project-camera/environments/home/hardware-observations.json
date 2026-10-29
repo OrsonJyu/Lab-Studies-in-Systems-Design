@@ -1,0 +1,53 @@
+{
+  "environment": "home",
+  "date": "2026-10-30",
+  "evidence_type": "user_supplied_photos_inspected_in_chat",
+  "source_availability": "Original photos remain local; no room overview or access-bearing label photo uploaded.",
+  "sources": [
+    {
+      "local_source_id": "IMG_1814.HEIC",
+      "sha256": "81a570a2c7f1774d553698b5aa4867d8b78e4f4ed87b9233980e6d1538738029",
+      "bytes": 2547179,
+      "type": "network_switch",
+      "observations": {
+        "manufacturer": "TP-LINK",
+        "model": "TL-SG1008D",
+        "role": "ordinary_gigabit_switch_not_PoE_supply"
+      },
+      "original_uploaded": false
+    },
+    {
+      "local_source_id": "IMG_1815.HEIC",
+      "sha256": "9950c207591af5e34b8203438780a802b71d04070582c350cd9822d2891e3b7f",
+      "bytes": 2724611,
+      "type": "PoE_injector",
+      "observations": {
+        "label_model": "4805",
+        "label_output_voltage_v": 48,
+        "label_output_current_a": 0.5,
+        "ports": [
+          "POE (voltage output)",
+          "LAN (data)"
+        ],
+        "ieee_compliance": "not_independently_verified"
+      },
+      "original_uploaded": false
+    },
+    {
+      "local_source_id": "IMG_1816.HEIC",
+      "sha256": "69a1b7ff1ba82e95a10fda46c0580a5e35a927bf0f7ecc65f7d37a282adf63b8",
+      "bytes": 1928670,
+      "type": "camera_label",
+      "observations": {
+        "label_resolution": "4MP",
+        "lens_mm": 2.8,
+        "label_power": "PoE 48V / 4W",
+        "protocol": "ONVIF",
+        "label_http_port": 8899,
+        "brand_model_firmware": "not established from label",
+        "access_details": "omitted"
+      },
+      "original_uploaded": false
+    }
+  ]
+}

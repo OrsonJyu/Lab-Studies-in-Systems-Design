@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "environment": "home",
+  "experiment_date": "2026-10-30",
+  "timezone": "Asia/Hong_Kong",
+  "hash_scope": "Materialized artifact bytes; manifest does not hash itself.",
+  "entries": [
+    {
+      "path": "README.md",
+      "bytes": 2175,
+      "sha256": "0e4dbaf6b60af09e2b916e4a87a87b8714df16622236031f12c25d249c5416c4",
+      "storage": "git"
+    },
+    {
+      "path": "decode.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "storage": "git",
+      "source_file": "2026-10-30-system-card-baseline/decode.log",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": []
+    },
+    {
+      "path": "encode.log",
+      "bytes": 13556,
+      "sha256": "22efe8429e100649170308f12b59a7409369d0ee92b1e56092d614caf0d79f4e",
+      "storage": "git",
+      "source_file": "2026-10-30-system-card-baseline/encode.log",
+      "source_sha256": "5224c18e994592a39c0c55d9e83277355e141c8cb801b7f324f9caa0d78e6c1d",
+      "transformations": [
+        "personal output paths replaced with $OUT",
+        "terminal line-end whitespace normalized"
+      ]
+    },
+    {
+      "path": "result.json",
+      "bytes": 1764,
+      "sha256": "70ba61c27f7289dbfd2ac5ebcdc22f9b8dc997c3f2404cf6ec0997e36b51ba8b",
+      "storage": "git",
+      "source_file": "2026-10-30-system-card-baseline/result.json",
+      "source_sha256": "df7d8df94f1e277df9bf885c6ccabc31cf1b7605ee5e49524fffe6cdcca1d01c",
+      "transformations": [
+        "environment field added",
+        "personal output paths replaced with $OUT where present"
+      ]
+    },
+    {
+      "path": "synthetic-60s.mp4",
+      "bytes": 8915986,
+      "sha256": "b2ddfdc1bbde1ddb3489c100643e216aec20991e66a461a04836770ddb01cc41",
+      "storage": "git-lfs",
+      "source_file": "2026-10-30-system-card-baseline/synthetic-60s.mp4",
+      "source_sha256": "b2ddfdc1bbde1ddb3489c100643e216aec20991e66a461a04836770ddb01cc41",
+      "transformations": []
+    }
+  ]
+}

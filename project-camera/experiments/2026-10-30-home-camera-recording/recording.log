@@ -1,0 +1,19 @@
+Input #0, rtsp, from '[camera stream URI redacted]':
+  Metadata:
+    title           : RTSP Session
+  Duration: N/A, start: 0.000000, bitrate: N/A
+  Stream #0:0: Video: h264 (Main), yuvj420p(pc, bt709, progressive), 2560x1440, 20 fps, 20 tbr, 90k tbn
+  Stream #0:1: Audio: pcm_alaw, 8000 Hz, mono, s16, 64 kb/s
+Output #0, mp4, to '$OUT/camera-main-60s.mp4':
+  Metadata:
+    title           : RTSP Session
+    encoder         : Lavf59.27.100
+  Stream #0:0: Video: h264 (Main) (avc1 / 0x31637661), yuvj420p(pc, bt709, progressive), 2560x1440, q=2-31, 20 fps, 20 tbr, 90k tbn
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+[mp4 @ 0xaaab16d483c0] Timestamps are unset in a packet for stream 0. This is deprecated and will stop working in the future. Fix your code to set the timestamps properly
+[mp4 @ 0xaaab16d483c0] Non-monotonous DTS in output stream 0:0; previous: 891000, current: 891000; changing to 891001. This may result in incorrect timestamps in the output file.
+[mp4 @ 0xaaab16d483c0] Non-monotonous DTS in output stream 0:0; previous: 4941001, current: 4941001; changing to 4941002. This may result in incorrect timestamps in the output file.
+[mp4 @ 0xaaab16d483c0] Starting second pass: moving the moov atom to the beginning of the file
+frame= 1201 fps= 20 q=-1.0 Lsize=   15676kB time=00:00:59.95 bitrate=2142.0kbits/s speed=1.02x
+video:15670kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.038172%

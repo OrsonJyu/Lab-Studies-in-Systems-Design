@@ -1,0 +1,31 @@
+{
+  "environment_id": "home",
+  "example_only": true,
+  "network": {
+    "board_ssh_host": "<BOARD_MANAGEMENT_HOST>",
+    "board_ssh_user": "<BOARD_LOGIN_USER>",
+    "board_ethernet_interface": "<ACTUAL_BOARD_ETHERNET_INTERFACE>",
+    "camera_host": "<CAMERA_FIXED_IPV4>",
+    "board_camera_address_cidr": "<UNUSED_ADDRESS_IN_CAMERA_SUBNET_WITH_PREFIX>",
+    "board_camera_address_persistent": false
+  },
+  "camera": {
+    "onvif_service_url": "<PRIVATE_ONVIF_DEVICE_SERVICE_URL>",
+    "private_stream_config_file": "<LOCAL_PRIVATE_STREAM_CONFIG_PATH>",
+    "rtsp_transport": "tcp"
+  },
+  "recording": {
+    "storage_medium": "system_microSD",
+    "output_directory": "<LOCAL_TEST_OUTPUT_DIRECTORY>",
+    "test_duration_seconds": 60
+  },
+  "preview": {
+    "player": "ffplay",
+    "player_executable": "<LOCAL_FFPLAY_PATH>",
+    "ssh_local_bind": "127.0.0.1",
+    "ssh_local_port": 18554,
+    "camera_rtsp_port": 554,
+    "audio_enabled": false
+  },
+  "note": "Field inventory only; no program currently loads this example. Copy to ignored .local/ and fill current values. Never put passwords or credential-bearing RTSP URIs here."
+}

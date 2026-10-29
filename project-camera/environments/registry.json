@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "updated_on": "2026-10-30",
+  "timezone": "Asia/Hong_Kong",
+  "last_verified_environment": "home",
+  "decision": "D011",
+  "environments": [
+    {
+      "id": "home",
+      "status": "limited_hardware_baseline_verified",
+      "profile": "project-camera/environments/home/README.md",
+      "configuration_example": "project-camera/environments/home/config.example.json",
+      "verified_on": "2026-10-30",
+      "evidence": [
+        "project-camera/experiments/2026-10-30-home-system-card/README.md",
+        "project-camera/experiments/2026-10-30-home-camera-recording/README.md",
+        "project-camera/experiments/2026-10-30-home-live-preview/README.md"
+      ]
+    },
+    {
+      "id": "school",
+      "status": "reserved_not_tested",
+      "profile": null,
+      "verified_on": null,
+      "evidence": [],
+      "open_questions": ["campus client isolation", "permitted device interconnection", "management access", "video LAN topology"]
+    },
+    {
+      "id": "hotspot",
+      "status": "reserved_not_tested",
+      "profile": null,
+      "verified_on": null,
+      "evidence": [],
+      "open_questions": ["peer reachability", "wired camera connectivity", "gateway capability", "power and addressing"]
+    }
+  ]
+}
