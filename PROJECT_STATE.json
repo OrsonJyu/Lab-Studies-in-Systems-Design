@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "repository_version": "1.0.0",
-  "updated_on": "2026-10-26",
+  "repository_version": "1.1.0",
+  "updated_on": "2026-10-29",
   "timezone": "Asia/Hong_Kong",
   "course": {
     "code": "SD5531",
@@ -70,7 +70,7 @@
     "remote_verified_on": "2026-10-26",
     "import_commit": "464fa5f25633b9a1bfbe5fb8f023a3bcb7163b71",
     "release_tag": "v1.0.0",
-    "tracked_files": 1699
+    "tracked_files": 1707
   },
   "entrypoints": {
     "index": "docs/INDEX.md",
@@ -82,7 +82,26 @@
     "roadmap": "docs/ROADMAP.md",
     "history": "docs/HISTORY.md",
     "sync_report": "docs/SYNC_REPORT.md",
-    "knowledge_graph": "knowledge/GRAPH.json"
+    "knowledge_graph": "knowledge/GRAPH.json",
+    "workstreams": "docs/workstreams/README.md",
+    "memory_guide": "docs/guides/GIT_MARKDOWN_MEMORY_GUIDE.md",
+    "camera_source": "project-camera/src/README.md",
+    "camera_experiments": "project-camera/experiments/README.md"
   },
-  "evidence_policy": "Do not infer implementation from plans, physical results from compilation, submission from local files, or health from behavior alone."
+  "evidence_policy": "Do not infer implementation from plans, physical results from compilation, submission from local files, or health from behavior alone.",
+  "active_workstreams": [
+    "ws-preroll-recording",
+    "ws-archive-gaps"
+  ],
+  "repository_workflow": {
+    "decision": "D009",
+    "confirmed_on": "2026-10-29",
+    "status_files": [
+      "docs/STATUS.md",
+      "PROJECT_STATE.json"
+    ],
+    "direct_to_main": "documentation, status, workstream and archive-index updates",
+    "branch_and_pr": "camera source code, conclusion-changing experiment results, large restructures; user reviews, no auto-merge",
+    "agent_entry": "AGENTS.md (CLAUDE.md only points to it)"
+  }
 }

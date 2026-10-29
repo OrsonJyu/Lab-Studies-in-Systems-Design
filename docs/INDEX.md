@@ -10,10 +10,12 @@
 | [DECISIONS](DECISIONS.md) | 带日期、来源和状态的决定及修订 |
 | [EVIDENCE](EVIDENCE.md) | 成果与实验记录位置、证明什么及不能证明什么 |
 | [ROADMAP](ROADMAP.md) | 下一步问题、建议验证与依赖 |
+| [Workstreams](workstreams/README.md) | 正在进行与已完成的工作，各自的现状与待定项 |
 | [HISTORY](HISTORY.md) | 从早期探索到当前方向的可检索时间线 |
 | [SYNC_REPORT](SYNC_REPORT.md) | 归档来源、同步状态、缺失材料与旧链接 |
 | [IMPORT_VALIDATION](IMPORT_VALIDATION.md) | 原始字节、Git/LFS 指针、链接及知识网的导入校验 |
 | [VERSIONING](VERSIONING.md) | 版本号、提交、标签及历史管理 |
+| [记忆指南](guides/GIT_MARKDOWN_MEMORY_GUIDE.md) | 信息放哪、当前状态与历史怎么分、提交与拆分规则 |
 | [Knowledge network](../knowledge/NETWORK.md) | 概念、决定、成果、验证之间的关系 |
 | [Project deliverables](../project-camera/README.md) | 展示稿、跨组计划、会议资料及 Figma |
 | [Laboratory activities](../activities/README.md) | 电路、焊接、编程代码和证据 |
@@ -23,8 +25,8 @@
 ## 建议阅读路线
 
 - **访客 5 分钟**：首页 → STATUS → 项目成果 → 知识网。
-- **协作者**：SCOPE → ARCHITECTURE → DECISIONS → ROADMAP → 相关原始材料。
+- **协作者**：SCOPE → ARCHITECTURE → DECISIONS → ROADMAP → 进行中的 workstream → 相关原始材料。
 - **核对者**：EVIDENCE → 原始文件 → manifest → 对应历史讨论。
-- **Agents**：AGENTS → PROJECT_STATE → STATUS → DECISIONS；按问题查来源，避免仅凭摘要重建事实。
+- **Agents**：AGENTS → PROJECT_STATE → STATUS → 进行中的 workstream → DECISIONS；按问题查来源，避免仅凭摘要重建事实。
 
 当前说明以中文为主；英文首页与英文 agent 指令提供跨语言入口。历史对话和原始附件保留原语言，尚非完整双语译本。

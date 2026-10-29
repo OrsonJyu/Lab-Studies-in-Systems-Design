@@ -3,7 +3,7 @@
 豹纹守宫观察与记录系统，以及课程实验的可追溯档案。  
 **PolyU · Project 2 / Video Recording Module · [English](README.en.md)**
 
-版本：**v1.0.0** · 整理日期：**2026-10-26（香港）** · [变更记录](CHANGELOG.md) · [迁移范围](docs/SYNC_REPORT.md)
+版本：**v1.1.0** · 更新日期：**2026-10-29（香港）** · [变更记录](CHANGELOG.md) · [迁移范围](docs/SYNC_REPORT.md)
 
 本项目为学校师生与照护者提供持续的影像和热阵列记录，支持回放、观察比较，以及后续经验证的行为信息整理。仓库同时保存课堂活动、开发过程、讨论和展示成果。**项目规划、代码可编译、实机观察与课程提交是不同状态。**
 
@@ -15,10 +15,11 @@
 | 理解完整目标和最新技术方向 | [项目范围](docs/SCOPE.md) → [系统架构](docs/ARCHITECTURE.md) |
 | 看演示稿、架构图与跨组计划 | [摄像头项目成果](project-camera/README.md) |
 | 找课堂活动代码与提交材料 | [课程实验目录](activities/README.md) |
+| 看某件事做到哪了 | [工作流](docs/workstreams/README.md) |
 | 核对测试与原始证据 | [证据索引](docs/EVIDENCE.md) |
 | 理解决定为什么变化 | [决定记录](docs/DECISIONS.md) → [历史时间线](docs/HISTORY.md) |
 | 查看知识之间的关系 | [知识网](knowledge/NETWORK.md) · [机器可读图](knowledge/GRAPH.json) |
-| 作为 agent 接手维护 | [AGENTS.md](AGENTS.md) → [PROJECT_STATE.json](PROJECT_STATE.json) |
+| 作为 agent 接手维护 | [AGENTS.md](AGENTS.md) → [PROJECT_STATE.json](PROJECT_STATE.json) → [记忆指南](docs/guides/GIT_MARKDOWN_MEMORY_GUIDE.md) |
 
 ## 当前基线
 
@@ -32,7 +33,11 @@
 
 ```text
 docs/                 当前说明、决定、进度及历史讨论
+  workstreams/        进行中 / 已完成的工作
+  guides/             仓库记忆与维护指南
 project-camera/       摄像头项目：展示、跨组计划、会议与设计快照
+  src/                录制系统源码（待开始）
+  experiments/        按日期的实测记录（待开始）
 activities/           课堂实验：电路、焊接、2026-10-16 编程活动
 knowledge/            带来源与关系类型的知识网
 references/           课程资料与早期迁移参考（原样保存）

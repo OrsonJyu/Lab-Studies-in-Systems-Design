@@ -1,6 +1,6 @@
 # 决定与修订 / Decision log
 
-记录日期：2026-10-26。这是对既有材料的整理；“提案”不等于已获团队批准。每条都标明事实/解释及来源。
+记录日期：2026-10-26 起，按条追加。这是对既有材料的整理；“提案”不等于已获团队批准。每条都标明事实/解释及来源。
 
 | ID | 历史日期 | 状态 | 内容、影响与来源 |
 | --- | --- | --- | --- |
@@ -12,6 +12,7 @@
 | D006 | 日期未独立确认 | 展示稿中的范围边界 | 个体识别、行为判断与表面温度测量需验证；自动异常检测/健康诊断不在当前交付。展示 PDF p.4、6、8。旧 Figma 扩展文字不覆盖这一边界。 |
 | D007 | 2026-10-16 起 | 实现中的课件歧义处理 | Task 7 的 `-1` 使用 worked example 的 **2000ms**；保留课件另一页的 200ms 矛盾，等待教师澄清，不伪称已确认。原说明与代码。 |
 | D008 | 2026-10-26 | 用户授权的仓库维护要求 | 将可取得的文件、过程、成果和知识网同步到指定仓库；提供访客与 agent 导航、版本及历史。仓库维持现有私有属性；未授权改公开或自动提交课程作业。 |
+| D009 | 2026-10-29 | 用户确认 | 仓库按[记忆指南](guides/GIT_MARKDOWN_MEMORY_GUIDE.md)组织：当前状态沿用 STATUS + PROJECT_STATE（不另建 PROJECT_STATUS.md）；新增 `docs/workstreams/`、`project-camera/src/`、`project-camera/experiments/`；`CLAUDE.md` 只指向 AGENTS.md。分支：日常文档直推 main，源码、改变结论的实验和大重组走分支 + PR，取代 CONTRIBUTING 原第 5 条"新成果一律 PR"。本会话用户确认。 |
 
 主讨论全文见 [history/main-videoing.md](history/main-videoing.md)；早期 scope 见[原始迁移历史](../references/project-migration/历史对话.md)。
 

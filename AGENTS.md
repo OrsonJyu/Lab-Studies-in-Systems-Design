@@ -3,7 +3,7 @@
 ## Read order
 
 1. `README.md` / `README.en.md` and `docs/INDEX.md`.
-2. `PROJECT_STATE.json`, `docs/STATUS.md`, `docs/SCOPE.md`.
+2. `PROJECT_STATE.json`, `docs/STATUS.md`, `docs/SCOPE.md`, then the relevant file in `docs/workstreams/active/`.
 3. `docs/DECISIONS.md`, `docs/ARCHITECTURE.md`, `docs/EVIDENCE.md`.
 4. Relevant source documents and `provenance/source-manifest.json`.
 5. `knowledge/GRAPH.json` and the relevant historical discussion, when needed.
@@ -24,6 +24,28 @@
 - No evidence currently establishes camera-system deployment or validated gecko identification. Never infer it from the ESP32C3 classroom exercises.
 - Invisible periods and interrupted streams are missing observations. Stillness is not sleep, visiting a water bowl is not confirmed drinking, and activity is not a health or welfare diagnosis.
 - Physical videos added after original classroom documentation must be indexed as newer evidence; do not keep claiming no file exists. Their contents and requirement coverage still need review.
+
+## Where information goes
+
+The repository is the project memory; follow `docs/guides/GIT_MARKDOWN_MEMORY_GUIDE.md` (decision D009). In short:
+
+| Question | Location |
+| --- | --- |
+| What is true now? | `docs/STATUS.md` + `PROJECT_STATE.json` (keep both consistent; do not create `PROJECT_STATUS.md`) |
+| What was decided and why? | `docs/DECISIONS.md` |
+| What happened when? | `docs/HISTORY.md`, with event dates in the content |
+| How far along is this task? | `docs/workstreams/active/ws-*.md`; move to `completed/` when done |
+| Camera code / camera tests | `project-camera/src/` / `project-camera/experiments/YYYY-MM-DD-topic/` |
+
+- Three file classes. **Current-state docs** (STATUS, PROJECT_STATE, SCOPE, ARCHITECTURE, ROADMAP, EVIDENCE, READMEs, workstreams): rewrite to the latest understanding; do not stack old and corrected claims, Git keeps the past. **Records** (DECISIONS, CHANGELOG, HISTORY, experiment records): append only; mark superseded decisions instead of deleting them. **Originals** (manifest-listed imports, `docs/history/`): never edit.
+- Task-specific requirements and unconfirmed parameters stay in that workstream. Promote them to DECISIONS only after the user or team confirms them.
+- Reference other records by relative link and stable ID (`D0xx`, `ws-*`, `exp-*`); do not copy content between files. Add `aliases` in front matter so keyword search finds alternate names.
+
+## Branches
+
+- Documentation, status, workstream and archive-index updates go directly to `main`.
+- Camera source code, experiment results that change conclusions, and large restructures go to a work branch (`code/…`, `exp/…`, `docs/…`) with a PR for the user to review. Do not merge PRs automatically.
+- If branch protection rejects a direct push, use a branch and PR. Never force-push or delete remote branches.
 
 ## Updating and publishing
 

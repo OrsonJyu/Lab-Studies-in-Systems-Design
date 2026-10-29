@@ -10,5 +10,8 @@
 | 会议转录与 AI 解读 | [Tutorial](references/Tutorial/README.md) |
 | 架构图与 Figma 档案 | [Design](design/README.md) |
 | 决定与范围变化 | [DECISIONS](../docs/DECISIONS.md) |
+| 录制系统源码（目前为空） | [src](src/README.md) |
+| 实测记录与模板（目前为空） | [experiments](experiments/README.md) |
+| 当前工作流 | [ws-preroll-recording](../docs/workstreams/active/ws-preroll-recording.md) |
 
 这些文件可能处于不同历史阶段。展示和 Figma 中的 ROCK 5C / SSD / Cloud Server 不覆盖 2026-10-23 用户明确的 ROCK 4C+ + SATA HDD 基线。文件名中的 final 不独立证明已提交或全组确认。

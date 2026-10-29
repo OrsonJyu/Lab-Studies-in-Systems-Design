@@ -2,6 +2,24 @@
 
 版本按[版本规则](docs/VERSIONING.md)管理。日期采用香港时区。历史工作日期与本次导入日期分开记录。
 
+## [1.1.0] - 2026-10-29
+
+### Added
+
+- 引入 Git + Markdown 记忆指南（`docs/guides/`），并按本仓库结构写明落地方式与三类文件的写法。
+- `docs/workstreams/`：进行中的 `ws-preroll-recording`、`ws-archive-gaps`，已完成的 `ws-archive-baseline`。
+- `project-camera/src/` 与 `project-camera/experiments/`（含实验记录模板），目前均无内容。
+- `CLAUDE.md`，只指向 AGENTS.md。
+
+### Changed
+
+- 分支规则（D009）：日常文档直推 main；源码、改变结论的实验和大重组走分支 + PR。CONTRIBUTING、AGENTS、VERSIONING 同步更新。
+- AGENTS.md 增加"信息放哪"与"分支"两节；明确当前状态沿用 STATUS + PROJECT_STATE。
+
+### Limits
+
+- 只调整仓库组织方式，项目实现进度没有变化。
+
 ## [1.0.0] - 2026-10-26
 
 ### Added
