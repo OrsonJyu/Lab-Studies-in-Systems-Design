@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "repository_version": "1.2.0",
+  "repository_version": "1.2.1",
   "updated_on": "2026-10-30",
   "timezone": "Asia/Hong_Kong",
   "course": {
@@ -127,7 +127,8 @@
     "memory_guide": "docs/guides/GIT_MARKDOWN_MEMORY_GUIDE.md",
     "camera_source": "project-camera/src/README.md",
     "camera_experiments": "project-camera/experiments/README.md",
-    "camera_environments": "project-camera/environments/README.md"
+    "camera_environments": "project-camera/environments/README.md",
+    "home_reproduction_guide": "docs/guides/HOME_HARDWARE_AND_EXPERIMENT_GUIDE.md"
   },
   "evidence_policy": "Do not infer implementation from plans, physical results from compilation, submission from local files, or health from behavior alone.",
   "active_workstreams": [
@@ -145,5 +146,5 @@
     "branch_and_pr": "camera source code, conclusion-changing experiment results, large restructures; user reviews, no auto-merge",
     "agent_entry": "AGENTS.md (CLAUDE.md only points to it)"
   },
-  "version_status": "released_after_user_review_and_main_merge"
+  "version_status": "released_documentation_patch"
 }

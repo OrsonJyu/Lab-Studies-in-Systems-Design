@@ -3,7 +3,7 @@
 豹纹守宫观察与记录系统，以及课程实验的可追溯档案。  
 **PolyU · Project 2 / Video Recording Module · [English](README.en.md)**
 
-版本：**v1.2.0** · 更新日期：**2026-10-30（香港）** · [变更记录](CHANGELOG.md) · [迁移范围](docs/SYNC_REPORT.md)
+版本：**v1.2.1** · 更新日期：**2026-10-30（香港）** · [变更记录](CHANGELOG.md) · [迁移范围](docs/SYNC_REPORT.md)
 
 本项目为学校师生与照护者提供持续的影像和热阵列记录，支持回放、观察比较，以及后续经验证的行为信息整理。仓库同时保存课堂活动、开发过程、讨论和展示成果。**项目规划、代码可编译、实机观察与课程提交是不同状态。**
 
@@ -18,6 +18,7 @@
 | 看某件事做到哪了 | [工作流](docs/workstreams/README.md) |
 | 核对测试与原始证据 | [证据索引](docs/EVIDENCE.md) |
 | 分清家庭、学校和热点的测试条件 | [测试环境](project-camera/environments/README.md) |
+| 复现 home 的接线、录像和实时预览 | [硬件与程序实验指导](docs/guides/HOME_HARDWARE_AND_EXPERIMENT_GUIDE.md) |
 | 理解决定为什么变化 | [决定记录](docs/DECISIONS.md) → [历史时间线](docs/HISTORY.md) |
 | 查看知识之间的关系 | [知识网](knowledge/NETWORK.md) · [机器可读图](knowledge/GRAPH.json) |
 | 作为 agent 接手维护 | [AGENTS.md](AGENTS.md) → [PROJECT_STATE.json](PROJECT_STATE.json) → [记忆指南](docs/guides/GIT_MARKDOWN_MEMORY_GUIDE.md) |

@@ -12,6 +12,7 @@
 | [ROADMAP](ROADMAP.md) | 下一步问题、建议验证与依赖 |
 | [Workstreams](workstreams/README.md) | 正在进行与已完成的工作，各自的现状与待定项 |
 | [测试环境](../project-camera/environments/README.md) | home 已测条件；school / hotspot 预留；跨网络结果不能混用 |
+| [home 硬件与实验复现指南](guides/HOME_HARDWARE_AND_EXPERIMENT_GUIDE.md) | 接线、参数、ONVIF、录像、解码、Mac 预览及 agent 验收步骤 |
 | [HISTORY](HISTORY.md) | 从早期探索到当前方向的可检索时间线 |
 | [SYNC_REPORT](SYNC_REPORT.md) | 归档来源、同步状态、缺失材料与旧链接 |
 | [IMPORT_VALIDATION](IMPORT_VALIDATION.md) | 原始字节、Git/LFS 指针、链接及知识网的导入校验 |

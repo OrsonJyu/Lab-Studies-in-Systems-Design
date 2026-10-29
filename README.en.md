@@ -1,7 +1,7 @@
 # SD5531 · Lab Studies in Systems Design
 
 **Leopard gecko observation and recording · PolyU · Project 2 / Video Recording Module**  
-[中文](README.md) · Version **v1.2.0** · Updated **30 October 2026, Hong Kong**
+[中文](README.md) · Version **v1.2.1** · Updated **30 October 2026, Hong Kong**
 
 This repository preserves the course project, laboratory exercises, design process, discussions, deliverables and supporting evidence. The project aims to provide video and thermal-array records that students, teachers and carers can replay and compare. Proposed analysis remains subject to validation.
 
@@ -16,6 +16,7 @@ This repository preserves the course project, laboratory exercises, design proce
 | Progress on a piece of work | [Workstreams](docs/workstreams/README.md) |
 | Evidence review | [Evidence index](docs/EVIDENCE.md) |
 | Site and network conditions | [Environments](project-camera/environments/README.md) |
+| Reproduce the home hardware and software experiment | [Step-by-step guide in Chinese](docs/guides/HOME_HARDWARE_AND_EXPERIMENT_GUIDE.md) |
 | Research connections | [Knowledge network](knowledge/NETWORK.md) and [JSON graph](knowledge/GRAPH.json) |
 | Agent handover | [AGENTS.md](AGENTS.md) and [PROJECT_STATE.json](PROJECT_STATE.json) |
 

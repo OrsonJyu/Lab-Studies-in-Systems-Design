@@ -8,6 +8,8 @@
 4. Relevant source documents and `provenance/source-manifest.json`.
 5. `knowledge/GRAPH.json` and the relevant historical discussion, when needed.
 
+For reproducing the home hardware baseline, read `docs/guides/HOME_HARDWARE_AND_EXPERIMENT_GUIDE.md`. It separates Mac and ROCK commands and includes complete instructional code blocks; fill current local parameters and verify each gate. Static documentation checks are not new hardware evidence.
+
 ## Project identity and current decisions
 
 - This is PolyU **SD5531 Lab Studies in Systems Design**, Project 2 / Video Recording Module. Do not mix SD5513, SD5511 or SD5008 into its baseline.
