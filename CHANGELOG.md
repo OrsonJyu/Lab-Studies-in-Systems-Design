@@ -6,6 +6,8 @@
 
 本节为阶段更新的 PR 候选；合并 main 后再建立 v1.2.0 标签，不提前声称已发布。
 
+发布补记（2026-10-30）：用户审阅后明确要求推送，[PR #1](https://github.com/OrsonJyu/Lab-Studies-in-Systems-Design/pull/1) 已合并 main，上述候选审阅阶段结束。发布状态同步后建立 v1.2.0 标签；标签只标识 home 资料阶段，不扩大实验结论。
+
 ### Added
 
 - `home` 环境档案、环境目录及去私有值的配置字段示例；预留 school / hotspot，明确尚未测试（D011）。

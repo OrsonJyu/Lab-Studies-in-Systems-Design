@@ -145,5 +145,5 @@
     "branch_and_pr": "camera source code, conclusion-changing experiment results, large restructures; user reviews, no auto-merge",
     "agent_entry": "AGENTS.md (CLAUDE.md only points to it)"
   },
-  "version_status": "candidate_pending_pull_request_review_and_merge_before_tag"
+  "version_status": "released_after_user_review_and_main_merge"
 }

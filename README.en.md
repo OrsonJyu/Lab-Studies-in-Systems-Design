@@ -1,7 +1,7 @@
 # SD5531 · Lab Studies in Systems Design
 
 **Leopard gecko observation and recording · PolyU · Project 2 / Video Recording Module**  
-[中文](README.md) · Version candidate **v1.2.0** (review before merge and tagging) · Updated **30 October 2026, Hong Kong**
+[中文](README.md) · Version **v1.2.0** · Updated **30 October 2026, Hong Kong**
 
 This repository preserves the course project, laboratory exercises, design process, discussions, deliverables and supporting evidence. The project aims to provide video and thermal-array records that students, teachers and carers can replay and compare. Proposed analysis remains subject to validation.
 
