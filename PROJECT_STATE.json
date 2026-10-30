@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "repository_version": "1.2.1",
+  "repository_version": "1.3.0",
   "updated_on": "2026-10-30",
   "timezone": "Asia/Hong_Kong",
   "course": {
@@ -28,7 +28,7 @@
       "cross-team data alignment"
     ],
     "immediate_milestone": "Resolve clock/timestamp and temporary-network limitations, then validate rolling segments, pre-event retention and event metadata; preserve the full project scope",
-    "camera_implementation_status": "home_short_recording_and_user_confirmed_live_preview_verified; persistent_service_and_preroll_not_established",
+    "camera_implementation_status": "home_short_recording_verified; school_network_ap_and_direct_wired_mac_preview_limited; final_school_board_management_pending; persistent_service_and_preroll_not_established",
     "candidate_tools": [
       "Python production controller",
       "Node-RED",
@@ -43,7 +43,7 @@
       "camera clock, packet timestamps and event alignment",
       "retention policy and pre/post durations",
       "shared timestamps, IDs, event labels and owners",
-      "school and hotspot topology, addressing and peer reachability"
+      "school final board wired management restoration, school recording, network endurance/reboot recovery, and other sites/hotspots"
     ],
     "outside_current_deliverables": [
       "automated health diagnosis",
@@ -54,13 +54,15 @@
       "mac_preview": "FFplay 8.0.1 over localhost SSH forwarding"
     },
     "environments": {
-      "last_verified": "home",
+      "last_verified": "school",
       "registry": "project-camera/environments/registry.json",
       "home_status": "limited_hardware_baseline_verified",
-      "school_status": "reserved_not_tested",
+      "school_status": "limited_network_and_preview_verified",
       "hotspot_status": "reserved_not_tested",
       "decision": "D011",
-      "real_configuration_location": "ignored local/private configuration; not committed"
+      "real_configuration_location": "ignored local/private configuration; not committed",
+      "school_decision": "D013",
+      "school_profile": "project-camera/environments/school/README.md"
     },
     "home_validation": {
       "tested_on": "2026-10-30",
@@ -84,6 +86,30 @@
       "network_configuration_persisted": false,
       "preroll_tested": false,
       "endurance_tested": false
+    },
+    "school_validation": {
+      "tested_on": "2026-10-30",
+      "evidence": "project-camera/experiments/2026-10-30-school-network-preview/README.md",
+      "selected_network_variant": "wired_switch",
+      "direct_mac_wired_preview": "user_confirmed",
+      "direct_video_probe": {
+        "codec": "h264",
+        "width": 2560,
+        "height": 1440,
+        "reported_fps": 20
+      },
+      "short_decode_check_seconds": 3,
+      "short_decode_exit": 0,
+      "school_recording_saved": false,
+      "rock_ap_wireless_ssh": "user_confirmed",
+      "final_board_wired_management": "pending_restore_and_retest",
+      "static_and_ap_profiles_saved": true,
+      "profile_autoconnect": false,
+      "latency_measured": false,
+      "endurance_tested": false,
+      "preroll_tested": false,
+      "sata_validated": false,
+      "source_basis": "privacy-filtered session observations and user confirmations; raw attachments not committed"
     }
   },
   "coursework": {
@@ -110,7 +136,7 @@
     "import_commit": "464fa5f25633b9a1bfbe5fb8f023a3bcb7163b71",
     "release_tag": "v1.1.0",
     "tracked_files": 1707,
-    "scope": "Historical imported archive baseline; counts and remote verification date below do not describe the new home experiments"
+    "scope": "Historical imported archive baseline; counts and remote verification date do not describe later home/school experiments"
   },
   "entrypoints": {
     "index": "docs/INDEX.md",
@@ -128,7 +154,9 @@
     "camera_source": "project-camera/src/README.md",
     "camera_experiments": "project-camera/experiments/README.md",
     "camera_environments": "project-camera/environments/README.md",
-    "home_reproduction_guide": "docs/guides/HOME_HARDWARE_AND_EXPERIMENT_GUIDE.md"
+    "home_reproduction_guide": "docs/guides/HOME_HARDWARE_AND_EXPERIMENT_GUIDE.md",
+    "school_reproduction_guide": "docs/guides/SCHOOL_NETWORK_AND_PREVIEW_GUIDE.md",
+    "school_environment": "project-camera/environments/school/README.md"
   },
   "evidence_policy": "Do not infer implementation from plans, physical results from compilation, submission from local files, or health from behavior alone.",
   "active_workstreams": [
@@ -146,5 +174,5 @@
     "branch_and_pr": "camera source code, conclusion-changing experiment results, large restructures; user reviews, no auto-merge",
     "agent_entry": "AGENTS.md (CLAUDE.md only points to it)"
   },
-  "version_status": "released_documentation_patch"
+  "version_status": "candidate_pending_user_review_and_merge"
 }

@@ -20,7 +20,7 @@
 
 ## 当前第一步
 
-`home` 已完成一次短录像与实时预览的有限基线；证据见[实验目录](../project-camera/experiments/README.md)。这项进展不缩小上述完整范围，也不代表下述预录制目标已经完成。不同地点的配置与结果按[环境目录](../project-camera/environments/README.md)分别记录。
+`home` 已完成一次短录像与实时预览的有限基线；`school` 后续完成网络/AP 练习与最终有线 Mac 预览，未完成学校板卡录像或末次管理恢复。证据见[实验目录](../project-camera/experiments/README.md)。这些进展不缩小上述完整范围，也不代表下述预录制目标已经完成。不同地点的配置与结果按[环境目录](../project-camera/environments/README.md)分别记录。
 
 先让一条视频流经过接收、循环缓存和事件触发后，产出包含触发前画面的可播放片段，并留下对应事件记录。测试触发可由人工发出，以便分别验证录制链路与运动检测。
 

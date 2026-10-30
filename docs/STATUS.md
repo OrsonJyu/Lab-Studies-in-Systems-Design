@@ -1,6 +1,6 @@
 # 当前状态 / Current status
 
-核对日期：**2026-10-30，香港**。当前实测环境为 **home**（[D011](DECISIONS.md)）。课堂历史记录与本次摄像头硬件测试分别记录。
+核对日期：**2026-10-30，香港**。已有 **home** 短录基线与后续 **school** 网络/预览记录（[D011 / D013](DECISIONS.md)）。最新用户选择为学校全有线预览。课堂历史、home 录像与学校网络结果分别记录。
 
 ## 项目基线与本次进展
 
@@ -12,13 +12,16 @@
 | 摄像头与供电 | 实物标称 4MP / 2.8mm / PoE 48V 4W；普通交换机配独立 PoE 供电器；ONVIF 读取及 RTSP/TCP 接收成功 | [home 实物记录](../project-camera/environments/home/hardware-observations.json) |
 | 系统卡基础保存 | 60 秒合成片段保存、读回及完整软件解码通过 | [系统卡实验](../project-camera/experiments/2026-10-30-home-system-card/README.md) |
 | 实物短录像 | 60.001 秒，H.264，2560 × 1440，约 20 fps；1201 帧，完整解码通过，末段可见手进入画面 | [真实录像实验](../project-camera/experiments/2026-10-30-home-camera-recording/README.md) |
-| Mac 实时预览 | ROCK 转发到 Mac 本机，FFplay 动态画面由用户确认；延迟未量测 | [预览实验](../project-camera/experiments/2026-10-30-home-live-preview/README.md) |
+| home Mac 实时预览 | ROCK 转发到 Mac 本机，FFplay 动态画面由用户确认；延迟未量测 | [home 预览实验](../project-camera/experiments/2026-10-30-home-live-preview/README.md) |
 | 时间与持续部署 | OSD 日期不正确、存在包时间戳/DTS 警告；网络辅助地址未持久化；尚无完整服务部署 | [录像限制](../project-camera/experiments/2026-10-30-home-camera-recording/README.md) |
 | 分段缓存、事件和预录制 | 尚未实现/验收；SATA、长期及故障恢复均未通过本次测试 | [当前工作流](workstreams/active/ws-preroll-recording.md) |
-| 学校与热点 | 仅预留，未测试；学校网络互通限制及热点有线接入方式未知 | [测试环境](../project-camera/environments/README.md) |
+| school 最终有线预览 | 摄像头 → 交换机 → Mac / IINA；TCP 端口、2560 × 1440 H.264 / 报告 20 fps、三秒解码及用户预览确认通过；Mac 线协商为 100 Mbps 全双工 | [school 实验](../project-camera/experiments/2026-10-30-school-network-preview/README.md) |
+| school 板卡管理 | 阶段中有线/无线 SSH 曾成功；末次固定有线 IPv4/SSH 未恢复，IPv6 只有 ICMP 回应；保存的静态配置为手动启用 | [school 档案](../project-camera/environments/school/README.md) |
+| school 热点与校园网 | ROCK AP 无线 SSH 由用户确认；iPhone/IINA 预览可见但用户报告网络差；电脑热点 FFplay 黑屏不记成功；macOS 拒绝 802.1X 来源共享，未证明校园全局隔离 | [school 分变体记录](../project-camera/environments/school/README.md) |
+| school 录像与持续性 | 没有学校新录像；SATA、预录制、时钟、长期性能和重启恢复未验收；通用 hotspot 环境仍预留 | [学校配置与恢复指南](guides/SCHOOL_NETWORK_AND_PREVIEW_GUIDE.md) |
 | 热阵列、定位/识别、行为信息、跨组接口 | 规划/探索，性能与责任需验证或共同确认；数据库和消息栈仍待选择 | [完整范围](SCOPE.md) |
 
-本次结果只适用于记录下来的 home 条件。单次短录成功不等于全天记录稳定、预录制完成、事件时间准确或其他环境可用；Mac 连接失败的唯一原因仍未确认。
+每项结果只适用于各自记录的环境与变体。home 的短录不能替代学校录像；Mac 直接有线预览成功也不证明 ROCK 的管理已恢复。短检查不等于全天稳定、预录制完成或事件时间准确；既往超时/黑屏没有确定的唯一原因。
 
 ## 已保存的成果
 

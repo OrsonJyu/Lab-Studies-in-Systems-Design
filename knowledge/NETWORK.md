@@ -1,6 +1,6 @@
 # 知识网 / Knowledge network
 
-版本 1.1 · 更新日期 2026-10-30。对应[机器可读图 GRAPH.json](GRAPH.json)。本图由既有材料整理，用于找到概念、决定、成果与验证之间的关系；不把关系线视为因果证明或已实现的数据链。
+版本 1.2 · 更新日期 2026-10-30。对应[机器可读图 GRAPH.json](GRAPH.json)。本图由既有材料整理，用于找到概念、决定、成果与验证之间的关系；不把关系线视为因果证明或已实现的数据链。
 
 ```mermaid
 flowchart TD
@@ -18,7 +18,13 @@ flowchart TD
     HOME --> LIVE[Mac 实时预览: 用户确认]
     REC --> CLOCK[相机日期和包时间戳: 待核]
     CLOCK --> P
-    HOME -. 不证明其他环境 .-> MOBILE[school / hotspot: 未测试]
+    HOME -. 不证明其他环境 .-> MOBILE[跨环境验证: 分别记录]
+    SCHOOL[school 学校条件] --> WIRED[Mac 直接有线 IINA: 用户确认]
+    SCHOOL --> AP[ROCK AP 无线 SSH: 用户确认]
+    AP --> MOBILE
+    WIRED --> V
+    SCHOOL --> MGMT[末次板卡有线管理: 待恢复]
+    WIRED -. 不代表恢复 .-> MGMT
     P --> F[FFmpeg: media operations]
     P --> C[Controller: proposed event/retention logic]
     P --> M[时间与事件元数据草案]
@@ -29,7 +35,7 @@ flowchart TD
     D[展示与历史讨论] --> S
 ```
 
-home 证据仅覆盖系统卡短录与预览；SATA、预录制、长期稳定性和跨环境互通仍待验证。环境、实物参数及限制见 [home](../project-camera/environments/home/README.md)。
+home 证据覆盖系统卡短录与预览；school 新增分变体网络、AP SSH 与最终 Mac 有线预览，未完成学校录像或末次板卡管理恢复。通用热点、SATA、预录制、长期和自动恢复仍待验证。环境和限制见 [home](../project-camera/environments/home/README.md)、[school](../project-camera/environments/school/README.md)及[学校实验](../project-camera/experiments/2026-10-30-school-network-preview/README.md)。
 
 ## 如何读取
 

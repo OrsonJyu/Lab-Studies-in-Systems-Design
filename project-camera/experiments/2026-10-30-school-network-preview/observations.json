@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0",
+  "environment": "school",
+  "date": "2026-10-30",
+  "timezone": "Asia/Hong_Kong",
+  "record_type": "normalized_session_observations_not_raw_tool_log",
+  "evidence_policy": "User attachments and tool checks remain local; this file contains a privacy-filtered synthesis, not original captures or a new run.",
+  "raw_attachments_committed": false,
+  "observations": [
+    {
+      "id": "S001",
+      "basis": "user_screenshot",
+      "observation": "macOS rejected Internet Sharing because the source connection was protected by 802.1X",
+      "scope": "this source-sharing attempt only; campus-wide isolation not established"
+    },
+    {
+      "id": "S002",
+      "basis": "network_checks_and_user_confirmation",
+      "observation": "Local wired IPv6 SSH, then static IPv4 SSH, worked during the session",
+      "scope": "earlier management stages, not final wired topology acceptance"
+    },
+    {
+      "id": "S003",
+      "basis": "user_terminal_screenshots",
+      "observation": "Temporary board wired IPv4 disappeared; ping selected Wi-Fi source; camera neighbor remained reachable",
+      "interpretation": "NetworkManager reactivation may have cleared the temporary address; causal service logs not captured"
+    },
+    {
+      "id": "S004",
+      "basis": "user_terminal_screenshot",
+      "observation": "school-camera static profile activated; direct wired route and TCP ports 80, 554, 8899 connected",
+      "scope": "TCP reachability, not a new school ONVIF operation"
+    },
+    {
+      "id": "S005",
+      "basis": "media_checks_and_user_reply",
+      "observation": "Computer-hotspot FFplay process/probe existed; later explicit video-stream three-second decode passed; user reported black or frozen window",
+      "scope": "visual preview not accepted; an earlier two-second decode check returned nonzero"
+    },
+    {
+      "id": "S006",
+      "basis": "user_direct_reply",
+      "user_text": "可以看到预览，但是网络太差了",
+      "observation": "iPhone-hotspot IINA preview visible, with qualitative poor-network report",
+      "scope": "no measured latency or comparative throughput"
+    },
+    {
+      "id": "S007",
+      "basis": "network_checks_and_user_terminal_screenshot",
+      "observation": "Intermittent SSH timeouts; later ping and SSH banners succeeded; compatibility options and retries were added",
+      "scope": "QoS and proxy not proven to be root cause; EF, CS0 and system-default banner tests all succeeded when checked"
+    },
+    {
+      "id": "S008",
+      "basis": "user_terminal_screenshot_and_confirmation",
+      "observation": "NetworkManager advertised AP support; rock-lab-ap existed; user confirmed success after AP wireless SSH instructions",
+      "scope": "no AP Internet, video endurance or reboot/autostart acceptance"
+    },
+    {
+      "id": "S009",
+      "basis": "user_instruction",
+      "user_text": "我现在拿到额外的网线了，全部通过有线连接",
+      "observation": "User selected final switch-based wired data topology"
+    },
+    {
+      "id": "S010",
+      "basis": "mac_interface_and_socket_checks",
+      "observation": "Final Mac wired link negotiated 100 Mbps full duplex; camera ports 80, 554, 8899 reachable"
+    },
+    {
+      "id": "S011",
+      "basis": "direct_media_probe_and_decode_check",
+      "observation": "Direct wired camera probe reported H.264, 2560x1440, r_frame_rate 20/1; three-second video-only decode returned 0 with empty stderr",
+      "scope": "short check; no saved media or sustained frame-rate measurement"
+    },
+    {
+      "id": "S012",
+      "basis": "final_network_check_and_user_reply",
+      "observation": "Board static wired IPv4/SSH unavailable; wired IPv6 ICMP response observed but no SSH host keys obtained. User then replied success after wired IINA launcher instructions",
+      "user_text": "成功",
+      "scope": "counted as wired IINA preview confirmation only; final board management not independently restored"
+    }
+  ]
+}

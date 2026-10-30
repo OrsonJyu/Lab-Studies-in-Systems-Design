@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "environment": "school",
+  "experiment_date": "2026-10-30",
+  "timezone": "Asia/Hong_Kong",
+  "hash_scope": "Privacy-filtered summary artifact bytes only; does not hash itself or imply raw attachments were uploaded.",
+  "entries": [
+    {
+      "path": "README.md",
+      "bytes": 5017,
+      "sha256": "ca40a1a2c85a082097e33a3e45409a92f99a7487d33134bb1a99055dd3781f33",
+      "storage": "git"
+    },
+    {
+      "path": "result.json",
+      "bytes": 3754,
+      "sha256": "709feea482598130b1fa6fc53d3c3e607f5c56b672db5a3709a6c80d0f850b88",
+      "storage": "git"
+    },
+    {
+      "path": "observations.json",
+      "bytes": 4004,
+      "sha256": "8e6f2986ea1d14377b21e2506ee0567c075a0587f4280ed130b7aaad7888e548",
+      "storage": "git"
+    }
+  ]
+}

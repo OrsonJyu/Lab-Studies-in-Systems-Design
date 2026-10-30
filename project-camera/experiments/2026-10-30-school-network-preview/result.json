@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.0",
+  "environment": "school",
+  "date": "2026-10-30",
+  "timezone": "Asia/Hong_Kong",
+  "source_kind": "session_synthesis_of_user_screenshots_confirmations_and_read_only_checks",
+  "recorded_against_base_commit": "b2dfaf35eb22e86cf7abef1ca2c161a66298e7b9",
+  "hardware": {
+    "board": "ROCK 4C+",
+    "board_os": "Debian 12 bookworm / aarch64",
+    "board_kernel": "6.1.115-8-rk2501",
+    "mac_os": "27.2",
+    "switch": "TP-LINK TL-SG1008D",
+    "camera_power": "independent PoE injector",
+    "board_power": "USB-C from Mac; load stability not measured",
+    "storage_used_for_school_recording": null
+  },
+  "selected_network_variant": "wired_switch",
+  "variants": {
+    "campus_internet_sharing": {
+      "status": "rejected_by_macos_8021x_source_protection",
+      "campus_wide_isolation_tested": false,
+      "observations": [
+        "S001"
+      ]
+    },
+    "computer_hotspot": {
+      "management_ssh": "verified_during_session",
+      "camera_tcp_ports": "verified_after_saved_static_profile",
+      "ffplay_visual_preview": "user_reported_black_or_frozen_not_accepted",
+      "observations": [
+        "S002",
+        "S003",
+        "S004",
+        "S005"
+      ]
+    },
+    "iphone_hotspot": {
+      "management_ssh": "verified_with_intermittent_timeouts",
+      "iina_visible_preview": "user_confirmed",
+      "quality": "user_reported_poor_network_not_quantified",
+      "root_cause_established": false,
+      "observations": [
+        "S006",
+        "S007"
+      ]
+    },
+    "rock_ap": {
+      "ap_capability": "yes_in_user_terminal_screenshot",
+      "wireless_ssh": "user_confirmed_after_guided_test",
+      "connection_profile_saved": true,
+      "autoconnect": false,
+      "internet_validated": false,
+      "video_endurance_validated": false,
+      "observations": [
+        "S008"
+      ]
+    },
+    "wired_switch": {
+      "path": "camera_to_switch_to_mac_direct",
+      "player": "IINA",
+      "mac_link_mbps": 100,
+      "mac_link_duplex": "full",
+      "camera_tcp_ports_reachable": [
+        80,
+        554,
+        8899
+      ],
+      "rtsp_transport": "tcp",
+      "probe": {
+        "codec_name": "h264",
+        "width": 2560,
+        "height": 1440,
+        "reported_r_frame_rate": "20/1",
+        "sustained_frame_rate_measured": false
+      },
+      "decode_check": {
+        "requested_duration_seconds": 3,
+        "video_only": true,
+        "exit_code": 0,
+        "stderr_empty": true,
+        "output_saved": false
+      },
+      "visible_preview": "user_confirmed_success",
+      "final_board_static_ipv4_ssh": "pending_restore_and_retest",
+      "final_board_ipv6_icmp": "responded",
+      "final_board_ipv6_ssh": "not_verified_no_host_keys_obtained",
+      "observations": [
+        "S009",
+        "S010",
+        "S011",
+        "S012"
+      ]
+    }
+  },
+  "network_configuration": {
+    "static_board_profile_saved": true,
+    "static_board_profile_autoconnect": false,
+    "ap_profile_saved": true,
+    "ap_profile_autoconnect": false,
+    "reboot_recovery_validated": false,
+    "actual_values_location": "ignored local/private configuration only"
+  },
+  "school_recording_saved": false,
+  "sata_validated": false,
+  "preroll_tested": false,
+  "latency_measured": false,
+  "throughput_comparison_measured": false,
+  "endurance_tested": false,
+  "clock_calibrated_in_school": false,
+  "raw_screenshots_or_photos_committed": false,
+  "limitations": [
+    "Final visible Mac preview does not validate ROCK management or recording",
+    "No new school media file; decode target duration is not a measured saved clip duration",
+    "Profile persistence does not establish automatic activation",
+    "Campus isolation, QoS, proxy and power are not established root causes"
+  ]
+}

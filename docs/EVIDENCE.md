@@ -1,6 +1,6 @@
 # 成果与证据索引 / Evidence index
 
-核对日期：2026-10-30。2026-10-26 的导入只验证档案关系；本次新增 home 摄像头实测。课堂编译/实机结果继续按历史证据记录，没有在这次重新验收。
+核对日期：2026-10-30。2026-10-26 的导入只验证档案关系；已有 home 摄像头实测与后续 school 网络/预览。课堂编译/实机结果继续按历史证据记录，没有在这次重新验收。
 
 | 材料 | 位置 | 可以支持 / 限制 |
 | --- | --- | --- |
@@ -8,6 +8,8 @@
 | home 真实摄像头录像 | [实验与原片](../project-camera/experiments/2026-10-30-home-camera-recording/README.md) | 一次约 60 秒保存/解码、现场手部画面；OSD 与 DTS 问题保留，不证明预录制/长期稳定 |
 | home Mac 实时预览 | [用户确认记录](../project-camera/experiments/2026-10-30-home-live-preview/README.md) | 用户确认 FFplay 动态画面；无延迟或跨环境性能结论 |
 | home 实物参数 | [去访问参数观察与照片校验值](../project-camera/environments/home/hardware-observations.json) | 实物标签/型号观察；原始照片仍在本地，不独立证明协议标准认证 |
+| school 网络与 IINA 预览 | [实验](../project-camera/experiments/2026-10-30-school-network-preview/README.md)、[结构化结果](../project-camera/experiments/2026-10-30-school-network-preview/result.json) | 整理用户截图、检查和确认：AP SSH、iPhone/IINA 与最终有线预览；最终板卡管理待恢复，没有学校新录像 |
+| school 接线与复现配置 | [环境档案](../project-camera/environments/school/README.md)、[指南](guides/SCHOOL_NETWORK_AND_PREVIEW_GUIDE.md) | 字段与操作步骤，非完整部署；原图/工具日志/真实参数不上传，摘要文件哈希不替代原始测试证据 |
 | 摄像头项目展示 | [PDF](../project-camera/references/SD5531_Gecko_Presentation_Group2.pdf)、[PPTX](../project-camera/references/SD5531_Gecko_Presentation_final.pptx) | 展示 scope 和探索方案；不证明部署、算法准确率或采购 |
 | 跨组合作计划 | [合作计划 PDF](../project-camera/references/Gecko_各组合作计划.pdf) | 对接内容与机位讨论稿；责任需双方确认 |
 | 会议资料 | [Tutorial 入口](../project-camera/references/Tutorial/README.md) | 机器转录与 AI 解读；原始音视频和质量报告尚未找到 |
@@ -38,4 +40,4 @@
 
 ## 新实验记录
 
-问题与假设、日期、设备/软件版本、条件、输入/操作、预期、实际观察、失败/缺失、证据路径、可确认的个人贡献、下一步。摄像头实验还应记录时间对齐、断流、磁盘状态与回放结果。摄像头实验按[实验记录模板](../project-camera/experiments/README.md)存放在 `project-camera/experiments/`；已有 home 实验；每项 front matter 和结果 JSON 标明环境，SHA-256 清单对应文件原字节。学校/热点需另建记录。
+问题与假设、日期、设备/软件版本、条件、输入/操作、预期、实际观察、失败/缺失、证据路径、可确认的个人贡献、下一步。摄像头实验还应记录时间对齐、断流、磁盘状态与回放结果。按[实验记录模板](../project-camera/experiments/README.md)存放在 `project-camera/experiments/`；home 和 school 分开记录，SHA-256 清单核对对应文件原字节。观察摘要须明确其整理性质；未上传的原图和未产生的录像不能记成仓库已有媒体。

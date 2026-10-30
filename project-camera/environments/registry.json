@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "updated_on": "2026-10-30",
   "timezone": "Asia/Hong_Kong",
-  "last_verified_environment": "home",
+  "last_verified_environment": "school",
   "decision": "D011",
   "environments": [
     {
@@ -19,11 +19,27 @@
     },
     {
       "id": "school",
-      "status": "reserved_not_tested",
-      "profile": null,
-      "verified_on": null,
-      "evidence": [],
-      "open_questions": ["campus client isolation", "permitted device interconnection", "management access", "video LAN topology"]
+      "status": "limited_network_and_preview_verified",
+      "profile": "project-camera/environments/school/README.md",
+      "verified_on": "2026-10-30",
+      "evidence": [
+        "project-camera/experiments/2026-10-30-school-network-preview/README.md"
+      ],
+      "open_questions": [
+        "final board wired IPv4/SSH recovery",
+        "school recording and time alignment",
+        "endurance and reboot recovery",
+        "campus-wide isolation remains untested"
+      ],
+      "configuration_example": "project-camera/environments/school/config.example.json",
+      "network_variants": [
+        "computer_hotspot",
+        "iphone_hotspot",
+        "rock_ap",
+        "wired_switch"
+      ],
+      "selected_network_variant": "wired_switch",
+      "decision": "D013"
     },
     {
       "id": "hotspot",
@@ -31,7 +47,13 @@
       "profile": null,
       "verified_on": null,
       "evidence": [],
-      "open_questions": ["peer reachability", "wired camera connectivity", "gateway capability", "power and addressing"]
+      "open_questions": [
+        "peer reachability",
+        "wired camera connectivity",
+        "gateway capability",
+        "power and addressing"
+      ],
+      "note": "Generic independent environment remains reserved; hotspot trials at school are scoped to school network variants."
     }
   ]
 }
