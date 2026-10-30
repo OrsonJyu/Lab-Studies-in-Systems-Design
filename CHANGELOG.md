@@ -16,6 +16,8 @@
 
 学校环境阶段更新；推送工作分支和 PR 供用户审阅，合并 main 后再打标签和建立 Release，尚未声称发布。
 
+发布补记（2026-10-30）：用户明确要求合并，[PR #2](https://github.com/OrsonJyu/Lab-Studies-in-Systems-Design/pull/2) 已合并 main，候选审阅阶段结束。正式版本状态同步后以该提交建立 v1.3.0 标签和 GitHub Release；原候选记录保留，实验结论与待验证项不扩大。
+
 ### Added
 
 - school 环境档案、去真实值的配置字段与网络恢复指南，分别记录电脑热点、iPhone、ROCK AP 和最终全有线变体；用户选择有线预览登记为 D013。
