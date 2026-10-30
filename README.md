@@ -3,7 +3,7 @@
 豹纹守宫观察与记录系统，以及课程实验的可追溯档案。  
 **PolyU · Project 2 / Video Recording Module · [English](README.en.md)**
 
-版本：**v1.2.1** · 更新日期：**2026-10-30（香港）** · [变更记录](CHANGELOG.md) · [迁移范围](docs/SYNC_REPORT.md)
+版本候选：**v1.3.0**（学校环境更新，待审阅合并；尚未打标签） · 更新日期：**2026-10-30（香港）** · [变更记录](CHANGELOG.md) · [迁移范围](docs/SYNC_REPORT.md)
 
 本项目为学校师生与照护者提供持续的影像和热阵列记录，支持回放、观察比较，以及后续经验证的行为信息整理。仓库同时保存课堂活动、开发过程、讨论和展示成果。**项目规划、代码可编译、实机观察与课程提交是不同状态。**
 
@@ -19,6 +19,7 @@
 | 核对测试与原始证据 | [证据索引](docs/EVIDENCE.md) |
 | 分清家庭、学校和热点的测试条件 | [测试环境](project-camera/environments/README.md) |
 | 复现 home 的接线、录像和实时预览 | [硬件与程序实验指导](docs/guides/HOME_HARDWARE_AND_EXPERIMENT_GUIDE.md) |
+| 在学校配置有线网络、恢复 SSH 或练习 ROCK 自建热点 | [school 环境](project-camera/environments/school/README.md) → [配置与预览指南](docs/guides/SCHOOL_NETWORK_AND_PREVIEW_GUIDE.md) |
 | 理解决定为什么变化 | [决定记录](docs/DECISIONS.md) → [历史时间线](docs/HISTORY.md) |
 | 查看知识之间的关系 | [知识网](knowledge/NETWORK.md) · [机器可读图](knowledge/GRAPH.json) |
 | 作为 agent 接手维护 | [AGENTS.md](AGENTS.md) → [PROJECT_STATE.json](PROJECT_STATE.json) → [记忆指南](docs/guides/GIT_MARKDOWN_MEMORY_GUIDE.md) |
@@ -27,10 +28,11 @@
 
 - **现场设备**：用户在 2026-10-23 明确采用 **Radxa ROCK 4C+＋本地 SATA 机械硬盘**。ROCK 5C、SSD 和云端方案仍作为历史探索保留。
 - **本次实测**：`home` 环境中，ROCK 已启动 Debian 12 并能 SSH 管理；先用系统 microSD 保存合成片段和约 60 秒真实摄像头录像，完整解码通过；Mac 实时预览由用户确认。SATA 没有参与这次验证。
+- **学校增量**：`school` 已验证有限 SSH/热点操作；最终全有线为摄像头 → 交换机 → Mac / IINA，三秒解码及用户预览确认通过。末次 ROCK 有线 IPv4/SSH 尚待恢复；本次没有学校新录像。
 - **近期重点**：处理摄像头时间、视频时间戳与临时网络配置，再实现循环分段、事件触发和预录制；这些部分仍未验收。
 - **完整范围**：视频及热阵列采集、存储与访问、定位及个体识别探索、行为时间线与空间使用、跨组数据对齐。预录制只是其中一步。
 - **已有成果**：展示 PDF / PPTX、合作计划、会议转录与 AI 纪要、Figma 文字及图片快照、8 题 Arduino 代码、编译记录与硬件证据。
-- **环境边界**：本次明确命名为 `home`；`school` / `hotspot` 仅预留、未测试。地址、设备互通、热点/校园网络隔离和结果各自记录，不把家庭网络当通用配置。
+- **环境边界**：`home` 短录与 `school` 网络/预览各自记录；学校内的电脑热点、iPhone、ROCK AP 和有线为不同变体。通用 `hotspot` 仍预留，不从单次结果推定所有网络可用。
 - **证据边界**：已有有限摄像头实测，尚无完整持久录制服务、预录制、长期稳定性或行为识别验收；课堂 ESP32C3 实验仍是独立证据。
 
 ## 目录
@@ -42,7 +44,7 @@ docs/                 当前说明、决定、进度及历史讨论
 project-camera/       摄像头项目：展示、跨组计划、会议与设计快照
   src/                录制系统代码状态与约定
   experiments/        按日期和环境记录实测、媒体与校验
-  environments/       home 已测条件；学校/热点迁移边界
+  environments/       home 与 school 已测条件；独立热点迁移边界
 activities/           课堂实验：电路、焊接、2026-10-16 编程活动
 knowledge/            带来源与关系类型的知识网
 references/           课程资料与早期迁移参考（原样保存）

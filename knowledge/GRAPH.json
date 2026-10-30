@@ -27,10 +27,11 @@
       "id": "video",
       "label": "视频采集与保存",
       "kind": "capability",
-      "status": "partially_verified_in_home",
+      "status": "home_recording_and_school_preview_limited",
       "sources": [
         "docs/SCOPE.md",
-        "project-camera/experiments/2026-10-30-home-camera-recording/README.md"
+        "project-camera/experiments/2026-10-30-home-camera-recording/README.md",
+        "project-camera/experiments/2026-10-30-school-network-preview/README.md"
       ]
     },
     {
@@ -201,10 +202,11 @@
       "id": "environment-portability",
       "label": "学校与热点的独立环境验证",
       "kind": "requirement",
-      "status": "not_tested",
+      "status": "partially_verified_in_school",
       "sources": [
         "project-camera/environments/README.md",
-        "docs/DECISIONS.md"
+        "docs/DECISIONS.md",
+        "project-camera/environments/school/README.md"
       ]
     },
     {
@@ -214,6 +216,46 @@
       "status": "open",
       "sources": [
         "project-camera/experiments/2026-10-30-home-camera-recording/README.md"
+      ]
+    },
+    {
+      "id": "environment-school",
+      "label": "school 学校网络与预览条件",
+      "kind": "environment",
+      "status": "limited_network_and_preview_verified",
+      "sources": [
+        "project-camera/environments/school/README.md",
+        "project-camera/experiments/2026-10-30-school-network-preview/README.md"
+      ]
+    },
+    {
+      "id": "school-wired-preview",
+      "label": "Mac 直接有线 IINA 预览",
+      "kind": "evidence",
+      "status": "short_decode_and_user_confirmation",
+      "sources": [
+        "project-camera/environments/school/README.md",
+        "project-camera/experiments/2026-10-30-school-network-preview/README.md"
+      ]
+    },
+    {
+      "id": "school-ap-ssh",
+      "label": "ROCK 自建 AP 无线 SSH",
+      "kind": "evidence",
+      "status": "user_confirmed",
+      "sources": [
+        "project-camera/environments/school/README.md",
+        "project-camera/experiments/2026-10-30-school-network-preview/README.md"
+      ]
+    },
+    {
+      "id": "school-management-recovery",
+      "label": "最终有线板卡管理恢复",
+      "kind": "validation",
+      "status": "open",
+      "sources": [
+        "project-camera/environments/school/README.md",
+        "project-camera/experiments/2026-10-30-school-network-preview/README.md"
       ]
     }
   ],
@@ -502,6 +544,72 @@
       "sources": [
         "docs/DECISIONS.md",
         "project-camera/environments/README.md"
+      ]
+    },
+    {
+      "id": "e26",
+      "source": "environment-school",
+      "target": "school-wired-preview",
+      "relation": "conditions",
+      "status": "hardware_observed_and_user_confirmed",
+      "reason": "全有线观察仅覆盖本次摄像头到 Mac 的短解码与可见预览",
+      "sources": [
+        "project-camera/experiments/2026-10-30-school-network-preview/README.md"
+      ]
+    },
+    {
+      "id": "e27",
+      "source": "school-wired-preview",
+      "target": "video",
+      "relation": "evidence_for",
+      "status": "limited",
+      "reason": "直接预览是视频访问的有限证据，不是学校板卡录像",
+      "sources": [
+        "project-camera/experiments/2026-10-30-school-network-preview/README.md"
+      ]
+    },
+    {
+      "id": "e28",
+      "source": "environment-school",
+      "target": "school-ap-ssh",
+      "relation": "conditions",
+      "status": "user_confirmed",
+      "reason": "用户在本次 AP 配置与无线 SSH 步骤后确认成功",
+      "sources": [
+        "project-camera/experiments/2026-10-30-school-network-preview/README.md"
+      ]
+    },
+    {
+      "id": "e29",
+      "source": "school-ap-ssh",
+      "target": "environment-portability",
+      "relation": "evidence_for",
+      "status": "limited",
+      "reason": "仅证明学校这一 AP 变体，不推广到全部热点或其他场地",
+      "sources": [
+        "project-camera/experiments/2026-10-30-school-network-preview/README.md"
+      ]
+    },
+    {
+      "id": "e30",
+      "source": "environment-school",
+      "target": "school-management-recovery",
+      "relation": "documents",
+      "status": "observed_limit",
+      "reason": "末次板卡固定 IPv4/SSH 未恢复，IPv6 仅有 ICMP 回应",
+      "sources": [
+        "project-camera/experiments/2026-10-30-school-network-preview/README.md"
+      ]
+    },
+    {
+      "id": "e31",
+      "source": "school-wired-preview",
+      "target": "school-management-recovery",
+      "relation": "does_not_validate",
+      "status": "explicit_boundary",
+      "reason": "Mac 直读相机的成功不能证明板卡管理恢复",
+      "sources": [
+        "project-camera/experiments/2026-10-30-school-network-preview/README.md"
       ]
     }
   ]

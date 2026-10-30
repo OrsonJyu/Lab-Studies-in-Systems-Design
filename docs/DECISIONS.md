@@ -16,6 +16,7 @@
 | D010 | 2026-10-29 | 用户确认；修订 D009 及原"原始文件不修改"规则 | 原始资料可以按新要求修改，但**每项修改都须先得到用户在对话中的明确同意**。修改单独提交；manifest 保留导入时的 `original_sha256`/`original_bytes`，登记新校验值、`modified_with_approval` 状态及修改原因；导入版本仍可从 Git 历史与 v1.0.0 取回。本会话用户确认。 |
 | D011 | 2026-10-30 | 用户确认 | 本次家庭测试环境命名为 **`home`**；移动办公时按环境分别记录配置、拓扑、实验和限制。用户说明后续可能在学校或考虑热点，学校网络不一定支持互通。`school` / `hotspot` 仅预留、未测试，不把 home 的地址或成功结果推广到它们。来源：本次用户要求更新仓库的明确消息；见[环境目录](../project-camera/environments/README.md)。 |
 | D012 | 2026-10-30 | 用户确认的本次测试选择 | 本阶段先用**系统 microSD 卡**保存测试录像。此项限定测试介质，不取代 D002 的 SATA HDD 项目方向，也不表示 SATA 已接通。来源：本次用户“目前我们先测试系统卡”；实测见[home 录像](../project-camera/experiments/2026-10-30-home-camera-recording/README.md)。 |
+| D013 | 2026-10-30 | 用户选择并确认学校预览；补充 D011 的后续实测 | 用户在学校尝试电脑热点、iPhone 与 ROCK AP 后取得额外网线，明确选择“全部通过有线连接”，并在新的 Mac 直接 IINA 入口后回复“成功”。学校当前预览拓扑为摄像头 → 交换机 → Mac；ROCK 另接交换机，学校录像未测试，末次板卡固定 IPv4/SSH 待恢复。school-camera 与 rock-lab-ap 保存为手动启用。该决定仅适用于本次学校环境，不替代 home 实验，也不确认所有热点互通或长期稳定。来源：本次学校搭建对话中的用户操作、截图与明确确认；见 [school](../project-camera/environments/school/README.md)及[实验](../project-camera/experiments/2026-10-30-school-network-preview/README.md)。 |
 
 主讨论全文见 [history/main-videoing.md](history/main-videoing.md)；早期 scope 见[原始迁移历史](../references/project-migration/历史对话.md)。
 

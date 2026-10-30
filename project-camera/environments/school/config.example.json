@@ -1,0 +1,44 @@
+{
+  "environment_id": "school",
+  "example_only": true,
+  "selected_network_variant": "wired_switch",
+  "network_variants": ["computer_hotspot", "iphone_hotspot", "rock_ap", "wired_switch"],
+  "mac": {
+    "ethernet_interface": "<ACTUAL_MAC_ETHERNET_INTERFACE>",
+    "ethernet_address_cidr": "<UNUSED_MAC_IPV4_IN_CAMERA_SUBNET_WITH_PREFIX>",
+    "ethernet_gateway": null,
+    "internet_uplink": "campus_wifi_when_available"
+  },
+  "board": {
+    "ssh_user": "<BOARD_LOGIN_USER>",
+    "wired_ssh_host": "<CURRENT_VERIFIED_BOARD_WIRED_HOST>",
+    "ethernet_interface": "<ACTUAL_BOARD_ETHERNET_INTERFACE>",
+    "camera_address_cidr": "<UNUSED_BOARD_IPV4_IN_CAMERA_SUBNET_WITH_PREFIX>",
+    "camera_connection_name": "school-camera",
+    "camera_connection_saved": true,
+    "camera_connection_autoconnect": false,
+    "final_wired_ipv4_ssh_status": "pending_restore_and_retest",
+    "wifi_interface": "<ACTUAL_BOARD_WIFI_INTERFACE>",
+    "ap_connection_name": "rock-lab-ap",
+    "ap_ssid": "<LOCAL_AP_SSID>",
+    "ap_address_cidr": "<AP_IPV4_CIDR_DISTINCT_FROM_CAMERA_SUBNET>",
+    "ap_security": "wpa-psk_rsn",
+    "ap_autoconnect": false
+  },
+  "camera": {
+    "host": "<CURRENT_CAMERA_FIXED_IPV4>",
+    "rtsp_port": 554,
+    "observed_onvif_tcp_port": 8899,
+    "private_stream_config_file": "<LOCAL_PRIVATE_CAMERA_SOURCE_JSON_PATH>"
+  },
+  "preview": {
+    "player": "IINA",
+    "player_cli": "<LOCAL_IINA_CLI_PATH>",
+    "selected_path": "camera_to_switch_to_mac_direct",
+    "rtsp_transport": "tcp",
+    "hardware_decoding": false,
+    "audio_enabled": false,
+    "record_to_file": false
+  },
+  "note": "Field inventory, not an executable configuration. Fill only ignored local/private files; do not commit actual addresses, interface names, SSIDs, passwords, host keys, private paths or RTSP URIs. Saved NetworkManager profiles do not establish automatic recovery."
+}

@@ -9,8 +9,9 @@
 | 2026-10-30 / home | [系统卡基础测试](2026-10-30-home-system-card/README.md) | 合成视频保存、读回、解码；不是摄像头取流 |
 | 2026-10-30 / home | [真实摄像头短录像](2026-10-30-home-camera-recording/README.md) | 一次约 60 秒真实视频保存与完整解码；时间戳问题另留 |
 | 2026-10-30 / home | [Mac 实时预览](2026-10-30-home-live-preview/README.md) | 用户确认 FFplay 动态画面；延迟未量测 |
+| 2026-10-30 / school | [网络、SSH、AP 与 IINA 预览](2026-10-30-school-network-preview/README.md) | 分变体记录；最终 Mac 直接有线短解码及预览确认通过，末次板卡管理待恢复，没有学校新录像 |
 
-环境定义见[目录](../environments/README.md)。学校和热点目前没有实验。
+环境定义见[目录](../environments/README.md)。学校内热点切换归入 school 的网络变体；通用 hotspot 环境尚未单独验收。
 
 - 实验记录建立后只追加，不改写结论；后来的复核另起一次实验并互相链接。
 - 视频文件 `.MOV/.mov` 自动走 Git LFS；大体积的 `.mp4` 等需要先在 `.gitattributes` 中加规则再提交。

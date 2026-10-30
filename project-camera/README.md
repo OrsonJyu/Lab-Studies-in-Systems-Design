@@ -11,10 +11,12 @@
 | 架构图与 Figma 档案 | [Design](design/README.md) |
 | 决定与范围变化 | [DECISIONS](../docs/DECISIONS.md) |
 | 录制系统代码状态与约定 | [src](src/README.md) |
-| home 实测记录与模板 | [experiments](experiments/README.md) |
+| home / school 实测记录与模板 | [experiments](experiments/README.md) |
 | 测试环境与迁移边界 | [home / school / hotspot](environments/README.md) |
 | 当前工作流 | [ws-preroll-recording](../docs/workstreams/active/ws-preroll-recording.md) |
 
 这些文件可能处于不同历史阶段。展示和 Figma 中的 ROCK 5C / SSD / Cloud Server 不覆盖 2026-10-23 用户明确的 ROCK 4C+ + SATA HDD 基线。文件名中的 final 不独立证明已提交或全组确认。
 
 2026-10-30 的 `home` 测试先使用系统 microSD：真实短录像和用户确认的实时预览已通过；SATA、预录制、长期稳定性及其他环境仍需各自验证。
+
+同日后续的 [school](environments/school/README.md) 已有有限网络/AP 验证和最终 Mac 直接有线 IINA 预览，未产生学校新录像；末次板卡有线管理仍待恢复。配置与复现见[学校指南](../docs/guides/SCHOOL_NETWORK_AND_PREVIEW_GUIDE.md)。

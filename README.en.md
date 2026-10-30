@@ -1,7 +1,7 @@
 # SD5531 · Lab Studies in Systems Design
 
 **Leopard gecko observation and recording · PolyU · Project 2 / Video Recording Module**  
-[中文](README.md) · Version **v1.2.1** · Updated **30 October 2026, Hong Kong**
+[中文](README.md) · Candidate **v1.3.0** (school update; pending review/merge, not tagged) · Updated **30 October 2026, Hong Kong**
 
 This repository preserves the course project, laboratory exercises, design process, discussions, deliverables and supporting evidence. The project aims to provide video and thermal-array records that students, teachers and carers can replay and compare. Proposed analysis remains subject to validation.
 
@@ -17,6 +17,7 @@ This repository preserves the course project, laboratory exercises, design proce
 | Evidence review | [Evidence index](docs/EVIDENCE.md) |
 | Site and network conditions | [Environments](project-camera/environments/README.md) |
 | Reproduce the home hardware and software experiment | [Step-by-step guide in Chinese](docs/guides/HOME_HARDWARE_AND_EXPERIMENT_GUIDE.md) |
+| School wired networking, SSH recovery and ROCK access point | [School profile](project-camera/environments/school/README.md) and [configuration guide](docs/guides/SCHOOL_NETWORK_AND_PREVIEW_GUIDE.md) |
 | Research connections | [Knowledge network](knowledge/NETWORK.md) and [JSON graph](knowledge/GRAPH.json) |
 | Agent handover | [AGENTS.md](AGENTS.md) and [PROJECT_STATE.json](PROJECT_STATE.json) |
 
@@ -26,7 +27,7 @@ The user explicitly updated the hardware on 23 October 2026 to **Radxa ROCK 4C+ 
 
 The **home** environment now has a limited hardware baseline: Debian 12 and SSH on ROCK 4C+, a synthetic system-card test, a real camera recording of about 60 seconds with full software decode, and user-confirmed live viewing on Mac through the board. These tests used the system microSD; SATA was not validated. Camera clock and packet-timestamp warnings, temporary addressing, rolling segments, events, pre-roll and endurance remain open. This is not a persistent deployed recording service.
 
-The user named this setup **home** on 30 October 2026. **school** and **hotspot** are reserved, untested environments. Actual addresses and access-bearing stream configuration stay local. Peer reachability, campus isolation, hotspot-to-wired connectivity and test results must be checked separately at each site.
+The user named the household setup **home** on 30 October 2026. The later **school** session established limited SSH/hotspot evidence and user-confirmed IINA viewing, ending with camera → switch → Mac over Ethernet. The direct video probe and three-second decode passed. Final board wired IPv4/SSH recovery remained pending, and no school recording was made. The [school record](project-camera/experiments/2026-10-30-school-network-preview/README.md) separates computer hotspot, iPhone, ROCK AP and wired variants. The generic **hotspot** profile remains reserved. Actual addresses, interfaces, SSIDs and access-bearing stream configuration stay local. Neither campus-wide client isolation nor a single cause of all SSH/preview failures has been established.
 
 The wider scope includes video and thermal capture, storage and remote access, localization and identity exploration, behavior timelines, spatial use and cross-team record alignment. Pre-recording is one step within that scope. Automated health diagnosis is outside the current presentation's deliverables.
 
