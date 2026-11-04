@@ -76,7 +76,7 @@
       "residual_offset_ms": 10.2,
       "evidence": "project-camera/experiments/2026-11-05-home-board-clock-set/README.md",
       "persists_across_reboot": "not_tested",
-      "camera_clock_changed": false
+      "camera_clock_changed": "set from the ROCK via ONVIF, Manual time, 2026-11-05; see project-camera/experiments/2026-11-05-home-camera-clock-set/README.md"
     },
     "camera_implementation_status": "home_and_school_short_recordings_verified; shared_wired_home_reboot_verified; school_shared_baseline_site_retest_pending; motion_trigger_and_preroll_not_implemented",
     "candidate_tools": [
@@ -88,7 +88,7 @@
     ],
     "unconfirmed": [
       "camera brand, actual motion-event delivery/latency and PoE compatibility; ONVIF-reported model string, firmware and event topics read in home",
-      "clock persistence and drift: ROCK set from Mac on 2026-11-05 (about 10 ms residual) but no time source on the wired lab subnet; camera about 28 days slow and unchanged",
+      "clock persistence and drift: ROCK set from Mac on 2026-11-05 (about 10 ms residual) but no time source on the wired lab subnet; camera set from the ROCK via ONVIF to Manual time on 2026-11-05 (was about 28 days slow, 0.3 s after); persistence across power cycles and drift untested",
       "SATA connection, power, mounting and recording",
       "camera clock, packet timestamps and event alignment",
       "retention policy and pre/post durations",

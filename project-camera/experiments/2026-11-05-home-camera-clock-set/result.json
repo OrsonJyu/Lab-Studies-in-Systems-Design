@@ -1,0 +1,45 @@
+{
+ "schema_version": 1,
+ "experiment": "exp-home-camera-clock-set-20261105",
+ "environment": "home",
+ "date_hong_kong": "2026-11-05",
+ "user_approved": "user asked to set the camera time from the ROCK (chat, 2026-11-05)",
+ "method": "ONVIF SetSystemDateAndTime with DateTimeType Manual, UTC from the ROCK clock at the start of a board second; time zone and daylight-saving values kept as read",
+ "before": {
+  "when": "before",
+  "board_utc": "2026-11-04T19:57:58Z",
+  "camera_utc": "2026-10-07T17:45:00Z",
+  "camera_minus_board_s": -2427178.8,
+  "tz": "AWST-8WDT",
+  "type": "NTP",
+  "daylight_savings": "false"
+ },
+ "set": {
+  "set_status": 200,
+  "fault": null,
+  "set_to_utc": "2026-11-04T19:57:59Z"
+ },
+ "after": {
+  "when": "after",
+  "board_utc": "2026-11-04T19:58:01Z",
+  "camera_utc": "2026-11-04T19:58:01Z",
+  "camera_minus_board_s": -0.3,
+  "tz": "AWST-8WDT",
+  "type": "Manual",
+  "daylight_savings": "false"
+ },
+ "osd_check": {
+  "board_hong_kong_time": "2026-11-05 03:58:13",
+  "osd_seen": "2026-11-05 03:58:12",
+  "note": "frame grabbed just before the board time was read"
+ },
+ "previous_settings_for_revert": {
+  "DateTimeType": "NTP",
+  "TZ": "AWST-8WDT",
+  "DaylightSavings": "false"
+ },
+ "not_tested": [
+  "drift over hours or days",
+  "whether the camera keeps the time after a PoE power cycle"
+ ]
+}

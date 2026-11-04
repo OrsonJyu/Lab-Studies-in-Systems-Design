@@ -2,6 +2,12 @@
 
 版本按[版本规则](docs/VERSIONING.md)管理。日期采用香港时区。历史工作日期与本次导入日期分开记录。
 
+## [Unreleased]
+
+### Changed
+
+- 用户要求后，用 ROCK 时间经 ONVIF 设置摄像头时钟（时间方式改为手动，时区与夏令时不变）：画面左上角时间原比实际慢约 28 天，修改后差 0.3 秒，截图核对一致；附设置脚本、前后读数与时间条截图，记录原设置以便恢复。
+
 ## [1.5.0] - 2026-11-05
 
 第二阶段：在 home 用真实摄像头验证延迟与预录，完成滚动缓存事件录制、运动检测和局域网网页。代码与实验经 [PR #4](https://github.com/OrsonJyu/Lab-Studies-in-Systems-Design/pull/4)、[PR #5](https://github.com/OrsonJyu/Lab-Studies-in-Systems-Design/pull/5) 由用户要求合并后发布。

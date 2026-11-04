@@ -4,6 +4,7 @@
 
 | 材料 | 位置 | 可以支持 / 限制 |
 | --- | --- | --- |
+| home 摄像头校时 | [实验与读回](../project-camera/experiments/2026-11-05-home-camera-clock-set/README.md) | 用户同意后修改摄像头时间设置；ONVIF 读回与画面时间核对；不含长期漂移或断电测试 |
 | home 运动检测手挥动 | [实验与事件记录](../project-camera/experiments/2026-11-05-home-motion-hand-test/README.md) | recorder 0.2 帧差检测自动触发；四个事件、一个静止场景、用手模拟；不证明能检测守宫 |
 | home 手动触发录制 | [实验与事件记录](../project-camera/experiments/2026-11-05-home-recorder-manual-trigger/README.md) | recorder 0.1 在真实摄像头上的预录、结束和续接规则；三个短事件，按时钟读数核对；不含运动检测、断流、长期或 SATA |
 | home 延迟测量 | [实验与读数](../project-camera/experiments/2026-11-05-home-latency/README.md) | 拍摄→ROCK 约 0.23 秒（中位）；冷启动第一帧晚约 0.4 秒；单次、看图读数 ±0.05 秒，不含预览显示或检测延迟 |
