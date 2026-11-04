@@ -2,6 +2,13 @@
 
 版本按[版本规则](docs/VERSIONING.md)管理。日期采用香港时区。历史工作日期与本次导入日期分开记录。
 
+## [Unreleased]
+
+### Added
+
+- ROCK 上的 `start.sh` / `stop.sh`：一条命令启动或停止录制程序和网页，已在运行时不重复启动。
+- 用户 Mac 本地的“开始录制 / 停止录制”双击脚本（不入库）：启动前检查并校准板卡时间，录制期间每 10 秒把新片段复制到 `Video_SD5531/recordings/`，按 SHA-256 核对；片段不进 Git 仓库。
+
 ## [1.5.0] - 2026-11-05
 
 第二阶段：在 home 用真实摄像头验证延迟与预录，完成滚动缓存事件录制、运动检测和局域网网页。代码与实验经 [PR #4](https://github.com/OrsonJyu/Lab-Studies-in-Systems-Design/pull/4)、[PR #5](https://github.com/OrsonJyu/Lab-Studies-in-Systems-Design/pull/5) 由用户要求合并后发布。
