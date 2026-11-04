@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "experiment": "exp-home-latency-20261105",
+  "environment": "home",
+  "date_hong_kong": "2026-11-05",
+  "media_saved": false,
+  "camera_settings_changed": false,
+  "clock_reference": "Mac local time shown by latency-clock.html; ROCK set from Mac about 30 minutes earlier (about 10 ms residual)",
+  "reading_method": "Assistant read seconds digits and the lit tenth-of-second squares in each frame; reading uncertainty about +/-0.05 s",
+  "continuous_capture_to_rock_arrival": {
+    "stream": "main, copied without decode",
+    "frames_read": [
+      {"packet": 40, "clock_seen": "02:54:52.40", "arrival": "02:54:52.671", "latency_s": 0.27},
+      {"packet": 80, "clock_seen": "02:54:54.40", "arrival": "02:54:54.632", "latency_s": 0.23},
+      {"packet": 120, "clock_seen": "02:54:56.40", "arrival": "02:54:56.629", "latency_s": 0.23},
+      {"packet": 160, "clock_seen": "02:54:58.40", "arrival": "02:54:58.586", "latency_s": 0.19},
+      {"packet": 200, "clock_seen": "02:55:00.40", "arrival": "02:55:00.651", "latency_s": 0.25},
+      {"packet": 240, "clock_seen": "02:55:02.40", "arrival": "02:55:02.587", "latency_s": 0.19},
+      {"packet": 280, "clock_seen": "02:55:04.40", "arrival": "02:55:04.633", "latency_s": 0.23},
+      {"packet": 320, "clock_seen": "02:55:06.40", "arrival": "02:55:06.691", "latency_s": 0.29},
+      {"packet": 360, "clock_seen": "02:55:08.40", "arrival": "02:55:08.680", "latency_s": 0.28}
+    ],
+    "latency_s": {"min": 0.19, "median": 0.23, "max": 0.29},
+    "frames_are_keyframes": true,
+    "packets_20s": 400,
+    "keyframes_20s": 10,
+    "arrival_gap_s": {"min": 0.0, "mean": 0.0465, "max": 0.14}
+  },
+  "cold_start_trigger_then_record": {
+    "method": "Launch a new FFmpeg RTSP session at a random time, as recording-on-trigger would; read the clock in the first decodable frame",
+    "trials": [
+      {"trial": 1, "launch": "02:56:30.152", "first_frame_clock_seen": "02:56:30.55", "content_after_launch_s": 0.40, "first_packet_output_s": 2.08},
+      {"trial": 2, "launch": "02:56:39.098", "first_frame_clock_seen": null, "content_after_launch_s": null, "first_packet_output_s": 2.01, "note": "digits out of frame after the camera view moved"},
+      {"trial": 3, "launch": "02:56:48.439", "first_frame_clock_seen": "02:56:48.80", "content_after_launch_s": 0.36, "first_packet_output_s": 1.95},
+      {"trial": 4, "launch": "02:56:57.909", "first_frame_clock_seen": "02:56:58.30", "content_after_launch_s": 0.39, "first_packet_output_s": 1.99},
+      {"trial": 5, "launch": "02:57:07.490", "first_frame_clock_seen": "02:57:07.90", "content_after_launch_s": 0.41, "first_packet_output_s": 2.05},
+      {"trial": 6, "launch": "02:57:16.168", "first_frame_clock_seen": null, "content_after_launch_s": null, "first_packet_output_s": 2.06, "note": "clock out of frame"}
+    ],
+    "content_after_launch_s": {"readable_trials": 4, "min": 0.36, "max": 0.41},
+    "first_packet_always_keyframe": true,
+    "first_packet_output_s": {"min": 1.95, "max": 2.08},
+    "interpretation": "Each new session starts with a keyframe whose content is about 0.4 s after launch regardless of when launch fell in the 2 s keyframe cycle; FFmpeg released the first packet about 2 s after launch, which includes its stream probing"
+  },
+  "not_measured": [
+    "display latency of the Mac preview",
+    "motion-detection latency",
+    "behaviour with -probesize/-analyzeduration reduced"
+  ],
+  "board_summary": "board-summary.json",
+  "evidence_images": ["continuous-keyframes-clock-crops.jpg", "cold-start-first-frame-crops.jpg"]
+}

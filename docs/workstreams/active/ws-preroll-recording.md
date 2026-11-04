@@ -23,6 +23,8 @@ related: [D002, D003, D004, D005, D011, D012, D013]
 - [school 网络与预览](../../../project-camera/experiments/2026-10-30-school-network-preview/README.md)：有限 SSH/AP 与最终 Mac 直接有线 IINA 预览已确认；较早阶段管理待恢复；同日更晚的[板卡短录](../../../project-camera/experiments/2026-10-30-school-camera-recording/README.md)已通过。
 
 - [home 共用有线](../../../project-camera/experiments/2026-11-05-home-wired-recovery/README.md)：SD 恢复、自动连接及一次正常重启通过；三份旧无线 profile 手动。新的学校现场复测仍待完成。
+- [home 延迟测量](../../../project-camera/experiments/2026-11-05-home-latency/README.md)：稳定接收时拍摄到 ROCK 约 0.19–0.29 秒；“触发后才启动录制”第一帧内容比触发晚约 0.36–0.41 秒，FFmpeg 约 2 秒后才输出，证实需要滚动缓存。
+- [home 码流与接口探测](../../../project-camera/experiments/2026-11-05-home-stream-probe/README.md)：主/子码流关键帧间隔实测均为 2 秒；摄像头公告 ONVIF 运动事件主题（PullPoint），无录像/回放服务；板卡软件解码子码流约占 6 核的 3.6%。板卡与摄像头时钟分别慢约 5 天、28 天。
 
 ## 未完成与待定项
 
@@ -32,7 +34,9 @@ related: [D002, D003, D004, D005, D011, D012, D013]
 - [ ] 循环分段、事件接收、片段保护、等待尾段、合并重叠事件和过期清理。
 - [ ] 断流、重启、磁盘满与长期连续运行的故障/恢复记录。
 - [ ] SATA 硬盘连接、供电、挂载与正式写入验证。
-- [ ] 摄像头确切商业型号/固件、运动事件接口及供电兼容性。
+- [ ] 摄像头商业品牌、运动事件的实际触发与延迟、供电兼容性。ONVIF 自报型号字符串、固件和事件主题已读取，尚未订阅或收到事件。
+- [x] 2026-11-05 用户选择用 Mac 时间校准 ROCK；校准后偏差约 10 毫秒（[记录](../../../project-camera/experiments/2026-11-05-home-board-clock-set/README.md)）。
+- [ ] 板卡时间重启后能否保持、漂移速度；摄像头时间仍慢约 28 天，未修改，按偏差换算或另行决定。
 - [ ] 控制程序最终用 Python、Node-RED 或其他组合；数据库/消息协议仍为候选。
 - [ ] 触发前保留 p 秒、静止结束阈值 n 秒、后录长度、缓存保留期限和事件元数据：未确认；5 秒仍仅为示例。
 - [x] 10-30 较晚阶段恢复 school 板卡管理并完成一次系统卡录像；与较早 Mac 预览分别记录。

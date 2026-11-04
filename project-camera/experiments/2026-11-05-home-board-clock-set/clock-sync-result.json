@@ -1,0 +1,13 @@
+{
+ "mac_utc_at_set": "2026-11-04T18:45:36Z",
+ "offset_before_s": 455720.007,
+ "rtt_before_s": 0.0335,
+ "offset_after_s": 0.0102,
+ "rtt_after_s": 0.0291,
+ "board_time_state_after": [
+  "NTP=yes",
+  "NTPSynchronized=no"
+ ],
+ "method": "Mac wall clock via SSH midpoint of lowest-RTT sample; applied with date -u -s on the ROCK",
+ "camera_clock_changed": false
+}

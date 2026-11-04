@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "experiment": "exp-home-stream-probe-20261105",
+  "environment": "home",
+  "observed_at_utc_mac": "2026-11-04T18:20:24Z/2026-11-04T18:27:12Z",
+  "observed_on_hong_kong": "2026-11-05",
+  "read_only": true,
+  "media_saved": false,
+  "camera_settings_changed": false,
+  "redaction": "Addresses, credentials, stream URIs, serial number and SSH targets omitted",
+  "preflight": {
+    "tool": "shared-wired-preflight/1",
+    "first_run": "local link/address/routes ok; board SSH, camera RTSP and ONVIF TCP connects failed; host key check failed",
+    "after_ping": "all local, TCP and trusted host key checks ok; board_remote_state warn (no non-interactive authentication)",
+    "mac_wired_media": "100baseTX full-duplex",
+    "board_session": "existing user-authenticated SSH control socket reused; no password entered by the assistant"
+  },
+  "clocks": {
+    "mac_utc": "2026-11-04T18:27:11Z",
+    "board_utc": "2026-10-30T11:51:52Z",
+    "board_behind_mac_s": 455719,
+    "board_timezone": "Etc/UTC",
+    "board_ntp_synchronized": false,
+    "camera_utc": "2026-10-07T16:14:14Z",
+    "camera_behind_mac_s": 2427177,
+    "camera_time_source_setting": "NTP",
+    "note": "Mac clock assumed correct (network time); board and camera have no reachable time source on the isolated wired subnet"
+  },
+  "board": {
+    "kernel": "Linux 6.1.115-8-rk2501 aarch64",
+    "cpus": 6,
+    "memory_total_mib": 3829,
+    "root_free": "104G of 115G",
+    "ffmpeg": "5.1.9-0+deb12u1",
+    "python": "3.11.2",
+    "opencv_available": false,
+    "numpy_available": false
+  },
+  "camera_device_information": {
+    "Manufacturer": "H264",
+    "Model": "IPC_GK7205V200_G4H_S38",
+    "FirmwareVersion": "V1.00.T01.000659SQ.10010.141000.S.ONVIF 21.06",
+    "HardwareId": "00001"
+  },
+  "onvif_services": [
+    "device", "media (ver10)", "media2 (ver20)", "events", "ptz", "imaging", "analytics", "deviceIO"
+  ],
+  "onvif_recording_search_replay_services": false,
+  "streaming_capabilities": {
+    "RTPMulticast": false,
+    "RTP_TCP": true,
+    "RTP_RTSP_TCP": true
+  },
+  "profiles": [
+    {"token": "000", "name": "mainStream", "encoding": "H264", "width": 2560, "height": 1440, "fps_limit": 20, "bitrate_kbps": 5102, "gov_length": 40, "h264_profile": "Main", "stream_uri_available": true},
+    {"token": "001", "name": "subStream", "encoding": "H264", "width": 800, "height": 448, "fps_limit": 20, "bitrate_kbps": 850, "gov_length": 40, "h264_profile": "Main", "stream_uri_available": true},
+    {"token": "002", "name": "snapStream", "encoding": "JPEG", "width": 704, "height": 576, "fps_limit": 1, "bitrate_kbps": 512, "stream_uri_available": true}
+  ],
+  "events": {
+    "pull_point_support": true,
+    "subscription_policy_support": true,
+    "pausable_subscription": false,
+    "max_pull_points": 10,
+    "persistent_notification_storage": false,
+    "advertised_topics": [
+      "/Configuration/AudioEncoderConfiguration",
+      "/Configuration/Profile",
+      "/Configuration/VideoAnalyticsConfiguration",
+      "/Configuration/VideoEncoderConfiguration",
+      "/Configuration/VideoSourceConfiguration/MediaService",
+      "/Device/Trigger/DigitalInput",
+      "/Device/Trigger/Relay",
+      "/Media/ConfigurationChanged",
+      "/Media/ProfileChanged",
+      "/RuleEngine/CellMotionDetector/Motion",
+      "/RuleEngine/FieldDetector/ObjectsInside",
+      "/RuleEngine/LineDetector/Crossed",
+      "/RuleEngine/TamperDetector/Tamper",
+      "/VideoSource/GlobalSceneChange/ImagingService",
+      "/VideoSource/ImageTooBlurry/ImagingService",
+      "/VideoSource/ImageTooBright/ImagingService",
+      "/VideoSource/ImageTooDark/ImagingService",
+      "/VideoSource/MotionAlarm",
+      "/VideoSource/SignalLoss"
+    ],
+    "subscription_created": false,
+    "note": "Advertised topics only; no event was received and motion-event latency was not measured"
+  },
+  "stream_packets_12s": {
+    "main": {"exit": 0, "stderr_lines": 0, "packets": 240, "stream_span_s": 11.9, "keyframes": 5, "keyframe_interval_s": {"min": 2.0, "median": 2.0, "max": 2.0}, "frame_delta_s": {"median": 0.05, "max": 0.05}, "nonmonotonic_pts": 0, "mean_packet_bytes": 7676, "wall_s": 12.74},
+    "sub": {"exit": 0, "stderr_lines": 0, "packets": 240, "stream_span_s": 11.9, "keyframes": 5, "keyframe_interval_s": {"min": 2.0, "median": 2.0, "max": 2.0}, "frame_delta_s": {"median": 0.05, "max": 0.05}, "nonmonotonic_pts": 0, "mean_packet_bytes": 408, "wall_s": 12.71}
+  },
+  "software_decode_cost": {
+    "sub_30s": {"exit": 0, "stderr_lines": 1, "wall_s": 30.97, "cpu_s": 6.65, "avg_cores_busy": 0.21, "share_of_6_cores_pct": 3.6, "max_rss_mb": 69.6},
+    "main_15s": {"exit": 0, "stderr_lines": 0, "wall_s": 16.1, "cpu_s": 13.79, "avg_cores_busy": 0.86, "share_of_6_cores_pct": 14.3, "max_rss_mb": 143.5},
+    "loadavg_after": [0.75, 0.18, 0.06],
+    "note": "FFmpeg software decode to null sink only; no motion analysis, segmenting or writing included. The one stderr line of the substream run was not retained."
+  },
+  "temporary_files": "Stream URIs were passed through a 0600 file in the board's private directory and deleted at the end of the run (verified)"
+}
