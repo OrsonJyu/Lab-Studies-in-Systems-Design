@@ -8,13 +8,13 @@
 4. Relevant source documents and `provenance/source-manifest.json`.
 5. `knowledge/GRAPH.json` and the relevant historical discussion, when needed.
 
-For reproducing the home hardware baseline, read `docs/guides/HOME_HARDWARE_AND_EXPERIMENT_GUIDE.md`. It separates Mac and ROCK commands and includes complete instructional code blocks; fill current local parameters and verify each gate. Static documentation checks are not new hardware evidence.
+For current daily setup read `docs/guides/SHARED_WIRED_NETWORK_GUIDE.md` and `docs/handoffs/2026-11-05-shared-wired-baseline.md`. Home/school share one ignored `.local/wired-lab.json`, one persistent `lab-wired` UUID/address plan and isolated switch; Mac Wi-Fi supplies Internet only. Run the read-only checker before experiments. The old home/school guides describe historical DHCP/temporary/manual and hotspot procedures, not current daily activation. Do not re-create profiles or disable wired autoconnect merely because the site/Wi-Fi changed.
 
 ## Project identity and current decisions
 
 - This is PolyU **SD5531 Lab Studies in Systems Design**, Project 2 / Video Recording Module. Do not mix SD5513, SD5511 or SD5008 into its baseline.
 - The latest explicit user hardware correction is **ROCK 4C+ + local SATA hard disk**, dated 2026-10-23. ROCK 5C / SSD / cloud diagrams are historical proposals. Do not silently restore them as current hardware.
-- On 2026-10-30 the user named the household test environment **`home`** (D011) and chose system microSD for those tests (D012). The later **`school`** session has limited network/AP/preview evidence and a user-selected final wired topology (D013). The generic `hotspot` environment remains reserved; school hotspot variants do not validate every hotspot. SATA is still unverified. Read `project-camera/environments/school/README.md` and `docs/guides/SCHOOL_NETWORK_AND_PREVIEW_GUIDE.md` for school recovery and evidence boundaries.
+- The user named **home** and chose system microSD for current tests (D011/D012), then selected wired school operation (D013). D014 (2026-11-05) now unifies home/school on one isolated wired baseline. The renamed lab-wired profile retains the original UUID/address, autoconnect=yes, priority 100, no wired default route; old board Wi-Fi/AP profiles remain manual. Home cold-start and normal reboot/short decoding passed; the new shared baseline still needs school-site retesting. Generic hotspot, SATA and endurance remain unverified.
 - Preserve the complete project scope: video and thermal data, recording/storage/access, potential localization/identity and behavioral information, cross-team integration. The pre-roll workflow is only the immediate milestone.
 - Node-RED, Python, MQTT, MongoDB, PostgreSQL and operating systems discussed in older diagrams are not all finalized dependencies. Node-RED is orchestration; MongoDB is a database. Protocols, ownership and deployment must be confirmed or tested.
 
@@ -26,12 +26,14 @@ For reproducing the home hardware baseline, read `docs/guides/HOME_HARDWARE_AND_
 - Prefer the latest explicit user instruction, then dated accepted decisions, then evidence-backed current documentation. Preserve conflicts and cite their sources.
 - Separate: official course source, user-confirmed fact, AI interpretation, proposed design, compilation, host simulation, hardware observation, and course submission. ASR and AI minutes do not establish instructor-approved decisions.
 - `home` now has a real short camera recording, full software decode and user-confirmed Mac live preview. These establish a limited hardware baseline, not a persistent deployed service, pre-roll, long-duration stability, SATA validation or gecko identification. Never infer camera results from the ESP32C3 classroom exercises.
-- `school` final wired preview is camera → switch → Mac / IINA, with a successful three-second decode and user confirmation. It bypasses ROCK in the viewing path: the final board static IPv4/SSH was still unavailable and IPv6 only answered ICMP. Do not turn the user's final preview confirmation into board management, recording or recovery validation. NetworkManager school/AP profiles were saved for manual activation, not boot autoconnect. The 802.1X sharing rejection does not establish campus-wide client isolation; neither QoS nor a proxy was proven to cause all earlier failures.
+- The earlier 2026-10-30 school network/preview record ended with board management unresolved; keep that experiment unchanged. A later same-day test restored wired SSH and saved/fully decoded a 60-second board clip, now indexed separately. Its JSON evidence is committed; its video remains local. On 2026-11-05 home SD recovery fixed non-autoconnect and pending ext4 recovery, then the shared profile passed a normal reboot. No single-variable test isolates the unique cause. Neither preview alone, a link LED, nor gigabit negotiation proves board boot/recording health. Campus-wide isolation, QoS/proxy causation, clock alignment and full recording-service recovery remain unproven.
 - Use the inspected physical camera label (4MP, 2.8mm, PoE 48V / 4W, ONVIF) and measured file metadata for the home test. The old XM530AI + SC2235 / 5MP graphics do not establish this unit's chipset, exact model or firmware. Camera clock and stream timestamp warnings remain open.
 - Invisible periods and interrupted streams are missing observations. Stillness is not sleep, visiting a water bowl is not confirmed drinking, and activity is not a health or welfare diagnosis.
 - Physical videos added after original classroom documentation must be indexed as newer evidence; do not keep claiming no file exists. Their contents and requirement coverage still need review.
 
 ## Where information goes
+
+The current handoff also preserves the user's next requested experiment: hand-motion-triggered retention, stop after continuous stillness n seconds, pre-event completeness/latency, then an optional website. n=5 and pre-roll 3–5 seconds were suggestions, not confirmed parameters. Do not start recording merely while maintaining network documentation.
 
 The repository is the project memory; follow `docs/guides/GIT_MARKDOWN_MEMORY_GUIDE.md` (decision D009). In short:
 

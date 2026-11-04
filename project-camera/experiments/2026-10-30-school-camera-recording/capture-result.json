@@ -1,0 +1,27 @@
+{
+  "environment": "school",
+  "recorder": "ROCK 4C+",
+  "network_variant": "wired_switch",
+  "storage": "system_microSD",
+  "started_utc": "2026-10-30T09:40:28.691038+00:00",
+  "first_frame_received_utc": "2026-10-30T09:40:31.368531+00:00",
+  "capture_exit": 0,
+  "wall_seconds": 60.89,
+  "requested_duration_seconds": 60,
+  "audio_recorded": false,
+  "last_progress": {
+    "frame": "1200",
+    "fps": "20.41",
+    "stream_0_0_q": "-1.0",
+    "bitrate": "5022.5kbits/s",
+    "total_size": "37637189",
+    "out_time_us": "59950022",
+    "out_time_ms": "59950022",
+    "out_time": "00:00:59.950022",
+    "dup_frames": "0",
+    "drop_frames": "0",
+    "speed": "1.02x",
+    "progress": "end"
+  },
+  "bytes": 37637189
+}

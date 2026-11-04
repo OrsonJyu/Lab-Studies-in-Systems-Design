@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "example_only": true,
+  "mac": {
+    "ethernet_interface": "<MAC_ETHERNET_INTERFACE>",
+    "ethernet_cidr": "<MAC_STATIC_IPV4_WITH_PREFIX>",
+    "wifi_interface": "<MAC_WIFI_INTERFACE>"
+  },
+  "board": {
+    "ethernet_interface": "<BOARD_ETHERNET_INTERFACE>",
+    "ethernet_cidr": "<BOARD_STATIC_IPV4_WITH_PREFIX>",
+    "profile_id": "lab-wired",
+    "profile_uuid": "<EXISTING_VERIFIED_CONNECTION_UUID>",
+    "ssh_user": "<BOARD_LOGIN_USER>",
+    "ssh_host_key_alias": "<TRUSTED_KNOWN_HOSTS_NAME>"
+  },
+  "camera": {
+    "ipv4": "<CAMERA_STATIC_IPV4>",
+    "rtsp_port": 554,
+    "onvif_port": 8899
+  }
+}

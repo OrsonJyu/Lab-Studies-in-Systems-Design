@@ -13,6 +13,8 @@
 | 2026-10-29 | 采用 Git + Markdown 记忆指南；新增工作流、源码与实验目录，明确分支规则（D009） | 仓库维护方式调整，不涉及项目实现进度 |
 | 2026-10-30 | ROCK 4C+ 启动与 SSH、系统卡合成视频、真实摄像头约 60 秒录像与完整解码、Mac 实时预览；用户命名本次环境为 home（D011），本阶段先用系统卡（D012） | 首个有限摄像头实测基线；时间校准、DTS、预录制、SATA、长期与跨环境验证仍待完成；见[home](../project-camera/environments/home/README.md)与[实验索引](../project-camera/experiments/README.md) |
 | 2026-10-30 · 后续学校搭建 | 校园 802.1X 来源共享被拒；临时有线 SSH、电脑/iPhone 热点、NetworkManager 静态 profile 和 ROCK AP 练习；取得额外网线后改为 Mac 直接有线 IINA 预览，用户确认成功（D013） | 独立 [school 实验](../project-camera/experiments/2026-10-30-school-network-preview/README.md)；末次板卡管理待恢复，无学校新录像、长期或自动恢复验收，不改写 home 原实验 |
+| 2026-10-30 · 更晚的 17:40 实验（11-05 补录） | 恢复学校板卡有线管理并在系统卡保存 60 秒真实录像，完整解码与复制哈希通过 | [后续独立记录](../project-camera/experiments/2026-10-30-school-camera-recording/README.md)；不改写前一阶段“尚未录制”的历史 |
+| 2026-11-05 | home SD 网络恢复；发现有线不自启和 ext4 待恢复日志；标准恢复与单行修复后冷启动 SSH 通过。用户统一 home/school 有线，改名 lab-wired、无线备用手动，正常重启与短解码通过 | [D014](DECISIONS.md) · [实验](../project-camera/experiments/2026-11-05-home-wired-recovery/README.md) · [接续](handoffs/2026-11-05-shared-wired-baseline.md)；新学校现场和长期仍待验收 |
 
 ## 可检索讨论档案
 

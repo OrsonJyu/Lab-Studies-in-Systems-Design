@@ -1,6 +1,6 @@
 # 知识网 / Knowledge network
 
-版本 1.2 · 更新日期 2026-10-30。对应[机器可读图 GRAPH.json](GRAPH.json)。本图由既有材料整理，用于找到概念、决定、成果与验证之间的关系；不把关系线视为因果证明或已实现的数据链。
+版本 1.3 · 更新日期 2026-11-05。对应[机器可读图 GRAPH.json](GRAPH.json)。本图由既有材料整理，用于找到概念、决定、成果与验证之间的关系；不把关系线视为因果证明或已实现的数据链。
 
 ```mermaid
 flowchart TD
@@ -23,7 +23,10 @@ flowchart TD
     SCHOOL --> AP[ROCK AP 无线 SSH: 用户确认]
     AP --> MOBILE
     WIRED --> V
-    SCHOOL --> MGMT[末次板卡有线管理: 待恢复]
+    SCHOOL --> MGMT[较晚板卡管理和短录: 已验证]
+    SHARED[共用 lab-wired: D014] --> HOME
+    SHARED -. 学校现场待复测 .-> SCHOOL
+    HOME --> REBOOT[冷启动和正常重启: 有限通过]
     WIRED -. 不代表恢复 .-> MGMT
     P --> F[FFmpeg: media operations]
     P --> C[Controller: proposed event/retention logic]
@@ -35,7 +38,7 @@ flowchart TD
     D[展示与历史讨论] --> S
 ```
 
-home 证据覆盖系统卡短录与预览；school 新增分变体网络、AP SSH 与最终 Mac 有线预览，未完成学校录像或末次板卡管理恢复。通用热点、SATA、预录制、长期和自动恢复仍待验证。环境和限制见 [home](../project-camera/environments/home/README.md)、[school](../project-camera/environments/school/README.md)及[学校实验](../project-camera/experiments/2026-10-30-school-network-preview/README.md)。
+home 有历史短录/预览及 11-05 共用网络恢复/重启；school 同日较晚阶段完成板卡短录，和较早网络记录分开。D014 统一日常配置，新基线学校现场仍待复测；通用热点、SATA、预录、长期和异常恢复仍待验证。见[共用指南](../docs/guides/SHARED_WIRED_NETWORK_GUIDE.md)、[home 恢复](../project-camera/experiments/2026-11-05-home-wired-recovery/README.md)与[学校后续短录](../project-camera/experiments/2026-10-30-school-camera-recording/README.md)。
 
 ## 如何读取
 

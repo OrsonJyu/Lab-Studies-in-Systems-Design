@@ -1,35 +1,39 @@
 {
   "schema_version": "1.0",
-  "updated_on": "2026-10-30",
+  "updated_on": "2026-11-05",
   "timezone": "Asia/Hong_Kong",
-  "last_verified_environment": "school",
+  "last_verified_environment": "home",
   "decision": "D011",
   "environments": [
     {
       "id": "home",
-      "status": "limited_hardware_baseline_verified",
+      "status": "shared_wired_reboot_verified",
       "profile": "project-camera/environments/home/README.md",
       "configuration_example": "project-camera/environments/home/config.example.json",
-      "verified_on": "2026-10-30",
+      "verified_on": "2026-11-05",
       "evidence": [
         "project-camera/experiments/2026-10-30-home-system-card/README.md",
         "project-camera/experiments/2026-10-30-home-camera-recording/README.md",
-        "project-camera/experiments/2026-10-30-home-live-preview/README.md"
-      ]
+        "project-camera/experiments/2026-10-30-home-live-preview/README.md",
+        "project-camera/experiments/2026-11-05-home-wired-recovery/README.md"
+      ],
+      "shared_network_policy": "one_wired_plan; environment_labels_do_not_change_addresses",
+      "selected_network_variant": "wired_switch"
     },
     {
       "id": "school",
-      "status": "limited_network_and_preview_verified",
+      "status": "historical_wired_recording_verified_shared_baseline_retest_pending",
       "profile": "project-camera/environments/school/README.md",
       "verified_on": "2026-10-30",
       "evidence": [
-        "project-camera/experiments/2026-10-30-school-network-preview/README.md"
+        "project-camera/experiments/2026-10-30-school-network-preview/README.md",
+        "project-camera/experiments/2026-10-30-school-camera-recording/README.md"
       ],
       "open_questions": [
-        "final board wired IPv4/SSH recovery",
-        "school recording and time alignment",
-        "endurance and reboot recovery",
-        "campus-wide isolation remains untested"
+        "new shared lab-wired baseline school-site retest",
+        "clock/event alignment",
+        "endurance and repeated recovery",
+        "campus-wide isolation remains untested and is not required for the isolated wired path"
       ],
       "configuration_example": "project-camera/environments/school/config.example.json",
       "network_variants": [
@@ -39,7 +43,10 @@
         "wired_switch"
       ],
       "selected_network_variant": "wired_switch",
-      "decision": "D013"
+      "decision": "D013",
+      "shared_network_policy": "one_wired_plan; environment_labels_do_not_change_addresses",
+      "shared_baseline_site_retested": false,
+      "network_decision": "D014"
     },
     {
       "id": "hotspot",
@@ -53,7 +60,11 @@
         "gateway capability",
         "power and addressing"
       ],
-      "note": "Generic independent environment remains reserved; hotspot trials at school are scoped to school network variants."
+      "note": "Generic independent environment remains reserved; hotspot trials at school are scoped to school network variants.",
+      "shared_network_policy": "one_wired_plan; environment_labels_do_not_change_addresses"
     }
-  ]
+  ],
+  "network_decision": "D014",
+  "shared_network_template": "project-camera/src/network/config.example.json",
+  "shared_profile_id": "lab-wired"
 }

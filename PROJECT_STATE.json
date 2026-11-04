@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "repository_version": "1.3.0",
-  "updated_on": "2026-10-30",
+  "repository_version": "1.4.0",
+  "updated_on": "2026-11-05",
   "timezone": "Asia/Hong_Kong",
   "course": {
     "code": "SD5531",
@@ -17,7 +17,7 @@
       "status": "user_confirmed",
       "confirmed_on": "2026-10-23",
       "decision": "D002",
-      "storage_scope": "SATA is the user-confirmed project direction; home tests used system microSD only",
+      "storage_scope": "SATA remains the project direction; short tests in home/school used system microSD",
       "last_verified_test_storage": "system microSD / ext4"
     },
     "scope": [
@@ -27,8 +27,8 @@
       "behavior timeline and spatial use",
       "cross-team data alignment"
     ],
-    "immediate_milestone": "Resolve clock/timestamp and temporary-network limitations, then validate rolling segments, pre-event retention and event metadata; preserve the full project scope",
-    "camera_implementation_status": "home_short_recording_verified; school_network_ap_and_direct_wired_mac_preview_limited; final_school_board_management_pending; persistent_service_and_preroll_not_established",
+    "immediate_milestone": "Confirm n/pre-roll parameters, implement hand-motion-triggered retention with pre-event completeness and latency checks; optional website follows the recording pipeline",
+    "camera_implementation_status": "home_and_school_short_recordings_verified; shared_wired_home_reboot_verified; school_shared_baseline_site_retest_pending; motion_trigger_and_preroll_not_implemented",
     "candidate_tools": [
       "Python production controller",
       "Node-RED",
@@ -39,11 +39,10 @@
     "unconfirmed": [
       "exact camera commercial model/chipset/firmware and motion-event interface; ONVIF reads and RTSP/TCP verified in home",
       "SATA connection, power, mounting and recording",
-      "persistent network and production recording-service deployment",
       "camera clock, packet timestamps and event alignment",
       "retention policy and pre/post durations",
       "shared timestamps, IDs, event labels and owners",
-      "school final board wired management restoration, school recording, network endurance/reboot recovery, and other sites/hotspots"
+      "persistent recording service, shared-baseline school site retest, network endurance and repeated recovery"
     ],
     "outside_current_deliverables": [
       "automated health diagnosis",
@@ -54,15 +53,18 @@
       "mac_preview": "FFplay 8.0.1 over localhost SSH forwarding"
     },
     "environments": {
-      "last_verified": "school",
+      "last_verified": "home",
       "registry": "project-camera/environments/registry.json",
-      "home_status": "limited_hardware_baseline_verified",
-      "school_status": "limited_network_and_preview_verified",
+      "home_status": "shared_wired_reboot_verified",
+      "school_status": "historical_wired_recording_verified_shared_baseline_retest_pending",
       "hotspot_status": "reserved_not_tested",
       "decision": "D011",
       "real_configuration_location": "ignored local/private configuration; not committed",
       "school_decision": "D013",
-      "school_profile": "project-camera/environments/school/README.md"
+      "school_profile": "project-camera/environments/school/README.md",
+      "network_decision": "D014",
+      "shared_profile": "lab-wired",
+      "shared_configuration_template": "project-camera/src/network/config.example.json"
     },
     "home_validation": {
       "tested_on": "2026-10-30",
@@ -100,16 +102,39 @@
       },
       "short_decode_check_seconds": 3,
       "short_decode_exit": 0,
-      "school_recording_saved": false,
+      "school_recording_saved": true,
       "rock_ap_wireless_ssh": "user_confirmed",
-      "final_board_wired_management": "pending_restore_and_retest",
+      "final_board_wired_management": "restored_later_20261030_before_short_recording",
       "static_and_ap_profiles_saved": true,
       "profile_autoconnect": false,
       "latency_measured": false,
       "endurance_tested": false,
       "preroll_tested": false,
       "sata_validated": false,
-      "source_basis": "privacy-filtered session observations and user confirmations; raw attachments not committed"
+      "source_basis": "privacy-filtered session observations and user confirmations; raw attachments not committed",
+      "later_recording_evidence": "project-camera/experiments/2026-10-30-school-camera-recording/README.md",
+      "scope": "Historical 2026-10-30 stages; shared baseline school-site retest remains pending"
+    },
+    "shared_network_validation": {
+      "tested_on": "2026-11-05",
+      "environment": "home",
+      "decision": "D014",
+      "profile_id": "lab-wired",
+      "autoconnect": true,
+      "priority": 100,
+      "same_uuid_and_address_preserved": true,
+      "wired_default_route": false,
+      "optional_wifi_profiles_manual": true,
+      "switch_without_external_uplink": "user_confirmed",
+      "cold_start_after_sd_repair": "passed",
+      "normal_reboot_after_unification": "passed",
+      "read_only_health_checks": "passed",
+      "post_reboot_video_decode_seconds": 3,
+      "post_reboot_decoded_frames": 60,
+      "school_site_retested": false,
+      "all_wifi_environments_tested": false,
+      "new_recording_saved": false,
+      "evidence": "project-camera/experiments/2026-11-05-home-wired-recovery/README.md"
     }
   },
   "coursework": {
@@ -156,7 +181,10 @@
     "camera_environments": "project-camera/environments/README.md",
     "home_reproduction_guide": "docs/guides/HOME_HARDWARE_AND_EXPERIMENT_GUIDE.md",
     "school_reproduction_guide": "docs/guides/SCHOOL_NETWORK_AND_PREVIEW_GUIDE.md",
-    "school_environment": "project-camera/environments/school/README.md"
+    "school_environment": "project-camera/environments/school/README.md",
+    "shared_network_guide": "docs/guides/SHARED_WIRED_NETWORK_GUIDE.md",
+    "network_checker": "project-camera/src/network/README.md",
+    "latest_handoff": "docs/handoffs/2026-11-05-shared-wired-baseline.md"
   },
   "evidence_policy": "Do not infer implementation from plans, physical results from compilation, submission from local files, or health from behavior alone.",
   "active_workstreams": [
@@ -174,5 +202,5 @@
     "branch_and_pr": "camera source code, conclusion-changing experiment results, large restructures; user reviews, no auto-merge",
     "agent_entry": "AGENTS.md (CLAUDE.md only points to it)"
   },
-  "version_status": "released_school_network_and_preview_increment"
+  "version_status": "candidate_shared_wired_baseline_pending_review"
 }

@@ -1,15 +1,17 @@
 # 成果与证据索引 / Evidence index
 
-核对日期：2026-10-30。2026-10-26 的导入只验证档案关系；已有 home 摄像头实测与后续 school 网络/预览。课堂编译/实机结果继续按历史证据记录，没有在这次重新验收。
+核对日期：2026-11-05。2026-10-26 的导入只验证档案关系；已有 home 摄像头实测与后续 school 网络/预览。课堂编译/实机结果继续按历史证据记录，没有在这次重新验收。
 
 | 材料 | 位置 | 可以支持 / 限制 |
 | --- | --- | --- |
+| home 恢复与共用有线 | [实验](../project-camera/experiments/2026-11-05-home-wired-recovery/README.md)、[检查报告](../project-camera/experiments/2026-11-05-home-wired-recovery/health-check.json) | 去私有值的恢复摘要、一次装卡启动及一次正常重启、只读检查和短解码；没有学校新基线现场或长期证明 |
+| school 后续真实短录 | [实验与 JSON](../project-camera/experiments/2026-10-30-school-camera-recording/README.md) | 较早预览之后的板卡 60 秒保存/完整解码与复制核对；原片本地保留，本次不上传 |
 | home 系统卡合成视频 | [实验](../project-camera/experiments/2026-10-30-home-system-card/README.md) | 基础保存与解码通过；不验证摄像头 |
 | home 真实摄像头录像 | [实验与原片](../project-camera/experiments/2026-10-30-home-camera-recording/README.md) | 一次约 60 秒保存/解码、现场手部画面；OSD 与 DTS 问题保留，不证明预录制/长期稳定 |
 | home Mac 实时预览 | [用户确认记录](../project-camera/experiments/2026-10-30-home-live-preview/README.md) | 用户确认 FFplay 动态画面；无延迟或跨环境性能结论 |
 | home 实物参数 | [去访问参数观察与照片校验值](../project-camera/environments/home/hardware-observations.json) | 实物标签/型号观察；原始照片仍在本地，不独立证明协议标准认证 |
-| school 网络与 IINA 预览 | [实验](../project-camera/experiments/2026-10-30-school-network-preview/README.md)、[结构化结果](../project-camera/experiments/2026-10-30-school-network-preview/result.json) | 整理用户截图、检查和确认：AP SSH、iPhone/IINA 与最终有线预览；最终板卡管理待恢复，没有学校新录像 |
-| school 接线与复现配置 | [环境档案](../project-camera/environments/school/README.md)、[指南](guides/SCHOOL_NETWORK_AND_PREVIEW_GUIDE.md) | 字段与操作步骤，非完整部署；原图/工具日志/真实参数不上传，摘要文件哈希不替代原始测试证据 |
+| school 网络与 IINA 预览 | [实验](../project-camera/experiments/2026-10-30-school-network-preview/README.md)、[结构化结果](../project-camera/experiments/2026-10-30-school-network-preview/result.json) | 整理用户截图、检查和确认：AP SSH、iPhone/IINA 与最终有线预览；较早阶段板卡管理待恢复；后来管理恢复及短录另起记录 |
+| school 接线与复现配置 | [环境档案](../project-camera/environments/school/README.md)、[指南](guides/SCHOOL_NETWORK_AND_PREVIEW_GUIDE.md) | 旧探索字段与步骤，当前采用[共用指南](guides/SHARED_WIRED_NETWORK_GUIDE.md)；原图/工具日志/真实参数不上传，摘要文件哈希不替代原始测试证据 |
 | 摄像头项目展示 | [PDF](../project-camera/references/SD5531_Gecko_Presentation_Group2.pdf)、[PPTX](../project-camera/references/SD5531_Gecko_Presentation_final.pptx) | 展示 scope 和探索方案；不证明部署、算法准确率或采购 |
 | 跨组合作计划 | [合作计划 PDF](../project-camera/references/Gecko_各组合作计划.pdf) | 对接内容与机位讨论稿；责任需双方确认 |
 | 会议资料 | [Tutorial 入口](../project-camera/references/Tutorial/README.md) | 机器转录与 AI 解读；原始音视频和质量报告尚未找到 |

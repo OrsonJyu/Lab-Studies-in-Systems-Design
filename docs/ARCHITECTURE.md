@@ -1,35 +1,23 @@
 # 系统角色与预录制 / Architecture
 
-更新：2026-10-30。**home 短录及预览、school 网络/AP 和最终 Mac 有线预览已有有限证据；循环分段、事件控制和预录制仍待实现/验证。** 完整范围见 [SCOPE](SCOPE.md)，适用条件见[环境目录](../project-camera/environments/README.md)。
+更新：2026-11-05。home/school 共用 [D014](DECISIONS.md) 有线网络策略，结果仍按地点记录；home/school 短录已有有限证据，循环缓存、运动触发和预录仍待实现。
 
-## home 已验证的基础链路
-
-```mermaid
-flowchart LR
-    P[48V PoE injector] -. power .-> C[Physical IP camera]
-    C -->|RTSP over TCP| S[Ordinary gigabit switch]
-    S --> R[ROCK 4C+ / FFmpeg]
-    R -->|One short recording| SD[System microSD / MP4]
-    R -->|SSH forwarding| L[Mac localhost port]
-    L --> V[FFplay / user-confirmed live picture]
-```
-
-图示仅标明本次证据覆盖的角色。PoE 供电器 LAN 口连接数据网络，POE 输出口连接匹配的摄像头；普通交换机不提供摄像头电源。路由器承担 home 的管理网络接入，具体接线见 [home](../project-camera/environments/home/README.md)。
-
-已验证：ONVIF 只读获取配置和流 URI；RTSP/TCP 主码流接收；约 60 秒保存、完整软件解码和 Mac 动态预览。ROCK 摄像头网段辅助地址与 SSH 本机转发尚未持久化，不是已完成的开机自启服务。
-
-## school 最终有线预览链路
+## 当前共用本地数据路径
 
 ```mermaid
 flowchart LR
-    P[Independent PoE injector] --> C[IP camera]
-    C --> S[Ordinary switch]
-    S -->|RTSP over TCP| M[Mac / IINA]
-    S -. management and recording to revalidate .-> R[ROCK 4C+]
-    W[Campus Wi-Fi] -->|Internet separately| M
+    P[Independent PoE injector] -. power .-> C[IP camera]
+    C --> S[Isolated ordinary switch]
+    S --> R[ROCK 4C+ / lab-wired]
+    S --> M[Mac wired interface]
+    R --> SD[System microSD / short tests]
+    W[Site Wi-Fi / Internet] --> M
+    R -. optional SSH preview forwarding .-> M
 ```
 
-本次已验证 Mac 直接读取相机、三秒解码和用户可见 IINA 预览；末次 ROCK 固定 IPv4/SSH 尚未恢复。该视频路径不要求 ROCK 转发，不能从 Mac 的成功推定板卡录像。学校内的电脑热点、iPhone 和 ROCK AP 是另外的分变体记录；见 [school](../project-camera/environments/school/README.md)。
+交换机没有路由器/校园墙口上联。固定网段、UUID与自动连接策略共用，Mac Wi-Fi 仅外网。ROCK 无线为手动备用，不承担日常管理；真实值在私有 JSON。[统一指南](guides/SHARED_WIRED_NETWORK_GUIDE.md)及[检查器](../project-camera/src/network/README.md)为当前操作入口。
+
+home 的 SD 恢复后装卡启动和统一后的正常重启均自动恢复 SSH；重启后三秒视频解码通过。school 10-30 的较晚短录已补录，新统一 profile 在学校现场仍待复测。旧 home 临时地址和学校热点路径保留在历史实验，不是每日配置。
 
 ## 仍待实现的目标链路
 
@@ -78,6 +66,6 @@ home 的画面叠加日期与实际测试日期不符，日志还有未设置时
 
 ## 环境与旧方案
 
-home、学校和热点的地址分配、设备互通与管理路径分开记录。学校或热点可能有客户端隔离，互联网可用不等于摄像头/ROCK/Mac 互通。真实地址和访问参数留本地，仓库保存拓扑、示例与验证结果。
+home/学校的有线地址规划和管理基线共用，各场地的实测条件与结果分开记录。学校或热点可能有客户端隔离，互联网可用不等于摄像头/ROCK/Mac 互通。真实地址和访问参数留本地，仓库保存拓扑、示例与验证结果。
 
-ROCK 5C、SSD、云端与旧摄像头芯片/商品参数仍保留在历史展示和 Figma 中。当前设备与实测以 [home](../project-camera/environments/home/README.md)、[school](../project-camera/environments/school/README.md)及 D002/D011/D012/D013 为入口；云端服务仍未定。
+ROCK 5C、SSD、云端与旧摄像头芯片/商品参数仍保留在历史展示和 Figma 中。当前设备与实测以 [home](../project-camera/environments/home/README.md)、[school](../project-camera/environments/school/README.md)及 D002/D011/D012/D013/D014 为入口；云端服务仍未定。

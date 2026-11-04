@@ -4,6 +4,9 @@
 
 | 文档 | 内容 / Purpose |
 | --- | --- |
+| [共用有线指南](guides/SHARED_WIRED_NETWORK_GUIDE.md) | home/school 同一配置、旧配置去向、开机验收和恢复边界 |
+| [接续上下文](handoffs/2026-11-05-shared-wired-baseline.md) | 当前完成项、私有参数入口、下一阶段实验和发布状态 |
+| [网络检查器](../project-camera/src/network/README.md) | 加载一份私有 JSON 的只读地址/路由/身份/自动连接检查 |
 | [STATUS](STATUS.md) | 当前完成度、硬件基线、证据与未知项 |
 | [SCOPE](SCOPE.md) | 完整项目范围、近期目标及范围边界 |
 | [ARCHITECTURE](ARCHITECTURE.md) | 设备、消息、视频、控制、存储与界面的角色 |
@@ -11,7 +14,7 @@
 | [EVIDENCE](EVIDENCE.md) | 成果与实验记录位置、证明什么及不能证明什么 |
 | [ROADMAP](ROADMAP.md) | 下一步问题、建议验证与依赖 |
 | [Workstreams](workstreams/README.md) | 正在进行与已完成的工作，各自的现状与待定项 |
-| [测试环境](../project-camera/environments/README.md) | home 短录、school 网络与预览；通用 hotspot 仍预留，结果不混用 |
+| [测试环境](../project-camera/environments/README.md) | 共用网络策略；home 恢复及 school 后续短录，地点证据不混用 |
 | [home 硬件与实验复现指南](guides/HOME_HARDWARE_AND_EXPERIMENT_GUIDE.md) | 接线、参数、ONVIF、录像、解码、Mac 预览及 agent 验收步骤 |
 | [school 网络与预览指南](guides/SCHOOL_NETWORK_AND_PREVIEW_GUIDE.md) | 有线拓扑、静态配置恢复、ROCK AP、Mac 直接 IINA 预览及证据边界 |
 | [HISTORY](HISTORY.md) | 从早期探索到当前方向的可检索时间线 |

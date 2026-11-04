@@ -1,0 +1,16 @@
+{
+  "probe_exit": 0,
+  "recording_saved": false,
+  "streams": [
+    {
+      "codec_name": "h264",
+      "width": 2560,
+      "height": 1440,
+      "r_frame_rate": "20/1"
+    }
+  ],
+  "decode_exit": 0,
+  "decoded_frames": 60,
+  "decoded_duration": "00:00:03.000000",
+  "decode_error_log_empty": true
+}

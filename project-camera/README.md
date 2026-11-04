@@ -1,5 +1,8 @@
 # 摄像头项目 / Camera project
 
+> 2026-11-05 当前入口：[共用有线指南](../docs/guides/SHARED_WIRED_NETWORK_GUIDE.md) · [只读检查器](src/network/README.md) · [接续上下文](../docs/handoffs/2026-11-05-shared-wired-baseline.md)。home 重启通过，学校后续短录已补录，新学校基线现场仍待复测。
+
+
 当前硬件与状态先看 [STATUS](../docs/STATUS.md)；范围与角色看 [SCOPE](../docs/SCOPE.md) 和 [ARCHITECTURE](../docs/ARCHITECTURE.md)。这里保存实际成果与来源。
 
 | 成果 | 阅读 / 使用 |
@@ -19,4 +22,4 @@
 
 2026-10-30 的 `home` 测试先使用系统 microSD：真实短录像和用户确认的实时预览已通过；SATA、预录制、长期稳定性及其他环境仍需各自验证。
 
-同日后续的 [school](environments/school/README.md) 已有有限网络/AP 验证和最终 Mac 直接有线 IINA 预览，未产生学校新录像；末次板卡有线管理仍待恢复。配置与复现见[学校指南](../docs/guides/SCHOOL_NETWORK_AND_PREVIEW_GUIDE.md)。
+school 同日较晚阶段已恢复板卡管理并完成[60 秒短录](experiments/2026-10-30-school-camera-recording/README.md)，与较早网络/预览阶段分开。11-05 共用策略已在 home 重启验收，新学校现场待复测；日常配置见[统一指南](../docs/guides/SHARED_WIRED_NETWORK_GUIDE.md)。

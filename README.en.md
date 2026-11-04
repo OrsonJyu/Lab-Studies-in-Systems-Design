@@ -1,7 +1,7 @@
 # SD5531 · Lab Studies in Systems Design
 
 **Leopard gecko observation and recording · PolyU · Project 2 / Video Recording Module**  
-[中文](README.md) · Version **v1.3.0** · Updated **30 October 2026, Hong Kong**
+[中文](README.md) · Candidate **v1.4.0** (PR review pending; not released) · Updated **5 November 2026, Hong Kong**
 
 This repository preserves the course project, laboratory exercises, design process, discussions, deliverables and supporting evidence. The project aims to provide video and thermal-array records that students, teachers and carers can replay and compare. Proposed analysis remains subject to validation.
 
@@ -9,6 +9,8 @@ This repository preserves the course project, laboratory exercises, design proce
 
 | Audience / purpose | Entry point |
 | --- | --- |
+| Shared home/school wired setup | [Shared guide](docs/guides/SHARED_WIRED_NETWORK_GUIDE.md) and [read-only checker](project-camera/src/network/README.md) |
+| Resume the next work stage | [Current handoff](docs/handoffs/2026-11-05-shared-wired-baseline.md) |
 | New visitor | [Document index](docs/INDEX.md) and [current status](docs/STATUS.md) |
 | Project collaborator | [Scope](docs/SCOPE.md), [architecture](docs/ARCHITECTURE.md), [decisions](docs/DECISIONS.md) |
 | Deliverables and presentation | [Camera project](project-camera/README.md) |
@@ -23,15 +25,12 @@ This repository preserves the course project, laboratory exercises, design proce
 
 ## Current baseline
 
-The user explicitly updated the hardware on 23 October 2026 to **Radxa ROCK 4C+ with a local SATA hard disk**. Earlier ROCK 5C, SSD and cloud-storage diagrams are retained as historical proposals.
-
-The **home** environment now has a limited hardware baseline: Debian 12 and SSH on ROCK 4C+, a synthetic system-card test, a real camera recording of about 60 seconds with full software decode, and user-confirmed live viewing on Mac through the board. These tests used the system microSD; SATA was not validated. Camera clock and packet-timestamp warnings, temporary addressing, rolling segments, events, pre-roll and endurance remain open. This is not a persistent deployed recording service.
-
-The user named the household setup **home** on 30 October 2026. The later **school** session established limited SSH/hotspot evidence and user-confirmed IINA viewing, ending with camera → switch → Mac over Ethernet. The direct video probe and three-second decode passed. Final board wired IPv4/SSH recovery remained pending, and no school recording was made. The [school record](project-camera/experiments/2026-10-30-school-network-preview/README.md) separates computer hotspot, iPhone, ROCK AP and wired variants. The generic **hotspot** profile remains reserved. Actual addresses, interfaces, SSIDs and access-bearing stream configuration stay local. Neither campus-wide client isolation nor a single cause of all SSH/preview failures has been established.
-
-The wider scope includes video and thermal capture, storage and remote access, localization and identity exploration, behavior timelines, spatial use and cross-team record alignment. Pre-recording is one step within that scope. Automated health diagnosis is outside the current presentation's deliverables.
-
-The archive includes presentation PDF/PPTX files, collaboration plans, meeting transcripts and AI-generated minutes, Figma snapshots, eight Arduino exercises, compilation logs and hardware recordings. Compilation, simulated host tests, hardware observations and assignment submission are recorded separately.
+- ROCK 4C+ and local SATA HDD remain the intended hardware; home/school short tests used system microSD, and SATA remains unverified.
+- Both sites now adopt one isolated wired network. Mac Wi-Fi supplies Internet independently; lab-wired retains the existing connection UUID/address and starts automatically. Optional board wireless profiles remain manual.
+- Home SD recovery, cold start, a later normal reboot, trusted SSH, read-only health checks and three-second video decoding passed. The renamed shared baseline still requires school-site retesting; no blanket Wi-Fi compatibility claim is made.
+- A later 30 October school test saved a 60-second board recording and passed full decoding. This update adds its JSON evidence; the video remains local. Earlier school preview records retain their original stage limits.
+- Motion-triggered retention, pre-roll completeness, latency measurement and optional website are next; durations remain unconfirmed. Camera/board clocks, timestamps, SATA and endurance remain open.
+- Video, thermal arrays, localization/identity exploration, behaviour timelines and cross-team alignment remain the complete scope. Classroom and course-submission evidence remain separate.
 
 ## Structure and reproducibility
 

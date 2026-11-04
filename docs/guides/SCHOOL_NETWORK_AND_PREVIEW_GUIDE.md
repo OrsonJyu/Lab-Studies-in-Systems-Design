@@ -9,6 +9,9 @@ related: [env-school, D013, exp-school-network-preview-20261030]
 
 # 学校环境：接线、网络恢复与预览
 
+> 2026-11-05 更新：日常网络已按 D014 统一为自动连接的 lab-wired；请先读[共用有线指南](SHARED_WIRED_NETWORK_GUIDE.md)。本教程的旧 DHCP、临时辅助地址、手动 school-camera / AP 操作仅说明历史实验，不是当前每日连接要求。
+
+
 本指南对应[学校环境档案](../../project-camera/environments/school/README.md)和[当日实验](../../project-camera/experiments/2026-10-30-school-network-preview/README.md)。最终通过的是 Mac 直接读取相机的有线预览；学校板卡录像、长期流畅性及重启自动恢复未验收。占位值必须填写，示例 JSON 不会自动配置网络。
 
 ## 1. 区分运行端和现场参数

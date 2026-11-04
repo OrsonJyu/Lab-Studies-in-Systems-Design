@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "environment": "school",
+  "experiment_date": "2026-10-30",
+  "recorded_on": "2026-11-05",
+  "timezone": "Asia/Hong_Kong",
+  "hash_scope": "Committed artifact bytes only; private source material and unuploaded media are not represented as Git files.",
+  "entries": [
+    {
+      "path": "README.md",
+      "bytes": 1830,
+      "sha256": "007fa4196d04f5d1c1d5ceb2632e2a3c9975ad1244775823ec18261e5dafd759",
+      "storage": "git"
+    },
+    {
+      "path": "capture-result.json",
+      "bytes": 718,
+      "sha256": "eef184712a2d7bff8631773a092ac31747c81555f8fde84a41a13dc53c5988c8",
+      "storage": "git"
+    },
+    {
+      "path": "copy-verification.json",
+      "bytes": 210,
+      "sha256": "a89d1c560d31ce709bc552af60520c1aeeaab61f7a05206bc087d9756da0f3c6",
+      "storage": "git"
+    },
+    {
+      "path": "validation-result.json",
+      "bytes": 842,
+      "sha256": "e5cc9b88d1aaa51d680a75ea11d0b955fc371a83124066c976433513af7b8283",
+      "storage": "git"
+    }
+  ]
+}
