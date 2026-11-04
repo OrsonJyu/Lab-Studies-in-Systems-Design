@@ -15,6 +15,7 @@
 | school 新基线 | 已采用统一政策，实际学校现场复测仍待完成；旧热点/802.1X 观察不作为全部校园隔离证明 | [school](../project-camera/environments/school/README.md) |
 | 码流与接口 | 主/子码流 2560×1440 / 800×448、20 fps，关键帧间隔实测 2 秒；ONVIF 公告运动事件（PullPoint），没有录像/回放服务；子码流解码约占 6 核 3.6% | [只读探测](../project-camera/experiments/2026-11-05-home-stream-probe/README.md) |
 | 时间与录制服务 | ROCK 已于 2026-11-05 按 Mac 时间校准（偏差约 10 毫秒，重启后保持未验证）；摄像头仍慢约 28 天、未修改；包时间戳/DTS、事件边界仍待核；通用持久录制服务未实现 | [当前工作流](workstreams/active/ws-preroll-recording.md) |
+| 延迟 | 拍摄到 ROCK 约 0.23 秒（中位）；触发后才录会丢开头约 0.4 秒以上，需滚动缓存；预览显示与检测延迟未测 | [延迟实验](../project-camera/experiments/2026-11-05-home-latency/README.md) |
 | 下一项实验 | 手部模拟运动触发、静止 n 秒结束、前段完整性和延迟；网站为后续可选，n/预录长度未定 | [接续上下文](handoffs/2026-11-05-shared-wired-baseline.md) |
 | 尚未验收 | 预录制、SATA、长期/异常断电恢复、所有 Wi-Fi 兼容、热阵列/行为性能和跨组接口 | [ROADMAP](ROADMAP.md) |
 

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SD5531 延迟时钟</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; color: #fff; }
+  body { display: flex; flex-direction: column; align-items: center; justify-content: center;
+         font-family: "SF Mono", Menlo, monospace; }
+  #clock { font-size: 15vw; font-weight: 700; letter-spacing: 0.02em; line-height: 1; }
+  #ms { color: #ffd23f; }
+  #bar { display: flex; gap: 0.6vw; margin-top: 4vh; }
+  #bar span { width: 7vw; height: 7vw; background: #222; border: 0.3vw solid #555; }
+  #bar span.on { background: #39d353; border-color: #39d353; }
+  #hint { margin-top: 4vh; font: 2vw -apple-system, sans-serif; color: #888; }
+</style>
+</head>
+<body>
+  <div id="clock">--:--:--<span id="ms">.---</span></div>
+  <div id="bar"></div>
+  <div id="hint">Mac 本地时间 · 让摄像头对准这块屏幕，数字占画面一半左右</div>
+<script>
+  // Digits show the Mac's local wall clock; the ten squares light the current
+  // tenth of a second so a blurred frame can still be read to 0.1 s.
+  const clock = document.getElementById('clock');
+  const bar = document.getElementById('bar');
+  const cells = Array.from({ length: 10 }, () => bar.appendChild(document.createElement('span')));
+  const pad = (n, w) => String(n).padStart(w, '0');
+  function tick() {
+    const d = new Date();
+    clock.firstChild.nodeValue = `${pad(d.getHours(), 2)}:${pad(d.getMinutes(), 2)}:${pad(d.getSeconds(), 2)}`;
+    document.getElementById('ms').textContent = '.' + pad(d.getMilliseconds(), 3);
+    const tenth = Math.floor(d.getMilliseconds() / 100);
+    cells.forEach((c, i) => c.classList.toggle('on', i === tenth));
+    requestAnimationFrame(tick);
+  }
+  tick();
+</script>
+</body>
+</html>

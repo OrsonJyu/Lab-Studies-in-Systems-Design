@@ -1,0 +1,200 @@
+{
+ "board_clock": "set from Mac on 2026-11-05, about 10 ms residual",
+ "stamp": "ROCK time.time() when the framecrc line of each copied packet reached this script",
+ "A": {
+  "exit": 0,
+  "packets": 400,
+  "mkv_packets": 400,
+  "keyframes": 10,
+  "arrival_gap_s": {
+   "min": 0.0,
+   "max": 0.14,
+   "mean": 0.0465
+  },
+  "gaps_over_100ms": 142,
+  "saved": [
+   {
+    "file": "a_000.jpg",
+    "packet": 0,
+    "arrival_unix": 1793818492.022,
+    "key": true
+   },
+   {
+    "file": "a_020.jpg",
+    "packet": 20,
+    "arrival_unix": 1793818492.026,
+    "key": false
+   },
+   {
+    "file": "a_040.jpg",
+    "packet": 40,
+    "arrival_unix": 1793818492.671,
+    "key": true
+   },
+   {
+    "file": "a_060.jpg",
+    "packet": 60,
+    "arrival_unix": 1793818493.593,
+    "key": false
+   },
+   {
+    "file": "a_080.jpg",
+    "packet": 80,
+    "arrival_unix": 1793818494.632,
+    "key": true
+   },
+   {
+    "file": "a_100.jpg",
+    "packet": 100,
+    "arrival_unix": 1793818495.581,
+    "key": false
+   },
+   {
+    "file": "a_120.jpg",
+    "packet": 120,
+    "arrival_unix": 1793818496.629,
+    "key": true
+   },
+   {
+    "file": "a_140.jpg",
+    "packet": 140,
+    "arrival_unix": 1793818497.661,
+    "key": false
+   },
+   {
+    "file": "a_160.jpg",
+    "packet": 160,
+    "arrival_unix": 1793818498.586,
+    "key": true
+   },
+   {
+    "file": "a_180.jpg",
+    "packet": 180,
+    "arrival_unix": 1793818499.614,
+    "key": false
+   },
+   {
+    "file": "a_200.jpg",
+    "packet": 200,
+    "arrival_unix": 1793818500.651,
+    "key": true
+   },
+   {
+    "file": "a_220.jpg",
+    "packet": 220,
+    "arrival_unix": 1793818501.682,
+    "key": false
+   },
+   {
+    "file": "a_240.jpg",
+    "packet": 240,
+    "arrival_unix": 1793818502.587,
+    "key": true
+   },
+   {
+    "file": "a_260.jpg",
+    "packet": 260,
+    "arrival_unix": 1793818503.605,
+    "key": false
+   },
+   {
+    "file": "a_280.jpg",
+    "packet": 280,
+    "arrival_unix": 1793818504.633,
+    "key": true
+   },
+   {
+    "file": "a_300.jpg",
+    "packet": 300,
+    "arrival_unix": 1793818505.623,
+    "key": false
+   },
+   {
+    "file": "a_320.jpg",
+    "packet": 320,
+    "arrival_unix": 1793818506.691,
+    "key": true
+   },
+   {
+    "file": "a_340.jpg",
+    "packet": 340,
+    "arrival_unix": 1793818507.612,
+    "key": false
+   },
+   {
+    "file": "a_360.jpg",
+    "packet": 360,
+    "arrival_unix": 1793818508.68,
+    "key": true
+   },
+   {
+    "file": "a_380.jpg",
+    "packet": 380,
+    "arrival_unix": 1793818509.625,
+    "key": false
+   }
+  ]
+ },
+ "B": [
+  {
+   "trial": 1,
+   "exit": 0,
+   "launch_unix": 1793818590.152,
+   "first_packet_s": 2.08,
+   "first_packet_is_key": true,
+   "first_keyframe_s": 2.08,
+   "packets_before_first_key": 0,
+   "first_decodable_jpeg": "b_1.jpg"
+  },
+  {
+   "trial": 2,
+   "exit": 0,
+   "launch_unix": 1793818599.098,
+   "first_packet_s": 2.01,
+   "first_packet_is_key": true,
+   "first_keyframe_s": 2.01,
+   "packets_before_first_key": 0,
+   "first_decodable_jpeg": "b_2.jpg"
+  },
+  {
+   "trial": 3,
+   "exit": 0,
+   "launch_unix": 1793818608.439,
+   "first_packet_s": 1.951,
+   "first_packet_is_key": true,
+   "first_keyframe_s": 1.951,
+   "packets_before_first_key": 0,
+   "first_decodable_jpeg": "b_3.jpg"
+  },
+  {
+   "trial": 4,
+   "exit": 0,
+   "launch_unix": 1793818617.909,
+   "first_packet_s": 1.991,
+   "first_packet_is_key": true,
+   "first_keyframe_s": 1.991,
+   "packets_before_first_key": 0,
+   "first_decodable_jpeg": "b_4.jpg"
+  },
+  {
+   "trial": 5,
+   "exit": 0,
+   "launch_unix": 1793818627.49,
+   "first_packet_s": 2.054,
+   "first_packet_is_key": true,
+   "first_keyframe_s": 2.054,
+   "packets_before_first_key": 0,
+   "first_decodable_jpeg": "b_5.jpg"
+  },
+  {
+   "trial": 6,
+   "exit": 0,
+   "launch_unix": 1793818636.168,
+   "first_packet_s": 2.059,
+   "first_packet_is_key": true,
+   "first_keyframe_s": 2.059,
+   "packets_before_first_key": 0,
+   "first_decodable_jpeg": "b_6.jpg"
+  }
+ ]
+}

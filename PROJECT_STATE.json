@@ -40,6 +40,16 @@
       "event_subscription_tested": false,
       "latency_measured": false
     },
+    "latency": {
+      "tested_on": "2026-11-05",
+      "environment": "home",
+      "evidence": "project-camera/experiments/2026-11-05-home-latency/README.md",
+      "capture_to_board_arrival_s": {"min": 0.19, "median": 0.23, "max": 0.29},
+      "cold_start_first_frame_after_trigger_s": {"min": 0.36, "max": 0.41},
+      "cold_start_first_packet_output_s": {"min": 1.95, "max": 2.08},
+      "preview_display_latency_measured": false,
+      "detection_latency_measured": false
+    },
     "board_clock": {
       "set_from_mac_on": "2026-11-05",
       "residual_offset_ms": 10.2,

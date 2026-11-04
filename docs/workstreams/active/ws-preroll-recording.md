@@ -23,6 +23,7 @@ related: [D002, D003, D004, D005, D011, D012, D013]
 - [school 网络与预览](../../../project-camera/experiments/2026-10-30-school-network-preview/README.md)：有限 SSH/AP 与最终 Mac 直接有线 IINA 预览已确认；较早阶段管理待恢复；同日更晚的[板卡短录](../../../project-camera/experiments/2026-10-30-school-camera-recording/README.md)已通过。
 
 - [home 共用有线](../../../project-camera/experiments/2026-11-05-home-wired-recovery/README.md)：SD 恢复、自动连接及一次正常重启通过；三份旧无线 profile 手动。新的学校现场复测仍待完成。
+- [home 延迟测量](../../../project-camera/experiments/2026-11-05-home-latency/README.md)：稳定接收时拍摄到 ROCK 约 0.19–0.29 秒；“触发后才启动录制”第一帧内容比触发晚约 0.36–0.41 秒，FFmpeg 约 2 秒后才输出，证实需要滚动缓存。
 - [home 码流与接口探测](../../../project-camera/experiments/2026-11-05-home-stream-probe/README.md)：主/子码流关键帧间隔实测均为 2 秒；摄像头公告 ONVIF 运动事件主题（PullPoint），无录像/回放服务；板卡软件解码子码流约占 6 核的 3.6%。板卡与摄像头时钟分别慢约 5 天、28 天。
 
 ## 未完成与待定项
