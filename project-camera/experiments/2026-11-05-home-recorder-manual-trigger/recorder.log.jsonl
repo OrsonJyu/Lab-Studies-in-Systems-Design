@@ -1,0 +1,10 @@
+{"t": 1793819475.844, "kind": "recorder_started", "pre_roll_s": 4.0, "still_s": 5.0, "segment_seconds": 2, "ring_seconds": 60}
+{"t": 1793819475.847, "kind": "segmenter_started", "run": 1}
+{"t": 1793819489.862, "kind": "motion", "source": "manual", "hold": 0.0}
+{"t": 1793819499.915, "kind": "event_saved", "event_id": "20261104-191129-6b5a6e", "status": "ok", "duration_s": 12.0, "actual_pre_roll_s": 5.322}
+{"t": 1793819503.208, "kind": "motion", "source": "manual", "hold": 0.0}
+{"t": 1793819506.563, "kind": "motion", "source": "manual", "hold": 0.0}
+{"t": 1793819516.26, "kind": "event_saved", "event_id": "20261104-191143-7a25f0", "status": "ok", "duration_s": 14.0, "actual_pre_roll_s": 4.74}
+{"t": 1793819519.94, "kind": "motion", "source": "manual", "hold": 6.0}
+{"t": 1793819537.162, "kind": "event_saved", "event_id": "20261104-191159-7a786e", "status": "ok", "duration_s": 18.001, "actual_pre_roll_s": 5.392}
+{"t": 1793819537.686, "kind": "recorder_stopped"}

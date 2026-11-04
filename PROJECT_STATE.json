@@ -40,6 +40,20 @@
       "event_subscription_tested": false,
       "latency_measured": false
     },
+    "recorder": {
+      "version": "recorder/0.1",
+      "code": "project-camera/src/recorder/README.md",
+      "trigger": "manual only",
+      "tested_on": "2026-11-05",
+      "environment": "home",
+      "evidence": "project-camera/experiments/2026-11-05-home-recorder-manual-trigger/README.md",
+      "test_parameters": {"pre_roll_s": 4, "still_s": 5},
+      "actual_pre_roll_s": {"min": 5.0, "max": 5.6},
+      "motion_detection": false,
+      "stream_interruption_tested": false,
+      "endurance_tested": false,
+      "autostart": false
+    },
     "latency": {
       "tested_on": "2026-11-05",
       "environment": "home",

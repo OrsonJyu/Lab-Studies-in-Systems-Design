@@ -1,0 +1,14 @@
+{
+  "camera_id": "cam-01",
+  "source_config": "~/sd5531/private/camera_source.json",
+  "ring_dir": "/dev/shm/sd5531-ring",
+  "output_dir": "~/sd5531/events",
+  "segment_seconds": 2,
+  "ring_seconds": 60,
+  "pre_roll_s": 4.0,
+  "still_s": 5.0,
+  "max_event_s": 300.0,
+  "min_free_mb": 500,
+  "assemble_timeout_s": 30.0,
+  "capture_latency_s": 0.23
+}

@@ -1,0 +1,52 @@
+{
+ "event_id": "20261104-191143-7a25f0",
+ "camera_id": "cam-01",
+ "source": "manual",
+ "clock": "ROCK wall-clock receive time, Unix seconds",
+ "motions": [
+  [
+   1793819503.208,
+   1793819503.208
+  ],
+  [
+   1793819506.563,
+   1793819506.563
+  ]
+ ],
+ "first_motion": 1793819503.208,
+ "last_motion": 1793819506.563,
+ "event_end": 1793819511.563,
+ "close_reason": "still",
+ "pre_roll_s": 4.0,
+ "still_s": 5.0,
+ "requested_window": [
+  1793819499.208,
+  1793819511.563
+ ],
+ "capture_latency_s_estimate": 0.23,
+ "segments": [
+  "seg-000011.ts",
+  "seg-000012.ts",
+  "seg-000013.ts",
+  "seg-000014.ts",
+  "seg-000015.ts",
+  "seg-000016.ts",
+  "seg-000017.ts"
+ ],
+ "runs": [
+  1
+ ],
+ "gaps": [],
+ "partial": false,
+ "clip_window": [
+  1793819498.468,
+  1793819512.528
+ ],
+ "actual_pre_roll_s": 4.74,
+ "status": "ok",
+ "file": "20261104-191143-7a25f0.mp4",
+ "bytes": 11009607,
+ "sha256": "dbe4a3b51c48a09dbec0609b1c17761372dda004d8f8dfc81545e9a5d03093e8",
+ "duration_s": 14.0,
+ "full_decode_exit": 0
+}

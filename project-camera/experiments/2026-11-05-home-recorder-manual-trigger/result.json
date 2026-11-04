@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "experiment": "exp-home-recorder-manual-trigger-20261105",
+  "environment": "home",
+  "date_hong_kong": "2026-11-05",
+  "code": "project-camera/src/recorder/recorder.py",
+  "code_sha256_tested": "c164f378a67564325a8039eac5280bd850aed75486d58fe4c15c637328598da5",
+  "parameters": {"pre_roll_s": 4.0, "still_s": 5.0, "segment_seconds": 2, "ring_seconds": 60, "ring_dir": "tmpfs /dev/shm"},
+  "storage_for_clips": "system microSD (event MP4s left on the ROCK, not uploaded)",
+  "reading_method": "Assistant read the Mac clock in the first and last frame of each clip; uncertainty about +/-0.05 s. Trigger times are ROCK wall clock (set from Mac), so they equal content time at the trigger.",
+  "first_run_with_poll_time_stamps": {
+    "code_sha256": "a9b51dc6847b73a0afc070618b258c8218725b47ab4c56f7fa11c0861beb2e2e",
+    "result": "failed",
+    "observed": [
+      {"case": "single", "clip_first_frame_clock": "03:07:43.35", "trigger": "03:07:48.713", "pre_roll_s": 5.36, "event_end": "03:07:53.713", "clip_last_frame_clock": "03:07:55.1", "tail_ok": true},
+      {"case": "two_within_still", "clip_first_frame_clock": "03:07:55.3", "recorded_clip_start": "03:07:57.064 minus 0.23 s estimate = 03:07:56.83", "event_end": "03:08:10.908", "clip_last_frame_clock": "03:08:09.1", "tail_ok": false},
+      {"case": "hold_6s", "clip_first_frame_clock": "03:08:09.3", "event_end": "03:08:29.285", "clip_last_frame_clock": "03:08:27.2", "tail_ok": false}
+    ],
+    "cause": "Segments were timed by the poll that first saw them. Joining a clip blocked the loop, later segments were stamped late and the contiguity clamp carried the error forward (about 1.5 s, then 3.3 s), so clip tails were cut.",
+    "fix": "Time each segment by its file mtime (receive time of its last packet); start = previous segment end",
+    "raw_files_retained": false
+  },
+  "second_run_after_fix": {
+    "recorder_exit": 0,
+    "stream_gap_log_entries": 0,
+    "events": [
+      {"case": "single", "triggers": ["03:11:29.862"], "event_end": "03:11:34.862",
+       "clip_first_frame_clock": "03:11:24.25", "clip_last_frame_clock": "03:11:36.1",
+       "content_pre_roll_s": 5.6, "content_after_end_s": 1.24, "recorded_actual_pre_roll_s": 5.322,
+       "duration_s": 12.0, "segments": 6, "status": "ok", "full_decode_exit": 0},
+      {"case": "two_within_still", "triggers": ["03:11:43.208", "03:11:46.563"], "events_created": 1, "event_end": "03:11:51.563",
+       "clip_first_frame_clock": "03:11:38.25", "clip_last_frame_clock": "03:11:52.1",
+       "content_pre_roll_s": 4.96, "content_after_end_s": 0.54, "recorded_actual_pre_roll_s": 4.74,
+       "duration_s": 14.0, "segments": 7, "status": "ok", "full_decode_exit": 0},
+      {"case": "hold_6s", "triggers": ["03:11:59.940 to 03:12:05.940"], "event_end": "03:12:10.940",
+       "clip_first_frame_clock": "03:11:54.35", "clip_last_frame_clock": "03:12:12.2",
+       "content_pre_roll_s": 5.59, "content_after_end_s": 1.26, "recorded_actual_pre_roll_s": 5.392,
+       "duration_s": 18.001, "segments": 9, "status": "ok", "full_decode_exit": 0}
+    ],
+    "recorded_vs_seen_clip_start_s": "recorded clip start minus 0.23 s latency estimate agrees with the clock seen in the first frame within about 0.1 s for all three events"
+  },
+  "not_tested": ["motion detection", "hand as trigger", "stream interruption and FFmpeg restart", "disk-full handling", "long running", "reboot/autostart", "SATA output"]
+}

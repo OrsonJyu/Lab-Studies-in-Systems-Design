@@ -1,0 +1,26 @@
+{
+ "plan": [
+  {
+   "case": "single",
+   "triggers": [
+    1793819489.578
+   ]
+  },
+  {
+   "case": "two_within_still",
+   "triggers": [
+    1793819502.956,
+    1793819506.285
+   ]
+  },
+  {
+   "case": "hold_6s",
+   "triggers": [
+    1793819519.657
+   ],
+   "hold": 6
+  }
+ ],
+ "recorder_exit": 0,
+ "recorder_stderr_tail": ""
+}
