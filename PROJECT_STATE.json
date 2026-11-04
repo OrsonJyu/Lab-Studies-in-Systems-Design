@@ -40,6 +40,27 @@
       "event_subscription_tested": false,
       "latency_measured": false
     },
+    "recorder": {
+      "version": "recorder/0.3",
+      "web_page": "LAN only, no authentication: live MJPEG, status, event timeline with timestamp markers, clip playback; served from the ROCK; user confirmed it works in their own browser on 2026-11-05 (6 motion events saved ok during that session, no stream gaps or process exits logged)",
+      "code": "project-camera/src/recorder/README.md",
+      "trigger": "substream frame-difference motion detection, or manual",
+      "tested_on": "2026-11-05",
+      "environment": "home",
+      "evidence": "project-camera/experiments/2026-11-05-home-recorder-manual-trigger/README.md",
+      "test_parameters": {"pre_roll_s": 4, "still_s": 5},
+      "actual_pre_roll_s": {"min": 5.0, "max": 5.6},
+      "motion_detection": {
+        "hand_test_evidence": "project-camera/experiments/2026-11-05-home-motion-hand-test/README.md",
+        "events": 4,
+        "footage_before_hand_s": {"min": 3.7, "max": 4.65},
+        "detection_delay_s": {"min": 0.45, "max": 0.65},
+        "validated_on_gecko": false
+      },
+      "stream_interruption_tested": false,
+      "endurance_tested": false,
+      "autostart": false
+    },
     "latency": {
       "tested_on": "2026-11-05",
       "environment": "home",

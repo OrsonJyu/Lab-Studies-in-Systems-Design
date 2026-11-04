@@ -1,0 +1,80 @@
+{"t": 1793820241.4, "kind": "recorder_started", "pre_roll_s": 4.0, "still_s": 5.0, "segment_seconds": 2, "ring_seconds": 60}
+{"t": 1793820241.404, "kind": "segmenter_started", "run": 1}
+{"t": 1793820241.408, "kind": "detector_started", "fps": 10, "size": [160, 90], "pixel_threshold": 25, "changed_fraction": 0.005, "min_frames": 2, "mask": [[0, 0, 0.45, 0.09], [0, 0.9, 0.25, 0.1]]}
+{"t": 1793820251.509, "kind": "motion_stats", "frames": 89, "median": 0.0, "p95": 0.0, "max": 0.0, "over_threshold": 0}
+{"t": 1793820261.614, "kind": "motion_stats", "frames": 101, "median": 0.0, "p95": 0.0, "max": 0.0, "over_threshold": 0}
+{"t": 1793820271.628, "kind": "motion_stats", "frames": 100, "median": 0.0, "p95": 0.0, "max": 0.0, "over_threshold": 0}
+{"t": 1793820281.661, "kind": "motion_stats", "frames": 101, "median": 0.0, "p95": 0.00014, "max": 0.00521, "over_threshold": 1}
+{"t": 1793820289.467, "kind": "motion", "source": "motion", "first": 1793820289.421, "last": 1793820289.421, "frames": 1}
+{"t": 1793820289.57, "kind": "motion", "source": "motion", "first": 1793820289.541, "last": 1793820289.541, "frames": 1}
+{"t": 1793820289.776, "kind": "motion", "source": "motion", "first": 1793820289.676, "last": 1793820289.676, "frames": 1}
+{"t": 1793820290.085, "kind": "motion", "source": "motion", "first": 1793820290.058, "last": 1793820290.058, "frames": 1}
+{"t": 1793820290.289, "kind": "motion", "source": "motion", "first": 1793820290.206, "last": 1793820290.214, "frames": 2}
+{"t": 1793820290.392, "kind": "motion", "source": "motion", "first": 1793820290.339, "last": 1793820290.339, "frames": 1}
+{"t": 1793820290.902, "kind": "motion", "source": "motion", "first": 1793820290.868, "last": 1793820290.868, "frames": 1}
+{"t": 1793820291.004, "kind": "motion", "source": "motion", "first": 1793820290.99, "last": 1793820290.99, "frames": 1}
+{"t": 1793820291.21, "kind": "motion", "source": "motion", "first": 1793820291.115, "last": 1793820291.115, "frames": 1}
+{"t": 1793820291.72, "kind": "motion", "source": "motion", "first": 1793820291.629, "last": 1793820291.639, "frames": 2}
+{"t": 1793820291.77, "kind": "motion_stats", "frames": 101, "median": 0.0, "p95": 0.1909, "max": 0.23833, "over_threshold": 17}
+{"t": 1793820291.822, "kind": "motion", "source": "motion", "first": 1793820291.769, "last": 1793820291.769, "frames": 1}
+{"t": 1793820291.924, "kind": "motion", "source": "motion", "first": 1793820291.91, "last": 1793820291.91, "frames": 1}
+{"t": 1793820301.049, "kind": "event_saved", "event_id": "20261104-192449-079bd2", "status": "ok", "duration_s": 14.001, "actual_pre_roll_s": 5.101}
+{"t": 1793820301.774, "kind": "motion_stats", "frames": 100, "median": 0.0, "p95": 0.0, "max": 0.03451, "over_threshold": 1}
+{"t": 1793820307.268, "kind": "motion", "source": "motion", "first": 1793820307.254, "last": 1793820307.254, "frames": 1}
+{"t": 1793820307.474, "kind": "motion", "source": "motion", "first": 1793820307.377, "last": 1793820307.377, "frames": 1}
+{"t": 1793820307.576, "kind": "motion", "source": "motion", "first": 1793820307.527, "last": 1793820307.537, "frames": 2}
+{"t": 1793820307.678, "kind": "motion", "source": "motion", "first": 1793820307.655, "last": 1793820307.655, "frames": 1}
+{"t": 1793820308.394, "kind": "motion", "source": "motion", "first": 1793820308.361, "last": 1793820308.361, "frames": 1}
+{"t": 1793820308.598, "kind": "motion", "source": "motion", "first": 1793820308.512, "last": 1793820308.526, "frames": 2}
+{"t": 1793820308.701, "kind": "motion", "source": "motion", "first": 1793820308.659, "last": 1793820308.659, "frames": 1}
+{"t": 1793820308.803, "kind": "motion", "source": "motion", "first": 1793820308.789, "last": 1793820308.789, "frames": 1}
+{"t": 1793820309.008, "kind": "motion", "source": "motion", "first": 1793820308.924, "last": 1793820308.935, "frames": 2}
+{"t": 1793820309.828, "kind": "motion", "source": "motion", "first": 1793820309.74, "last": 1793820309.75, "frames": 2}
+{"t": 1793820309.931, "kind": "motion", "source": "motion", "first": 1793820309.897, "last": 1793820309.897, "frames": 1}
+{"t": 1793820310.033, "kind": "motion", "source": "motion", "first": 1793820310.027, "last": 1793820310.027, "frames": 1}
+{"t": 1793820310.136, "kind": "motion", "source": "motion", "first": 1793820310.039, "last": 1793820310.039, "frames": 1}
+{"t": 1793820310.238, "kind": "motion", "source": "motion", "first": 1793820310.155, "last": 1793820310.155, "frames": 1}
+{"t": 1793820311.787, "kind": "motion_stats", "frames": 100, "median": 0.0, "p95": 0.22153, "max": 0.25118, "over_threshold": 21}
+{"t": 1793820314.223, "kind": "motion", "source": "motion", "first": 1793820314.138, "last": 1793820314.138, "frames": 1}
+{"t": 1793820314.326, "kind": "motion", "source": "motion", "first": 1793820314.267, "last": 1793820314.267, "frames": 1}
+{"t": 1793820314.429, "kind": "motion", "source": "motion", "first": 1793820314.394, "last": 1793820314.394, "frames": 1}
+{"t": 1793820314.533, "kind": "motion", "source": "motion", "first": 1793820314.532, "last": 1793820314.532, "frames": 1}
+{"t": 1793820314.74, "kind": "motion", "source": "motion", "first": 1793820314.654, "last": 1793820314.669, "frames": 2}
+{"t": 1793820315.354, "kind": "motion", "source": "motion", "first": 1793820315.282, "last": 1793820315.282, "frames": 1}
+{"t": 1793820315.456, "kind": "motion", "source": "motion", "first": 1793820315.399, "last": 1793820315.433, "frames": 2}
+{"t": 1793820315.661, "kind": "motion", "source": "motion", "first": 1793820315.572, "last": 1793820315.572, "frames": 1}
+{"t": 1793820315.763, "kind": "motion", "source": "motion", "first": 1793820315.71, "last": 1793820315.71, "frames": 1}
+{"t": 1793820315.866, "kind": "motion", "source": "motion", "first": 1793820315.839, "last": 1793820315.848, "frames": 2}
+{"t": 1793820315.968, "kind": "motion", "source": "motion", "first": 1793820315.965, "last": 1793820315.965, "frames": 1}
+{"t": 1793820316.172, "kind": "motion", "source": "motion", "first": 1793820316.102, "last": 1793820316.102, "frames": 1}
+{"t": 1793820321.8, "kind": "motion_stats", "frames": 100, "median": 0.0, "p95": 0.20125, "max": 0.26514, "over_threshold": 17}
+{"t": 1793820325.886, "kind": "event_saved", "event_id": "20261104-192507-dc95cd", "status": "ok", "duration_s": 20.0, "actual_pre_roll_s": 4.942}
+{"t": 1793820331.849, "kind": "motion_stats", "frames": 100, "median": 0.0, "p95": 0.0, "max": 0.0, "over_threshold": 0}
+{"t": 1793820332.72, "kind": "motion", "source": "motion", "first": 1793820332.645, "last": 1793820332.656, "frames": 2}
+{"t": 1793820332.821, "kind": "motion", "source": "motion", "first": 1793820332.78, "last": 1793820332.78, "frames": 1}
+{"t": 1793820332.922, "kind": "motion", "source": "motion", "first": 1793820332.914, "last": 1793820332.914, "frames": 1}
+{"t": 1793820333.127, "kind": "motion", "source": "motion", "first": 1793820333.045, "last": 1793820333.056, "frames": 2}
+{"t": 1793820333.23, "kind": "motion", "source": "motion", "first": 1793820333.18, "last": 1793820333.18, "frames": 1}
+{"t": 1793820333.332, "kind": "motion", "source": "motion", "first": 1793820333.309, "last": 1793820333.309, "frames": 1}
+{"t": 1793820333.537, "kind": "motion", "source": "motion", "first": 1793820333.447, "last": 1793820333.456, "frames": 2}
+{"t": 1793820333.946, "kind": "motion", "source": "motion", "first": 1793820333.861, "last": 1793820333.861, "frames": 1}
+{"t": 1793820334.049, "kind": "motion", "source": "motion", "first": 1793820333.977, "last": 1793820333.977, "frames": 1}
+{"t": 1793820334.151, "kind": "motion", "source": "motion", "first": 1793820334.111, "last": 1793820334.111, "frames": 1}
+{"t": 1793820334.253, "kind": "motion", "source": "motion", "first": 1793820334.25, "last": 1793820334.25, "frames": 1}
+{"t": 1793820334.767, "kind": "motion", "source": "motion", "first": 1793820334.672, "last": 1793820334.672, "frames": 1}
+{"t": 1793820334.87, "kind": "motion", "source": "motion", "first": 1793820334.785, "last": 1793820334.785, "frames": 1}
+{"t": 1793820334.972, "kind": "motion", "source": "motion", "first": 1793820334.912, "last": 1793820334.912, "frames": 1}
+{"t": 1793820335.075, "kind": "motion", "source": "motion", "first": 1793820335.048, "last": 1793820335.059, "frames": 2}
+{"t": 1793820335.484, "kind": "motion", "source": "motion", "first": 1793820335.448, "last": 1793820335.448, "frames": 1}
+{"t": 1793820341.859, "kind": "motion_stats", "frames": 100, "median": 0.0, "p95": 0.17319, "max": 0.23583, "over_threshold": 25}
+{"t": 1793820345.329, "kind": "event_saved", "event_id": "20261104-192532-e086b5", "status": "ok", "duration_s": 13.951, "actual_pre_roll_s": 4.285}
+{"t": 1793820346.76, "kind": "motion", "source": "motion", "first": 1793820346.717, "last": 1793820346.717, "frames": 1}
+{"t": 1793820346.862, "kind": "motion", "source": "motion", "first": 1793820346.862, "last": 1793820346.862, "frames": 1}
+{"t": 1793820347.271, "kind": "motion", "source": "motion", "first": 1793820347.266, "last": 1793820347.266, "frames": 1}
+{"t": 1793820347.373, "kind": "motion", "source": "motion", "first": 1793820347.276, "last": 1793820347.276, "frames": 1}
+{"t": 1793820347.476, "kind": "motion", "source": "motion", "first": 1793820347.405, "last": 1793820347.405, "frames": 1}
+{"t": 1793820347.579, "kind": "motion", "source": "motion", "first": 1793820347.527, "last": 1793820347.527, "frames": 1}
+{"t": 1793820351.944, "kind": "motion_stats", "frames": 102, "median": 0.0, "p95": 0.01347, "max": 0.24187, "over_threshold": 9}
+{"t": 1793820356.879, "kind": "event_saved", "event_id": "20261104-192546-1a6c65", "status": "ok", "duration_s": 12.05, "actual_pre_roll_s": 4.449}
+{"t": 1793820361.96, "kind": "motion_stats", "frames": 100, "median": 0.0, "p95": 0.0, "max": 0.03042, "over_threshold": 1}
+{"t": 1793820370.885, "kind": "recorder_stopped"}

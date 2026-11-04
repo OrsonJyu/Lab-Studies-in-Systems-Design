@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SD5531 观察记录</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --panel: #ffffff; --ink: #1d2330; --muted: #69707d; --line: #e2e5ea;
+    --accent: #2f6fde; --rec: #e0403a; --ok: #2e9d5b; --warn: #c98a12; --pre: #2f6fde33;
+    --track: #eef1f5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12151b; --panel: #1b1f27; --ink: #e7eaf0; --muted: #9aa2b1; --line: #2b313c;
+      --accent: #6b9cff; --rec: #ff6159; --ok: #4cc47f; --warn: #f0b440; --pre: #6b9cff33;
+      --track: #232833;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 14px/1.5 -apple-system, "PingFang SC", "Segoe UI", sans-serif; }
+  header { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center;
+           padding: 14px 20px; border-bottom: 1px solid var(--line); background: var(--panel); }
+  h1 { font-size: 17px; margin: 0 auto 0 0; font-weight: 600; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px;
+          background: var(--track); color: var(--muted); font-size: 12px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+  .pill.ok .dot { background: var(--ok); } .pill.bad .dot { background: var(--rec); }
+  main { max-width: 1200px; margin: 0 auto; padding: 16px; display: grid; gap: 16px;
+         grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr); }
+  section { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
+  h2 { font-size: 13px; color: var(--muted); font-weight: 600; margin: 0 0 10px; }
+  .live { position: relative; aspect-ratio: 16 / 9; background: #000; border-radius: 6px; overflow: hidden; }
+  .live img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .live .badge { position: absolute; top: 10px; left: 10px; padding: 4px 10px; border-radius: 6px;
+                 background: #000a; color: #fff; font-size: 13px; display: none; }
+  .live .badge.on { display: block; }
+  .live .badge::before { content: ""; display: inline-block; width: 9px; height: 9px; border-radius: 50%;
+                         background: var(--rec); margin-right: 6px; animation: blink 1s infinite; }
+  @keyframes blink { 50% { opacity: .25; } }
+  .live .off { position: absolute; inset: 0; display: grid; place-items: center; color: #fff;
+               background: #000c; font-size: 14px; }
+  dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; margin: 0; }
+  dt { color: var(--muted); } dd { margin: 0; font-variant-numeric: tabular-nums; }
+  .meter { height: 8px; background: var(--track); border-radius: 4px; position: relative; overflow: hidden; margin-top: 4px; }
+  .meter b { position: absolute; inset: 0 auto 0 0; background: var(--accent); width: 0; transition: width .2s; }
+  .meter i { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--rec); }
+  .warn { color: var(--warn); font-size: 12px; margin-top: 10px; display: none; }
+  .full { grid-column: 1 / -1; }
+  .tl-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+  .tl-head h2 { margin: 0 auto 0 0; }
+  .seg button { border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+                padding: 3px 10px; font-size: 12px; cursor: pointer; }
+  .seg button:first-child { border-radius: 6px 0 0 6px; } .seg button:last-child { border-radius: 0 6px 6px 0; }
+  .seg button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .timeline { position: relative; height: 92px; background: var(--track); border-radius: 8px; overflow: hidden; }
+  .tick { position: absolute; bottom: 0; height: 100%; border-left: 1px dashed var(--line); }
+  .tick span { position: absolute; bottom: 4px; left: 4px; font-size: 11px; color: var(--muted); white-space: nowrap; }
+  .now { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--ink); opacity: .5; }
+  .ev { position: absolute; top: 30px; height: 26px; cursor: pointer; }
+  .ev::after { content: ""; position: absolute; inset: -8px -6px; }   /* larger touch target */
+  .ev .pre { position: absolute; top: 0; bottom: 0; right: 100%; background: var(--pre); border-radius: 4px 0 0 4px; }
+  .ev .body { position: absolute; inset: 0; background: var(--accent); border-radius: 4px; min-width: 4px; }
+  .ev.open .body { background: var(--rec); animation: blink 1.2s infinite; }
+  .ev.failed .body { background: var(--warn); }
+  .ev.sel .body { outline: 2px solid var(--ink); outline-offset: 1px; }
+  .ev .stamp { position: absolute; bottom: 100%; left: 0; margin-bottom: 4px; font-size: 11px;
+               white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--ink); }
+  .ev .stamp::before { content: ""; position: absolute; left: 0; top: 100%; height: 6px; border-left: 1px solid var(--ink); }
+  .ev .stamp.end { left: auto; right: 2px; }
+  .ev .stamp.end::before { left: auto; right: 0; border-left: 0; border-right: 1px solid var(--ink); }
+  .legend { display: flex; gap: 14px; font-size: 12px; color: var(--muted); margin-top: 8px; flex-wrap: wrap; }
+  .legend span::before { content: ""; display: inline-block; width: 12px; height: 8px; border-radius: 2px;
+                         margin-right: 5px; vertical-align: middle; background: var(--c); }
+  .player { display: none; margin-top: 14px; gap: 14px; grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr); }
+  .player.on { display: grid; }
+  .player video { width: 100%; border-radius: 6px; background: #000; }
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); }
+  th { color: var(--muted); font-weight: 500; font-size: 12px; }
+  tr.row { cursor: pointer; } tr.row:hover, tr.row.sel { background: var(--track); }
+  .tag { font-size: 11px; padding: 1px 7px; border-radius: 999px; background: var(--track); color: var(--muted); }
+  .tag.ok { color: var(--ok); } .tag.failed, .tag.partial { color: var(--warn); }
+  .empty { color: var(--muted); padding: 10px 0; }
+  a { color: var(--accent); word-break: break-all; }
+  @media (max-width: 760px) {
+    main { grid-template-columns: 1fr; padding: 16px; }
+    .player.on { grid-template-columns: 1fr; }
+    .hide-sm { display: none; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>SD5531 观察记录</h1>
+  <span class="pill" id="p-seg"><span class="dot"></span>录像缓存</span>
+  <span class="pill" id="p-det"><span class="dot"></span>运动检测</span>
+  <span class="pill" id="p-clock">板卡时间 --:--:--</span>
+</header>
+<main>
+  <section>
+    <h2>实时画面（子码流）</h2>
+    <div class="live">
+      <img id="live" alt="实时画面">
+      <div class="badge" id="rec-badge">录制中</div>
+      <div class="off" id="live-off">画面已暂停 · <button id="resume" type="button">继续观看</button></div>
+    </div>
+  </section>
+  <section>
+    <h2>当前状态</h2>
+    <dl>
+      <dt>状态</dt><dd id="s-state">—</dd>
+      <dt>本次开始</dt><dd id="s-start">—</dd>
+      <dt>最近运动</dt><dd id="s-last">—</dd>
+      <dt>缓存</dt><dd id="s-ring">—</dd>
+      <dt>参数</dt><dd id="s-params">—</dd>
+    </dl>
+    <div style="margin-top:12px">
+      <div style="display:flex;justify-content:space-between;color:var(--muted);font-size:12px">
+        <span>画面变化</span><span id="s-share">—</span></div>
+      <div class="meter"><b id="m-bar"></b><i id="m-th"></i></div>
+    </div>
+    <div class="warn" id="clock-warn"></div>
+  </section>
+
+  <section class="full">
+    <div class="tl-head">
+      <h2>时间轴 · 每个标记是一段已保存的录像</h2>
+      <div class="seg" id="range">
+        <button type="button" data-s="600">10 分钟</button><button type="button" data-s="3600" class="on">1 小时</button><button type="button" data-s="21600">6 小时</button><button type="button" data-s="86400">24 小时</button>
+      </div>
+    </div>
+    <div class="timeline" id="tl"></div>
+    <div class="legend">
+      <span style="--c:var(--pre)">触发前保留</span>
+      <span style="--c:var(--accent)">检测到运动 → 静止结束</span>
+      <span style="--c:var(--rec)">正在录制</span>
+      <span style="--c:var(--warn)">保存失败 / 不完整</span>
+    </div>
+    <div class="player" id="player">
+      <video id="video" controls playsinline preload="metadata"></video>
+      <dl id="detail"></dl>
+    </div>
+  </section>
+
+  <section class="full">
+    <h2>已保存的片段</h2>
+    <table>
+      <thead><tr><th>开始运动</th><th>片段长度</th><th class="hide-sm">触发前保留</th><th class="hide-sm">来源</th><th>状态</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="empty" id="no-rows">还没有保存的片段。</div>
+  </section>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const pad = n => String(n).padStart(2, '0');
+const hms = t => { const d = new Date(t * 1000); return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`; };
+const day = t => { const d = new Date(t * 1000); return `${d.getMonth() + 1}/${d.getDate()}`; };
+const secs = s => s == null ? '—' : s < 60 ? `${s.toFixed(1)} 秒` : `${Math.floor(s / 60)} 分 ${Math.round(s % 60)} 秒`;
+const SOURCE = { motion: '运动检测', manual: '手动' };
+const STATUS = { ok: '已保存', partial: '不完整', failed: '失败' };
+
+let span = 3600, events = [], state = null, offset = 0, selected = null;
+
+// Live view: release the stream when the tab is hidden so the board can stop it.
+function startLive() { $('live').src = '/live.mjpg?' + Date.now(); $('live-off').style.display = 'none'; }
+function stopLive() { $('live').removeAttribute('src'); $('live-off').style.display = 'grid'; }
+document.addEventListener('visibilitychange', () => document.hidden ? stopLive() : startLive());
+$('resume').onclick = startLive;
+startLive();
+
+$('range').onclick = e => {
+  const b = e.target.closest('button'); if (!b) return;
+  span = +b.dataset.s;
+  [...$('range').children].forEach(x => x.classList.toggle('on', x === b));
+  drawTimeline();
+};
+
+function pill(id, ok, label) {
+  const p = $(id); p.className = 'pill ' + (ok ? 'ok' : 'bad');
+  p.lastChild.textContent = label;
+}
+
+async function pollStatus() {
+  try {
+    const r = await (await fetch('/api/status')).json();
+    offset = r.board_time - Date.now() / 1000;
+    state = r.recorder;
+    $('p-clock').textContent = '板卡时间 ' + hms(r.board_time);
+    const warn = $('clock-warn');
+    if (Math.abs(offset) > 2) {
+      warn.style.display = 'block';
+      warn.textContent = `板卡时间与这台电脑相差 ${offset.toFixed(1)} 秒，记录的时刻可能不准，请先校时。`;
+    } else warn.style.display = 'none';
+    const fresh = state && r.board_time - state.t < 5;
+    if (!fresh) {
+      pill('p-seg', false, '录制程序未运行'); pill('p-det', false, '运动检测');
+      $('s-state').textContent = '录制程序未运行'; $('rec-badge').classList.remove('on');
+    } else {
+      pill('p-seg', state.segmenter_alive, '录像缓存');
+      pill('p-det', state.detector_alive, state.detector_enabled ? '运动检测' : '运动检测（未启用）');
+      const ev = state.open_event;
+      $('rec-badge').classList.toggle('on', !!ev);
+      if (ev) $('rec-badge').textContent = '录制中 ' + secs(r.board_time - ev.first_motion + state.pre_roll_s);
+      $('s-state').textContent = ev ? `录制中（静止 ${state.still_s} 秒后结束）` : state.pending_events ? '正在保存片段' : '等待运动';
+      $('s-start').textContent = ev ? hms(ev.first_motion) : '—';
+      $('s-last').textContent = ev ? `${hms(ev.last_motion)}（${secs(r.board_time - ev.last_motion)}前）` : '—';
+      $('s-ring').textContent = `最近 ${secs(state.ring_seconds)}`;
+      $('s-params').textContent = `触发前保留 ${state.pre_roll_s} 秒 · 静止 ${state.still_s} 秒结束`;
+      const share = state.motion_share, th = state.changed_fraction, full = th * 4;
+      $('s-share').textContent = share == null ? '—' : `${(share * 100).toFixed(2)}%（阈值 ${(th * 100).toFixed(1)}%）`;
+      $('m-bar').style.width = share == null ? 0 : Math.min(100, share / full * 100) + '%';
+      $('m-bar').style.background = share != null && share >= th ? 'var(--rec)' : 'var(--accent)';
+      $('m-th').style.left = '25%';
+    }
+    drawTimeline();
+  } catch (e) {
+    pill('p-seg', false, '无法连接板卡'); pill('p-det', false, '运动检测');
+  }
+}
+
+async function pollEvents() {
+  try {
+    const list = await (await fetch('/api/events')).json();
+    if (JSON.stringify(list.map(e => e.event_id)) !== JSON.stringify(events.map(e => e.event_id))) {
+      events = list; drawRows(); drawTimeline();
+    }
+  } catch (e) { /* status poll reports connection problems */ }
+}
+
+function drawTimeline() {
+  const tl = $('tl'), w = tl.clientWidth, now = Date.now() / 1000 + offset, t0 = now - span;
+  const x = t => (t - t0) / span * w;
+  const parts = [];
+  const step = [60, 300, 600, 1800, 3600, 7200, 21600].find(s => span / s <= 8) || 21600;
+  for (let t = Math.ceil(t0 / step) * step; t < now; t += step)
+    parts.push(`<div class="tick" style="left:${x(t)}px"><span>${span > 43200 ? day(t) + ' ' : ''}${hms(t).slice(0, 5)}</span></div>`);
+  parts.push(`<div class="now" style="left:${w - 2}px"></div>`);
+  const shown = events.map(e => ({ id: e.event_id, a: e.first_motion, b: e.event_end, pre: e.actual_pre_roll_s ?? e.pre_roll_s,
+                                   cls: e.status === 'ok' ? '' : 'failed' }));
+  if (state && state.open_event)
+    shown.push({ id: state.open_event.event_id, a: state.open_event.first_motion, b: now, pre: state.pre_roll_s, cls: 'open' });
+  shown.sort((p, q) => q.a - p.a);   // newest first, so the newest markers keep their labels
+  let freeRight = Infinity;   // labels already placed occupy everything right of this x
+  for (const e of shown) {
+    if (e.b < t0) continue;
+    const left = x(e.a), width = Math.max(4, x(e.b) - left), preW = Math.max(0, x(e.a) - x(e.a - e.pre));
+    // Label is about 60 px wide: left-aligned on the marker, or right-aligned at the right edge.
+    const atEnd = left > w - 74, x0 = atEnd ? Math.min(left + width, w) - 68 : left;
+    const showStamp = x0 + 72 < freeRight;   // skip labels that would overlap a newer one
+    if (showStamp) freeRight = x0;
+    parts.push(`<div class="ev ${e.cls} ${e.id === selected ? 'sel' : ''}" data-id="${e.id}" style="left:${left}px;width:${width}px"
+      title="${hms(e.a)} 检测到运动"><div class="pre" style="width:${preW}px"></div><div class="body"></div>
+      ${showStamp ? `<div class="stamp ${atEnd ? 'end' : ''}">${hms(e.a)}</div>` : ''}</div>`);
+  }
+  tl.innerHTML = parts.join('');
+}
+
+// The timeline is redrawn every second; a click (press + release) can straddle a
+// redraw and get lost, so react on press.
+$('tl').addEventListener('pointerdown', e => { const m = e.target.closest('.ev'); if (m) select(m.dataset.id); });
+$('rows').onclick = e => { const r = e.target.closest('tr'); if (r) select(r.dataset.id); };
+
+function drawRows() {
+  $('no-rows').style.display = events.length ? 'none' : 'block';
+  $('rows').innerHTML = events.map(e => `<tr class="row ${e.event_id === selected ? 'sel' : ''}" data-id="${e.event_id}">
+    <td>${day(e.first_motion)} ${hms(e.first_motion)}</td><td>${secs(e.duration_s)}</td>
+    <td class="hide-sm">${secs(e.actual_pre_roll_s)}</td>
+    <td class="hide-sm">${(e.source || '').split(',').map(s => SOURCE[s] || s).join('、')}</td>
+    <td><span class="tag ${e.status}">${STATUS[e.status] || e.status}</span></td></tr>`).join('');
+}
+
+function select(id) {
+  const e = events.find(x => x.event_id === id);
+  if (!e) return;   // the open event has no clip yet
+  selected = id;
+  $('player').classList.add('on');
+  if (e.file) { $('video').src = '/clips/' + e.file; $('video').style.display = 'block'; }
+  else { $('video').removeAttribute('src'); $('video').style.display = 'none'; }
+  $('detail').innerHTML = `
+    <dt>检测到运动</dt><dd>${day(e.first_motion)} ${hms(e.first_motion)}</dd>
+    <dt>最后一次运动</dt><dd>${hms(e.last_motion)}</dd>
+    <dt>事件结束</dt><dd>${hms(e.event_end)}（静止 ${e.still_s} 秒）</dd>
+    <dt>片段</dt><dd>${e.clip_window ? hms(e.clip_window[0]) + ' – ' + hms(e.clip_window[1]) : '—'}</dd>
+    <dt>触发前保留</dt><dd>${secs(e.actual_pre_roll_s)}</dd>
+    <dt>运动段数</dt><dd>${e.motions.length}</dd>
+    <dt>状态</dt><dd>${STATUS[e.status] || e.status}${e.failure ? '：' + e.failure : ''}</dd>
+    <dt>文件</dt><dd>${e.file ? `<a href="/clips/${e.file}" download>${e.file}</a>` : '—'}</dd>`;
+  drawRows(); drawTimeline();
+}
+
+window.addEventListener('resize', drawTimeline);
+pollStatus(); pollEvents();
+setInterval(pollStatus, 1000);
+setInterval(pollEvents, 3000);
+</script>
+</body>
+</html>
