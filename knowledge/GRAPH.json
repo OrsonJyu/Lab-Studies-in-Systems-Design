@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "version": "1.1",
-  "updated_on": "2026-10-30",
+  "version": "1.3",
+  "updated_on": "2026-11-05",
   "scope": "SD5531 only",
   "interpretation": "Source-backed navigation graph. Edges do not imply causation, completed implementation, or instructor approval.",
   "nodes": [
@@ -175,9 +175,10 @@
       "id": "environment-home",
       "label": "home 家庭测试条件",
       "kind": "environment",
-      "status": "limited_hardware_baseline_verified",
+      "status": "shared_wired_reboot_verified",
       "sources": [
-        "project-camera/environments/home/README.md"
+        "project-camera/environments/home/README.md",
+        "project-camera/experiments/2026-11-05-home-wired-recovery/README.md"
       ]
     },
     {
@@ -200,9 +201,9 @@
     },
     {
       "id": "environment-portability",
-      "label": "学校与热点的独立环境验证",
+      "label": "共用网络策略与分场地复测",
       "kind": "requirement",
-      "status": "partially_verified_in_school",
+      "status": "shared_policy_home_reboot_verified_other_sites_pending",
       "sources": [
         "project-camera/environments/README.md",
         "docs/DECISIONS.md",
@@ -222,10 +223,11 @@
       "id": "environment-school",
       "label": "school 学校网络与预览条件",
       "kind": "environment",
-      "status": "limited_network_and_preview_verified",
+      "status": "historical_short_recording_verified_shared_baseline_retest_pending",
       "sources": [
         "project-camera/environments/school/README.md",
-        "project-camera/experiments/2026-10-30-school-network-preview/README.md"
+        "project-camera/experiments/2026-10-30-school-network-preview/README.md",
+        "project-camera/experiments/2026-10-30-school-camera-recording/README.md"
       ]
     },
     {
@@ -250,12 +252,41 @@
     },
     {
       "id": "school-management-recovery",
-      "label": "最终有线板卡管理恢复",
+      "label": "学校同日后续有线管理恢复",
       "kind": "validation",
-      "status": "open",
+      "status": "restored_later_20261030; shared_policy_site_retest_pending",
       "sources": [
         "project-camera/environments/school/README.md",
-        "project-camera/experiments/2026-10-30-school-network-preview/README.md"
+        "project-camera/experiments/2026-10-30-school-network-preview/README.md",
+        "project-camera/experiments/2026-10-30-school-camera-recording/README.md"
+      ]
+    },
+    {
+      "id": "shared-wired-baseline",
+      "label": "home/school 共用有线基线",
+      "kind": "decision",
+      "status": "user_confirmed_home_reboot_verified",
+      "sources": [
+        "docs/DECISIONS.md",
+        "docs/guides/SHARED_WIRED_NETWORK_GUIDE.md"
+      ]
+    },
+    {
+      "id": "home-wired-recovery",
+      "label": "SD 网络恢复与正常重启验收",
+      "kind": "evidence",
+      "status": "limited_pass",
+      "sources": [
+        "project-camera/experiments/2026-11-05-home-wired-recovery/README.md"
+      ]
+    },
+    {
+      "id": "school-camera-recording",
+      "label": "school 后续 60 秒系统卡录像",
+      "kind": "evidence",
+      "status": "save_decode_copy_verified_timestamp_limits",
+      "sources": [
+        "project-camera/experiments/2026-10-30-school-camera-recording/README.md"
       ]
     }
   ],
@@ -596,7 +627,7 @@
       "target": "school-management-recovery",
       "relation": "documents",
       "status": "observed_limit",
-      "reason": "末次板卡固定 IPv4/SSH 未恢复，IPv6 仅有 ICMP 回应",
+      "reason": "2026-10-30 较早网络记录末次固定 IPv4/SSH 未恢复；后来同日的恢复另有记录",
       "sources": [
         "project-camera/experiments/2026-10-30-school-network-preview/README.md"
       ]
@@ -610,6 +641,74 @@
       "reason": "Mac 直读相机的成功不能证明板卡管理恢复",
       "sources": [
         "project-camera/experiments/2026-10-30-school-network-preview/README.md"
+      ]
+    },
+    {
+      "id": "e32",
+      "source": "environment-home",
+      "target": "home-wired-recovery",
+      "relation": "conditions",
+      "status": "hardware_observed",
+      "reason": "恢复、冷启动和正常重启只覆盖 home 本次组合",
+      "sources": [
+        "project-camera/experiments/2026-11-05-home-wired-recovery/README.md"
+      ]
+    },
+    {
+      "id": "e33",
+      "source": "home-wired-recovery",
+      "target": "shared-wired-baseline",
+      "relation": "evidence_for",
+      "status": "limited",
+      "reason": "支持一次共用配置重启验收，不推广为全部场地/长期可用",
+      "sources": [
+        "project-camera/experiments/2026-11-05-home-wired-recovery/README.md"
+      ]
+    },
+    {
+      "id": "e34",
+      "source": "environment-school",
+      "target": "school-camera-recording",
+      "relation": "conditions",
+      "status": "hardware_observed",
+      "reason": "较早预览之后又在学校保存并完整解码板卡短录",
+      "sources": [
+        "project-camera/experiments/2026-10-30-school-camera-recording/README.md"
+      ]
+    },
+    {
+      "id": "e35",
+      "source": "school-camera-recording",
+      "target": "video",
+      "relation": "evidence_for",
+      "status": "limited",
+      "reason": "一次短录不证明预录、长期或时间对齐",
+      "sources": [
+        "project-camera/experiments/2026-10-30-school-camera-recording/README.md"
+      ]
+    },
+    {
+      "id": "e36",
+      "source": "environment-school",
+      "target": "shared-wired-baseline",
+      "relation": "adopts",
+      "status": "user_confirmed_pending_site_retest",
+      "reason": "用户选用同一配置；新基线仍待学校现场复测",
+      "sources": [
+        "docs/DECISIONS.md",
+        "project-camera/environments/school/README.md"
+      ]
+    },
+    {
+      "id": "e37",
+      "source": "shared-wired-baseline",
+      "target": "environment-portability",
+      "relation": "defines_policy",
+      "status": "user_confirmed",
+      "reason": "地点标签区分证据，不再选择不同日常地址/profile",
+      "sources": [
+        "docs/DECISIONS.md",
+        "project-camera/environments/README.md"
       ]
     }
   ]

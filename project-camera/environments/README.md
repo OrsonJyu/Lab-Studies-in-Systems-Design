@@ -1,35 +1,17 @@
-# 测试环境 / Environments
+# 测试环境与共用配置
 
-依据用户 2026-10-30 的明确要求（[D011](../../docs/DECISIONS.md)），本次家庭测试环境命名为 **`home`**。项目会移动办公，环境名用于限定配置与实验结论的适用范围。
+环境命名保留 [D011](../../docs/DECISIONS.md)；2026-11-05 用户按 [D014](../../docs/DECISIONS.md)统一 home/school 有线接法和配置。环境标签记录地点，不再决定另一套地址或板卡 profile。
 
-| 环境 ID | 当前状态 | 入口 |
+Mac、ROCK、摄像头数据端接同一独立交换机，Mac Wi-Fi 只负责外网。共用 profile 为 lab-wired，自动连接、优先级 100；日常不依赖 ROCK 无线、DHCP 或发现服务。
+
+| 环境 | 当前证据与限制 | 入口 |
 | --- | --- | --- |
-| `home` | 已完成一次系统卡基础测试、一次真实短录像、一次用户确认的实时预览 | [home](home/README.md) |
-| `school` | 有限 SSH/AP 与最终 Mac 直接有线 IINA 预览通过；末次板卡管理与学校录像待验收 | [school](school/README.md) · [配置指南](../../docs/guides/SCHOOL_NETWORK_AND_PREVIEW_GUIDE.md) |
-| `hotspot` | 通用独立环境仍预留；学校电脑热点、iPhone 和 ROCK AP 结果登记在 school 下 | 本页的迁移说明 |
+| home | 历史短录/预览；11-05 SD 恢复、共用配置和正常重启后自动 SSH/短解码通过 | [home](home/README.md) |
+| school | 10-30 网络/AP/有线预览及后来板卡短录通过；新 lab-wired 基线待现场复测 | [school](school/README.md) |
+| hotspot | 通用独立环境仍预留；可作为 Mac 外网，实际组合需单独验证 | [统一指南](../../docs/guides/SHARED_WIRED_NETWORK_GUIDE.md) |
 
-机器可读目录见 [registry.json](registry.json)。school 的结果只覆盖当日相应变体，不能推广成其他地点或所有热点可用。
+唯一可执行配置字段见[共用模板](../src/network/config.example.json)；复制到忽略的 `.local/wired-lab.json`，真实值只保留这一份。home/school 下的 JSON 只是同一规范的索引，不应各复制一套参数。密码与流 URI 另存私有配置，完整网络备份不上传。
 
-## 每次实验必须标明环境
+每天按[统一指南](../../docs/guides/SHARED_WIRED_NETWORK_GUIDE.md)运行[只读检查器](../src/network/README.md)，只改 --environment 标签。检查失败先定位地址、路由、重叠、主机身份和自动连接，程序不会自动修改地址或替换连接。Wi-Fi/VPN 与实验子网发生重叠时需协调地址规划，不能保证任意网络天然不冲突。
 
-实验 front matter 与结果 JSON 写 `environment: home`（或该次真实环境），同时记录采集端、操作端、存储介质、数据路径、时间源、软件版本、网络限制与证据。换环境后另建实验；不改写 `home` 的原始结果。
-
-将以下信息分开管理：
-
-- **仓库内**：环境名、拓扑、设备角色、已验证能力、限制、示例字段与证据链接。
-- **本地忽略目录 `.local/`**：真实地址、SSH 目标、网卡名、带凭据的流地址、socket 和个人路径。按[示例](home/config.example.json)创建本地配置。
-- **密码与 token**：留在使用端私有配置，不写进文档、日志、PR 或示例值。
-
-环境名是分类标签，不表示程序已经具备自动识别网络、自动切换配置或自动恢复连接的功能。
-
-## 移动到学校或热点时
-
-每次先确定“摄像头到 ROCK 的本地视频网络”和“Mac 到 ROCK 的管理网络”，再确定互联网从哪里接入。局域网视频传输不以互联网可用为前提。
-
-需要现场重新验证的内容：地址与掩码、地址冲突、板卡有线接口、SSH 可达性、ROCK 到摄像头的 ONVIF/RTSP 可达性、客户端隔离、多播发现、供电、时间同步和存储路径。DHCP、`.local` 发现、学校 Wi-Fi、手机热点都不能替代这些验证。
-
-- **学校网络**：本次 macOS 明确拒绝共享 802.1X 来源连接；校园全局客户端隔离仍未测清。最终采用独立本地有线交换机预览，Mac Wi-Fi 另接外网；不把代理或 QoS 当作已确定的唯一故障原因。
-- **热点**：学校内已验证有限电脑/iPhone 管理连接及 ROCK AP SSH，iPhone 预览有用户卡顿反馈。它们不是所有热点的保证，也不自动替代有线摄像头网段配置。
-- **迁移验收**：以新环境各自的实测记录为准。`home` 的一分钟成功录像不能直接证明学校或热点可用。
-
-学校此次实施结果见 [school 实验](../experiments/2026-10-30-school-network-preview/README.md)。最终 Mac 直接有线预览不证明板卡已恢复或完成录像；未建立公网视频访问，未记录摄像头固定地址改动。
+每次实验的 front matter / JSON 保留实际环境，记录接收端、存储、时间源、版本和适用范围。学校旧热点变体不是通用 hotspot 的证明；home 新配置验收也不是学校现场复测。机器可读索引见 [registry.json](registry.json)。

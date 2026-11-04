@@ -10,6 +10,9 @@ related: [env-home, D011, D012, ws-preroll-recording]
 
 # home 硬件连接与程序实验复现指南
 
+> 2026-11-05 更新：日常网络已按 D014 统一为自动连接的 lab-wired；请先读[共用有线指南](SHARED_WIRED_NETWORK_GUIDE.md)。本教程的旧 DHCP、临时辅助地址、手动 school-camera / AP 操作仅说明历史实验，不是当前每日连接要求。
+
+
 **对象：接手本项目的同学与 agent。** 本文依据 2026-10-30 的 `home` 实验和仓库 v1.2.0 基线编写。目标是复现“ROCK 接收真实视频 → 系统卡保存 → 文件检查 → Mac 实时查看”，不把学校、热点或预录制描述为已经通过。
 
 本文从 **microSD 已刷好系统**开始。新设备需先按 [Radxa 官方安装说明](https://docs.radxa.com/en/rock4/rock4c%2B/getting-started/install-os)准备 ROCK 4C+ 对应镜像；本次使用 Debian 12 bookworm KDE。不要为复现实验重复刷写已正常工作的系统卡或录像硬盘。

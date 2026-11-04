@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "environment": "home",
+  "date": "2026-11-05",
+  "timezone": "Asia/Hong_Kong",
+  "source_kind": "privacy_filtered_local_repair_reports_and_session_observations",
+  "offline_findings": {
+    "saved_ethernet_profiles_in_examined_directory": 1,
+    "ethernet_autoconnect_before": false,
+    "ext4_needs_recovery_before": true,
+    "ext4_orphan_present_before": true,
+    "card_enumerated_by_builtin_reader": true,
+    "card_labelled_internal_by_macos": true,
+    "raw_device_access_from_agent_process": "denied_by_macos",
+    "terminal_read_succeeded": true
+  },
+  "offline_repair": {
+    "network_files_backed_up": true,
+    "metadata_backup_bytes": 173056000,
+    "full_card_image_created": false,
+    "undo_logs_kept_privately": true,
+    "filesystem_journal_recovered": true,
+    "post_repair_readonly_check_passed": true,
+    "pending_recovery_flags_cleared": true,
+    "profile_only_text_change": "autoconnect=false -> autoconnect=true",
+    "original_profile_sha256": "2afe7a92a2e2c98b6fb7a360c3c1e403a12bada0363e7860e0472ff2834af795",
+    "patched_profile_sha256": "2d24dbf00e0d21555de613a939c6f99933bd7d9e492a7874bd897a2925dd53d9"
+  },
+  "shared_baseline": {
+    "previous_profile_id": "school-camera",
+    "profile_id": "lab-wired",
+    "uuid_and_addresses_preserved": true,
+    "autoconnect": true,
+    "priority": 100,
+    "wired_default_route": false,
+    "optional_wireless_profiles_retained": 3,
+    "optional_wireless_autoconnect": false,
+    "switch_without_external_uplink": "user_confirmed",
+    "global_wifi_radio_changed": false
+  },
+  "validation": {
+    "card_reinsert_cold_start_ssh": true,
+    "software_reboot_after_profile_unification": true,
+    "post_reboot_ssh_without_manual_activation": true,
+    "post_reboot_active_profile": "lab-wired",
+    "mac_link_mbps": 100,
+    "mac_link_duplex": "full",
+    "health_report": "health-check.json",
+    "video_report": "video-check.json",
+    "new_recording_saved": false
+  },
+  "limits": {
+    "school_site_retest_of_shared_baseline": false,
+    "all_wifi_networks_validated": false,
+    "single_root_cause_isolated": false,
+    "endurance": false,
+    "preroll": false,
+    "sata": false,
+    "clock_calibration": false
+  },
+  "private_source_report_sha256": {
+    "inspection": "8d373e5b6e70acf695f633417156df803195039cde9ef95d0fb3409ff75b3fb8",
+    "apply": "5506287c76163ac3f5e039b80329688853a1c32c91b89db25087a64155812915"
+  },
+  "checker_code": {
+    "path": "project-camera/src/network/check_network.py",
+    "sha256": "00d72402ee2b2b5db112ffcad3f687513762b0fafb1b738e1fecf48f4405db88",
+    "guard_test_count": 12,
+    "recorded_against_base_commit": "aaa67c8bdb28c4c553a65fba68ac4da7539c3c03"
+  }
+}

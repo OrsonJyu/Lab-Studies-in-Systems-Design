@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "environment": "home",
+  "experiment_date": "2026-11-05",
+  "recorded_on": "2026-11-05",
+  "timezone": "Asia/Hong_Kong",
+  "hash_scope": "Committed artifact bytes only; private source material and unuploaded media are not represented as Git files.",
+  "entries": [
+    {
+      "path": "README.md",
+      "bytes": 3335,
+      "sha256": "61d5b52049a644af910e8b63cec2fe916bd0a44af360814f2f9edf7e91d74f2b",
+      "storage": "git"
+    },
+    {
+      "path": "health-check.json",
+      "bytes": 2800,
+      "sha256": "b280082d51fae6b1531bd6f0354e9be05930b9617cbedc2c7bbcf49e9ac9c863",
+      "storage": "git"
+    },
+    {
+      "path": "result.json",
+      "bytes": 2708,
+      "sha256": "2d67e98059e188ff824166a1c83fb929bec0ffc02ecd8c2fb6ca0aa2a5737509",
+      "storage": "git"
+    },
+    {
+      "path": "video-check.json",
+      "bytes": 301,
+      "sha256": "47f021fbac6fb7a55d5677733214faa2a37f7d5bf22739b227ab972574124010",
+      "storage": "git"
+    }
+  ]
+}

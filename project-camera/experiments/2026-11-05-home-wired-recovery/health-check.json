@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "environment": "home",
+  "observed_at_utc": "2026-11-04T17:56:35.120961+00:00",
+  "tool": "shared-wired-preflight/1",
+  "read_only": true,
+  "checks": [
+    {
+      "check": "mac_wired_link",
+      "status": "ok",
+      "detail": "Configured wired interface must have carrier"
+    },
+    {
+      "check": "mac_wired_address",
+      "status": "ok",
+      "detail": "Configured static address and prefix must be present"
+    },
+    {
+      "check": "uplink_subnet_distinct",
+      "status": "ok",
+      "detail": "Overlapping Wi-Fi/VPN networks require review; do not automatically renumber devices"
+    },
+    {
+      "check": "board_route_wired",
+      "status": "ok",
+      "detail": "Endpoint route must use the configured wired interface"
+    },
+    {
+      "check": "camera_route_wired",
+      "status": "ok",
+      "detail": "Endpoint route must use the configured wired interface"
+    },
+    {
+      "check": "board_ssh",
+      "status": "ok",
+      "detail": "TCP only; camera protocol and decoding are separate checks"
+    },
+    {
+      "check": "camera_rtsp",
+      "status": "ok",
+      "detail": "TCP only; camera protocol and decoding are separate checks"
+    },
+    {
+      "check": "camera_onvif_tcp",
+      "status": "ok",
+      "detail": "TCP only; camera protocol and decoding are separate checks"
+    },
+    {
+      "check": "board_host_key",
+      "status": "ok",
+      "detail": "Must match the existing trusted key; never disables verification or edits known_hosts"
+    },
+    {
+      "check": "board_profile_id_matches",
+      "status": "ok",
+      "detail": "Read-only board state check"
+    },
+    {
+      "check": "board_active_uuid_matches",
+      "status": "ok",
+      "detail": "Read-only board state check"
+    },
+    {
+      "check": "board_autoconnect_enabled",
+      "status": "ok",
+      "detail": "Read-only board state check"
+    },
+    {
+      "check": "board_priority_matches",
+      "status": "ok",
+      "detail": "Read-only board state check"
+    },
+    {
+      "check": "board_address_matches",
+      "status": "ok",
+      "detail": "Read-only board state check"
+    },
+    {
+      "check": "board_wired_never_default",
+      "status": "ok",
+      "detail": "Read-only board state check"
+    },
+    {
+      "check": "board_camera_route_wired",
+      "status": "ok",
+      "detail": "Read-only board state check"
+    },
+    {
+      "check": "board_optional_wifi_manual",
+      "status": "ok",
+      "detail": "Read-only board state check"
+    },
+    {
+      "check": "board_recording_not_started_by_check",
+      "status": "ok",
+      "detail": "Read-only board state check"
+    }
+  ],
+  "passed": true,
+  "limits": "No recording, decoding, reboot, endurance, camera clock or site-isolation validation is performed by this tool."
+}

@@ -1,0 +1,33 @@
+{
+  "environment": "school",
+  "media": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_tag_string": "avc1",
+        "width": 2560,
+        "height": 1440,
+        "r_frame_rate": "20/1",
+        "avg_frame_rate": "108000000/5400001",
+        "start_time": "0.000000",
+        "duration": "60.000011",
+        "nb_frames": "1200"
+      }
+    ],
+    "format": {
+      "duration": "60.001000",
+      "size": "37637189"
+    }
+  },
+  "full_decode_exit": 0,
+  "sha256": "1428f1431419b4da59b007ef171c6308c7aa5766fb38c40ea7811f0fe4e7bb6d",
+  "preview_count": 12,
+  "recorder": "ROCK 4C+",
+  "network_variant": "wired_switch",
+  "storage": "system_microSD",
+  "stream_timeout_observed": false,
+  "unset_timestamps_observed": true,
+  "non_monotonic_dts_observed": true,
+  "meets_requested_duration": true
+}

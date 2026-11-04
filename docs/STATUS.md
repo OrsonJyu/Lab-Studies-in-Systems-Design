@@ -1,27 +1,23 @@
 # 当前状态 / Current status
 
-核对日期：**2026-10-30，香港**。已有 **home** 短录基线与后续 **school** 网络/预览记录（[D011 / D013](DECISIONS.md)）。最新用户选择为学校全有线预览。课堂历史、home 录像与学校网络结果分别记录。
-
-## 项目基线与本次进展
+核对日期：**2026-11-05，香港**。[D014](DECISIONS.md)明确 home/school 共用有线配置；场地标签仍分别记录结果。完整接续见[上下文](handoffs/2026-11-05-shared-wired-baseline.md)。
 
 | 项目 | 当前状态 | 依据 |
 | --- | --- | --- |
-| 课程与目标 | SD5531；豹纹守宫观察、记录与学习支持，完整范围未缩小 | [SCOPE](SCOPE.md) |
-| 主机 | ROCK 4C+，Debian 12 bookworm、aarch64，已通过 SSH 操作 | [home 环境](../project-camera/environments/home/README.md) |
-| 项目存储方向 | SATA 机械硬盘仍保留；本阶段按用户要求先测试系统 microSD（D012） | [DECISIONS](DECISIONS.md) |
-| 摄像头与供电 | 实物标称 4MP / 2.8mm / PoE 48V 4W；普通交换机配独立 PoE 供电器；ONVIF 读取及 RTSP/TCP 接收成功 | [home 实物记录](../project-camera/environments/home/hardware-observations.json) |
-| 系统卡基础保存 | 60 秒合成片段保存、读回及完整软件解码通过 | [系统卡实验](../project-camera/experiments/2026-10-30-home-system-card/README.md) |
-| 实物短录像 | 60.001 秒，H.264，2560 × 1440，约 20 fps；1201 帧，完整解码通过，末段可见手进入画面 | [真实录像实验](../project-camera/experiments/2026-10-30-home-camera-recording/README.md) |
-| home Mac 实时预览 | ROCK 转发到 Mac 本机，FFplay 动态画面由用户确认；延迟未量测 | [home 预览实验](../project-camera/experiments/2026-10-30-home-live-preview/README.md) |
-| 时间与持续部署 | OSD 日期不正确、存在包时间戳/DTS 警告；网络辅助地址未持久化；尚无完整服务部署 | [录像限制](../project-camera/experiments/2026-10-30-home-camera-recording/README.md) |
-| 分段缓存、事件和预录制 | 尚未实现/验收；SATA、长期及故障恢复均未通过本次测试 | [当前工作流](workstreams/active/ws-preroll-recording.md) |
-| school 最终有线预览 | 摄像头 → 交换机 → Mac / IINA；TCP 端口、2560 × 1440 H.264 / 报告 20 fps、三秒解码及用户预览确认通过；Mac 线协商为 100 Mbps 全双工 | [school 实验](../project-camera/experiments/2026-10-30-school-network-preview/README.md) |
-| school 板卡管理 | 阶段中有线/无线 SSH 曾成功；末次固定有线 IPv4/SSH 未恢复，IPv6 只有 ICMP 回应；保存的静态配置为手动启用 | [school 档案](../project-camera/environments/school/README.md) |
-| school 热点与校园网 | ROCK AP 无线 SSH 由用户确认；iPhone/IINA 预览可见但用户报告网络差；电脑热点 FFplay 黑屏不记成功；macOS 拒绝 802.1X 来源共享，未证明校园全局隔离 | [school 分变体记录](../project-camera/environments/school/README.md) |
-| school 录像与持续性 | 没有学校新录像；SATA、预录制、时钟、长期性能和重启恢复未验收；通用 hotspot 环境仍预留 | [学校配置与恢复指南](guides/SCHOOL_NETWORK_AND_PREVIEW_GUIDE.md) |
-| 热阵列、定位/识别、行为信息、跨组接口 | 规划/探索，性能与责任需验证或共同确认；数据库和消息栈仍待选择 | [完整范围](SCOPE.md) |
+| 课程与完整范围 | SD5531；豹纹守宫视频、热阵列、存储/访问、定位/识别探索和跨组对齐 | [SCOPE](SCOPE.md) |
+| 主机与存储 | ROCK 4C+ / Debian 12 / aarch64；测试用系统 microSD；SATA 仍未验收 | D002 / D012 |
+| 共用网络 | 三个数据端接独立交换机；Mac Wi-Fi 仅外网；同一私有 JSON、同一 lab-wired，自动连接/优先级 100、有线无默认路由 | [统一指南](guides/SHARED_WIRED_NETWORK_GUIDE.md) |
+| 旧配置整理 | 保留有线 UUID/地址；school-camera 改名 lab-wired；三份旧无线 profile 保留为手动，没有关闭全局射频 | [恢复实验](../project-camera/experiments/2026-11-05-home-wired-recovery/README.md) |
+| home 开机恢复 | SD 检查发现有线不自启和待恢复日志；完成备份、恢复、单行修改；装卡启动及统一后正常重启均自动恢复 SSH | [结构化结果](../project-camera/experiments/2026-11-05-home-wired-recovery/result.json) |
+| home 当前链路 | 主机密钥、静态地址/路由、端口和远端状态检查通过；重启后三秒解码 60 帧，无错误，未保存新录像 | [health](../project-camera/experiments/2026-11-05-home-wired-recovery/health-check.json) · [video](../project-camera/experiments/2026-11-05-home-wired-recovery/video-check.json) |
+| 历史 home 媒体 | 合成基础保存、真实约 60 秒录像与完整解码，FFplay 动态画面由用户确认 | [实验索引](../project-camera/experiments/README.md) |
+| school 后续短录 | 10-30 较早网络/预览后恢复板卡管理，17:40 起完成 60.001 秒、1200 帧、完整解码及复制哈希核对；JSON 已补录，原片本地保留 | [school 录像](../project-camera/experiments/2026-10-30-school-camera-recording/README.md) |
+| school 新基线 | 已采用统一政策，实际学校现场复测仍待完成；旧热点/802.1X 观察不作为全部校园隔离证明 | [school](../project-camera/environments/school/README.md) |
+| 时间与录制服务 | OSD、板卡时间源、包时间戳/DTS、事件边界仍待核；通用持久录制服务未实现 | [当前工作流](workstreams/active/ws-preroll-recording.md) |
+| 下一项实验 | 手部模拟运动触发、静止 n 秒结束、前段完整性和延迟；网站为后续可选，n/预录长度未定 | [接续上下文](handoffs/2026-11-05-shared-wired-baseline.md) |
+| 尚未验收 | 预录制、SATA、长期/异常断电恢复、所有 Wi-Fi 兼容、热阵列/行为性能和跨组接口 | [ROADMAP](ROADMAP.md) |
 
-每项结果只适用于各自记录的环境与变体。home 的短录不能替代学校录像；Mac 直接有线预览成功也不证明 ROCK 的管理已恢复。短检查不等于全天稳定、预录制完成或事件时间准确；既往超时/黑屏没有确定的唯一原因。
+确认了网络不自启的缺陷，同时也恢复了文件系统日志；未用单变量实验确定唯一根因。一次冷启动和一次正常重启不等于异常断电或持续服务恢复。共用配置不取消场地复测，也不等于已自动识别/切换任意 Wi-Fi。
 
 ## 已保存的成果
 

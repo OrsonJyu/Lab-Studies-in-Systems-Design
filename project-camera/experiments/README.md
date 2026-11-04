@@ -9,7 +9,9 @@
 | 2026-10-30 / home | [系统卡基础测试](2026-10-30-home-system-card/README.md) | 合成视频保存、读回、解码；不是摄像头取流 |
 | 2026-10-30 / home | [真实摄像头短录像](2026-10-30-home-camera-recording/README.md) | 一次约 60 秒真实视频保存与完整解码；时间戳问题另留 |
 | 2026-10-30 / home | [Mac 实时预览](2026-10-30-home-live-preview/README.md) | 用户确认 FFplay 动态画面；延迟未量测 |
-| 2026-10-30 / school | [网络、SSH、AP 与 IINA 预览](2026-10-30-school-network-preview/README.md) | 分变体记录；最终 Mac 直接有线短解码及预览确认通过，末次板卡管理待恢复，没有学校新录像 |
+| 2026-10-30 / school | [网络、SSH、AP 与 IINA 预览](2026-10-30-school-network-preview/README.md) | 分变体记录；最终 Mac 直接有线短解码及预览确认通过，当时较早阶段板卡管理待恢复；同日后续录像另记 |
+| 2026-10-30 / school（后续） | [板卡 60 秒录像](2026-10-30-school-camera-recording/README.md) | 管理恢复、保存/解码与复制核对；原片本地、JSON补录 |
+| 2026-11-05 / home | [恢复与共用有线验收](2026-11-05-home-wired-recovery/README.md) | SD 恢复、统一策略、自动启动/正常重启、只读检查与短解码；新学校现场未测 |
 
 环境定义见[目录](../environments/README.md)。学校内热点切换归入 school 的网络变体；通用 hotspot 环境尚未单独验收。
 

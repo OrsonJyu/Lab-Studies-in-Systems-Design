@@ -17,6 +17,7 @@
 | D011 | 2026-10-30 | 用户确认 | 本次家庭测试环境命名为 **`home`**；移动办公时按环境分别记录配置、拓扑、实验和限制。用户说明后续可能在学校或考虑热点，学校网络不一定支持互通。`school` / `hotspot` 仅预留、未测试，不把 home 的地址或成功结果推广到它们。来源：本次用户要求更新仓库的明确消息；见[环境目录](../project-camera/environments/README.md)。 |
 | D012 | 2026-10-30 | 用户确认的本次测试选择 | 本阶段先用**系统 microSD 卡**保存测试录像。此项限定测试介质，不取代 D002 的 SATA HDD 项目方向，也不表示 SATA 已接通。来源：本次用户“目前我们先测试系统卡”；实测见[home 录像](../project-camera/experiments/2026-10-30-home-camera-recording/README.md)。 |
 | D013 | 2026-10-30 | 用户选择并确认学校预览；补充 D011 的后续实测 | 用户在学校尝试电脑热点、iPhone 与 ROCK AP 后取得额外网线，明确选择“全部通过有线连接”，并在新的 Mac 直接 IINA 入口后回复“成功”。学校当前预览拓扑为摄像头 → 交换机 → Mac；ROCK 另接交换机，学校录像未测试，末次板卡固定 IPv4/SSH 待恢复。school-camera 与 rock-lab-ap 保存为手动启用。该决定仅适用于本次学校环境，不替代 home 实验，也不确认所有热点互通或长期稳定。来源：本次学校搭建对话中的用户操作、截图与明确确认；见 [school](../project-camera/environments/school/README.md)及[实验](../project-camera/experiments/2026-10-30-school-network-preview/README.md)。 |
+| D014 | 2026-11-05 | 用户确认；更新 D011/D013 的日常网络策略 | home/school 共用独立交换机有线接法和一份私有配置，Mac Wi-Fi 只随地点提供外网；lab-wired 保留既有 UUID/地址，自动连接、优先级 100、有线无默认路由。旧无线配置手动保留，不为换地点重建网络；环境标签继续限定证据，新学校基线须现场复测。来源：本次用户明确要求“共用一套配置适配不同 wifi”，并确认交换机只接三个实验设备；见[统一指南](guides/SHARED_WIRED_NETWORK_GUIDE.md)与[home 验收](../project-camera/experiments/2026-11-05-home-wired-recovery/README.md)。 |
 
 主讨论全文见 [history/main-videoing.md](history/main-videoing.md)；早期 scope 见[原始迁移历史](../references/project-migration/历史对话.md)。
 
