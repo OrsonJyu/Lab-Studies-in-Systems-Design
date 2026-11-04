@@ -42,7 +42,7 @@
     },
     "recorder": {
       "version": "recorder/0.3",
-      "web_page": "LAN only, no authentication: live MJPEG, status, event timeline with timestamp markers, clip playback; served from the ROCK, user browser check pending",
+      "web_page": "LAN only, no authentication: live MJPEG, status, event timeline with timestamp markers, clip playback; served from the ROCK; user confirmed it works in their own browser on 2026-11-05 (6 motion events saved ok during that session, no stream gaps or process exits logged)",
       "code": "project-camera/src/recorder/README.md",
       "trigger": "substream frame-difference motion detection, or manual",
       "tested_on": "2026-11-05",
