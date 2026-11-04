@@ -42,6 +42,22 @@ python3 webview.py --config ~/sd5531/recorder/config.json
 | `web.live_fps` / `web.live_width` | 10 / 800 | 实时画面帧率与宽度 |
 | `web.idle_stop_s` | 10 | 无人观看多少秒后停止转码 |
 
+## 日常启动和停止
+
+ROCK 上 `~/sd5531/recorder/` 放着 [start.sh](start.sh) 和 [stop.sh](stop.sh)：
+
+```sh
+~/sd5531/recorder/start.sh   # 启动录制和网页；已经在运行就不重复启动
+~/sd5531/recorder/stop.sh    # 停止二者；正在录的事件会以 partial 保存
+```
+
+用户的 Mac 上另有两个双击脚本（在 `Video_SD5531/live-preview/`，读取本机私有网络配置，不在仓库里）：
+
+- **开始录制.command**：连接 ROCK（需要时输入密码）→ 检查板卡时间，相差超过 1 秒就先运行校时 → 运行 `start.sh` → 打开网页 → 窗口开着期间每 10 秒把新片段复制到 Mac 的 `Video_SD5531/recordings/`。关闭窗口只停止复制，ROCK 继续录制。
+- **停止录制.command**：运行 `stop.sh`，再复制最后的片段。
+
+复制通过 SSH 进行（ROCK 上没有 rsync），每段视频按其 JSON 记录里的 SHA-256 核对后才保留，JSON 最后写入；两边都不删除文件。`recordings/` 在 Git 仓库之外：片段里可能有房间和人物，不提交到 GitHub。
+
 ## 运行
 
 ```sh
@@ -99,4 +115,4 @@ python3 -m unittest -v test_recorder test_webview
 - 拼接在主循环里同步执行，长事件拼接期间新信号会稍晚处理（信号自带时间，不影响事件边界）。
 - 运动检测阈值只针对手挥动标定；光线变化、夜视切换未测。
 - 网页不能往回拖看缓存中尚未成为事件的画面，只能看已保存的片段。
-- 没有做开机自启或 SATA 输出。
+- 没有做开机自启或 SATA 输出；ROCK 重启后需重新运行 `start.sh`（或双击“开始录制”）。
