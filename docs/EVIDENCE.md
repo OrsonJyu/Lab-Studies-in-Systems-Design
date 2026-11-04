@@ -4,6 +4,7 @@
 
 | 材料 | 位置 | 可以支持 / 限制 |
 | --- | --- | --- |
+| home 板卡校时 | [实验与 JSON](../project-camera/experiments/2026-11-05-home-board-clock-set/README.md) | ROCK 系统时钟对齐 Mac 约 ±15 毫秒；不含摄像头时间、包时间戳或重启后保持 |
 | home 码流与接口探测 | [实验与 JSON](../project-camera/experiments/2026-11-05-home-stream-probe/README.md) | 只读：码流参数、实测关键帧间隔、ONVIF 服务与事件主题、解码 CPU、三处时钟；没有事件订阅、延迟测量或录像 |
 | home 恢复与共用有线 | [实验](../project-camera/experiments/2026-11-05-home-wired-recovery/README.md)、[检查报告](../project-camera/experiments/2026-11-05-home-wired-recovery/health-check.json) | 去私有值的恢复摘要、一次装卡启动及一次正常重启、只读检查和短解码；没有学校新基线现场或长期证明 |
 | school 后续真实短录 | [实验与 JSON](../project-camera/experiments/2026-10-30-school-camera-recording/README.md) | 较早预览之后的板卡 60 秒保存/完整解码与复制核对；原片本地保留，本次不上传 |
