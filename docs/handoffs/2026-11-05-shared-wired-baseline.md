@@ -45,4 +45,4 @@ home / school 始终采用同一交换机有线接法，Mac 的 Wi-Fi 仅随地�
 
 ## 发布状态
 
-本记录随 `exp/shared-wired-baseline-2026-11-05` 上传供 PR 审阅。新代码和改变结论的实验按仓库规则需用户审阅；合并之后再正式打版本标签和 Release。本阶段的网络可用不表示运动录制已完成。
+用户已明确要求合并，[PR #3](https://github.com/OrsonJyu/Lab-Studies-in-Systems-Design/pull/3) 已合并 main；共用网络基线随 [v1.4.0](https://github.com/OrsonJyu/Lab-Studies-in-Systems-Design/releases/tag/v1.4.0) 发布。当前接手以 main 为准，无需保留原审阅分支作为日常运行前提。本阶段的网络可用不表示运动录制已完成，下一阶段参数仍待确认。
