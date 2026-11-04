@@ -17,6 +17,7 @@
 | 时间与录制服务 | ROCK 已于 2026-11-05 按 Mac 时间校准（偏差约 10 毫秒，重启后保持未验证）；摄像头仍慢约 28 天、未修改；包时间戳/DTS、事件边界仍待核；通用持久录制服务未实现 | [当前工作流](workstreams/active/ws-preroll-recording.md) |
 | 延迟 | 拍摄到 ROCK 约 0.23 秒（中位）；触发后才录会丢开头约 0.4 秒以上，需滚动缓存；预览显示与检测延迟未测 | [延迟实验](../project-camera/experiments/2026-11-05-home-latency/README.md) |
 | 事件录制 | recorder 0.2：内存盘 2 秒分段缓存 + 子码流帧差运动检测（也可手动触发）；home 手挥动四个事件均自动录制，手出现前保留 3.7–4.65 秒，检测延迟约 0.5–0.65 秒；守宫场景阈值、断流恢复、长期运行未做 | [手挥动](../project-camera/experiments/2026-11-05-home-motion-hand-test/README.md) · [手动](../project-camera/experiments/2026-11-05-home-recorder-manual-trigger/README.md) · [代码](../project-camera/src/recorder/README.md) |
+| 网页 | recorder 0.3 的局域网页面：实时画面、录制状态、带时间戳标记的时间轴和片段回放；无登录，只绑定隔离实验网；用户浏览器实际使用待确认 | [说明](../project-camera/src/recorder/README.md) |
 | 下一项实验 | 手部模拟运动触发、静止 n 秒结束、前段完整性和延迟；网站为后续可选，n/预录长度未定 | [接续上下文](handoffs/2026-11-05-shared-wired-baseline.md) |
 | 尚未验收 | 预录制、SATA、长期/异常断电恢复、所有 Wi-Fi 兼容、热阵列/行为性能和跨组接口 | [ROADMAP](ROADMAP.md) |
 

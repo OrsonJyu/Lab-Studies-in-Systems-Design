@@ -22,5 +22,12 @@
     "min_frames": 2,
     "mask": [[0, 0, 0.45, 0.09], [0, 0.9, 0.25, 0.1]],
     "stats_every_s": 10
+  },
+  "web": {
+    "bind": "127.0.0.1",
+    "port": 8080,
+    "live_fps": 10,
+    "live_width": 800,
+    "idle_stop_s": 10
   }
 }

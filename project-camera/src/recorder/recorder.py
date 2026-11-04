@@ -331,6 +331,7 @@ class MotionDetector:
         self.events = queue.Queue()
         self.scorer = MotionScorer(m['changed_fraction'], m['min_frames'])
         self.stats_every = m['stats_every_s']
+        self.last_share, self.last_frame = None, None
         if m['input_args'] is not None:
             args = list(m['input_args'])
         else:
@@ -355,6 +356,7 @@ class MotionDetector:
             now = time.time()
             share = float(hit.group(1)) / 255
             shares.append(share)
+            self.last_share, self.last_frame = share, now
             if self.scorer.frame(share):
                 self.events.put(now)
             if now - since >= self.stats_every:
@@ -473,6 +475,32 @@ class Recorder:
                 kept.append(s)
         self.segments = kept
 
+    def write_state(self, now):
+        """Status for the web page, rewritten atomically about twice a second."""
+        if now - getattr(self, '_state_at', 0) < 0.5:
+            return
+        self._state_at = now
+        e = self.tracker.open
+        d = self.detector
+        state = {
+            't': round(now, 3),
+            'pre_roll_s': self.cfg['pre_roll_s'], 'still_s': self.cfg['still_s'],
+            'segmenter_alive': bool(self.run and self.run.alive()),
+            'detector_enabled': self.cfg['motion']['enabled'],
+            'detector_alive': bool(d and d.alive()),
+            'motion_share': None if not d or d.last_share is None else round(d.last_share, 5),
+            'motion_share_at': None if not d or d.last_frame is None else round(d.last_frame, 3),
+            'changed_fraction': self.cfg['motion']['changed_fraction'],
+            'ring_seconds': round(sum(s.wall_end - s.wall_start for s in self.segments), 1),
+            'open_event': None if e is None else {
+                'event_id': e.event_id, 'first_motion': round(e.start, 3),
+                'last_motion': round(e.last_motion, 3), 'sources': sorted(e.sources)},
+            'pending_events': len(self.pending),
+        }
+        tmp = self.ring / 'state.json.part'
+        tmp.write_text(json.dumps(state))
+        tmp.rename(self.ring / 'state.json')
+
     def loop(self):
         self.log('recorder_started', pre_roll_s=self.cfg['pre_roll_s'], still_s=self.cfg['still_s'],
                  segment_seconds=self.cfg['segment_seconds'], ring_seconds=self.cfg['ring_seconds'])
@@ -491,6 +519,7 @@ class Recorder:
             self.pending += self.tracker.poll(now)
             self.assemble_ready(now)
             self.cleanup(now)
+            self.write_state(now)
             time.sleep(0.1)
         self.shutdown()
 

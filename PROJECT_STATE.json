@@ -41,7 +41,8 @@
       "latency_measured": false
     },
     "recorder": {
-      "version": "recorder/0.2",
+      "version": "recorder/0.3",
+      "web_page": "LAN only, no authentication: live MJPEG, status, event timeline with timestamp markers, clip playback; served from the ROCK, user browser check pending",
       "code": "project-camera/src/recorder/README.md",
       "trigger": "substream frame-difference motion detection, or manual",
       "tested_on": "2026-11-05",

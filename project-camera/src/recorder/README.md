@@ -1,6 +1,6 @@
 # 滚动缓存事件录制 / Rolling-buffer recorder
 
-版本：`recorder/0.2`（手动触发 + 帧差运动检测）。运行在 ROCK 4C+：Debian 12、Python 3.11（只用标准库）、FFmpeg 5.1。工作流见 [ws-preroll-recording](../../../docs/workstreams/active/ws-preroll-recording.md)。
+版本：`recorder/0.3`（帧差运动检测 + 手动触发 + 局域网网页）。运行在 ROCK 4C+：Debian 12、Python 3.11（只用标准库）、FFmpeg 5.1。工作流见 [ws-preroll-recording](../../../docs/workstreams/active/ws-preroll-recording.md)。
 
 ## 做什么
 
@@ -17,6 +17,30 @@
 帧差法只看画面变化，不识别物体：物体停住后事件照常按 `still_s` 结束，再动时开新事件。阈值是针对手挥动标定的，未在守宫场景验证，见[手挥动实验](../../experiments/2026-11-05-home-motion-hand-test/README.md)。
 
 为什么要缓存而不是检测到再开始录：见 [延迟实验](../../experiments/2026-11-05-home-latency/README.md)，触发后才连接摄像头，第一帧比触发晚约 0.4 秒，FFmpeg 约 2 秒后才开始输出。
+
+## 网页
+
+[webview.py](webview.py) 在局域网提供一个页面（Python 标准库，无外部前端依赖）：
+
+- **实时画面**：子码流转为 MJPEG，约每秒 10 帧；有人观看时才启动转码，无人观看 10 秒后停止。浏览器标签页切到后台时自动断开。
+- **当前状态**：是否正在录制、本次开始时刻、最近一次运动、画面变化量（与阈值对比）、缓存长度；板卡时间与浏览器所在电脑相差超过 2 秒时提示先校时。
+- **时间轴**：每个已保存的片段是一个标记，上方标出检测到运动的时刻（时:分:秒）；浅色部分为触发前保留的画面，红色闪烁的是正在录制的事件。可切换 10 分钟 / 1 小时 / 6 小时 / 24 小时。点击标记播放该片段并显示详细时间。
+- **片段列表**：按时间倒序，点击行同样可以播放；支持拖动进度条（HTTP Range）和下载。
+
+录制程序每 0.5 秒把状态写入 `ring_dir/state.json`，网页读取它；两个程序互相独立，网页停掉不影响录制。
+
+```sh
+python3 webview.py --config ~/sd5531/recorder/config.json
+```
+
+**没有登录或加密。** `web.bind` 默认只监听 `127.0.0.1`；在实验网使用时设为 ROCK 有线地址，只在隔离的实验交换机上可访问，不要绑定到连外网或校园网的接口。实时画面会占用摄像头的第三路 RTSP 连接。
+
+| 键 | 默认 | 含义 |
+| --- | --- | --- |
+| `web.bind` | `127.0.0.1` | 监听地址 |
+| `web.port` | 8080 | 端口 |
+| `web.live_fps` / `web.live_width` | 10 / 800 | 实时画面帧率与宽度 |
+| `web.idle_stop_s` | 10 | 无人观看多少秒后停止转码 |
 
 ## 运行
 
@@ -63,10 +87,10 @@ python3 recorder.py trigger --config ~/sd5531/recorder/config.json --hold 8   # 
 ## 测试
 
 ```sh
-python3 -m unittest -v test_recorder
+python3 -m unittest -v test_recorder test_webview
 ```
 
-10 个逻辑测试不需要其他软件；4 个需要 FFmpeg（合成画面需 libx264）：检测滤镜能测出变化、遮罩区域被忽略、手动触发全流程、运动检测自动开关事件的全流程，共约 30 秒。2026-11-05 已在 home 真实摄像头上实测：[手动信号三种情形](../../experiments/2026-11-05-home-recorder-manual-trigger/README.md)、[运动检测手挥动四个事件](../../experiments/2026-11-05-home-motion-hand-test/README.md)。
+`test_recorder`：10 个逻辑测试不需要其他软件；4 个需要 FFmpeg（合成画面需 libx264）：检测滤镜能测出变化、遮罩区域被忽略、手动触发全流程、运动检测自动开关事件的全流程，共约 30 秒。`test_webview`：Range 解析、文件名白名单，以及启动服务后检查页面、接口、片段分段读取和实时 MJPEG 帧率，约 5 秒。2026-11-05 已在 home 真实摄像头上实测：[手动信号三种情形](../../experiments/2026-11-05-home-recorder-manual-trigger/README.md)、[运动检测手挥动四个事件](../../experiments/2026-11-05-home-motion-hand-test/README.md)。
 
 ## 已知限制
 
@@ -74,4 +98,5 @@ python3 -m unittest -v test_recorder
 - 断流后 FFmpeg 3 秒后重启，新旧分段分开存放；跨断流的事件会在 JSON `gaps` 中标出，拼接结果可能有跳变。
 - 拼接在主循环里同步执行，长事件拼接期间新信号会稍晚处理（信号自带时间，不影响事件边界）。
 - 运动检测阈值只针对手挥动标定；光线变化、夜视切换未测。
-- 没有做开机自启、SATA 输出或网页查看。
+- 网页不能往回拖看缓存中尚未成为事件的画面，只能看已保存的片段。
+- 没有做开机自启或 SATA 输出。
