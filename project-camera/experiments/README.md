@@ -12,6 +12,7 @@
 | 2026-10-30 / school | [网络、SSH、AP 与 IINA 预览](2026-10-30-school-network-preview/README.md) | 分变体记录；最终 Mac 直接有线短解码及预览确认通过，当时较早阶段板卡管理待恢复；同日后续录像另记 |
 | 2026-10-30 / school（后续） | [板卡 60 秒录像](2026-10-30-school-camera-recording/README.md) | 管理恢复、保存/解码与复制核对；原片本地、JSON补录 |
 | 2026-11-05 / home | [恢复与共用有线验收](2026-11-05-home-wired-recovery/README.md) | SD 恢复、统一策略、自动启动/正常重启、只读检查与短解码；新学校现场未测 |
+| 2026-11-05 / home | [码流与接口只读探测](2026-11-05-home-stream-probe/README.md) | 两路码流关键帧间隔 2 秒、ONVIF 运动事件主题、无录像回放服务、子码流解码 CPU 约 3.6%、板卡/摄像头时钟偏差；未订阅事件、未测延迟 |
 
 环境定义见[目录](../environments/README.md)。学校内热点切换归入 school 的网络变体；通用 hotspot 环境尚未单独验收。
 

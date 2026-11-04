@@ -28,6 +28,18 @@
       "cross-team data alignment"
     ],
     "immediate_milestone": "Confirm n/pre-roll parameters, implement hand-motion-triggered retention with pre-event completeness and latency checks; optional website follows the recording pipeline",
+    "stream_probe": {
+      "tested_on": "2026-11-05",
+      "environment": "home",
+      "evidence": "project-camera/experiments/2026-11-05-home-stream-probe/README.md",
+      "keyframe_interval_seconds": 2.0,
+      "substream": "H.264 800x448 20 fps",
+      "onvif_motion_event_topics_advertised": true,
+      "onvif_recording_replay_services": false,
+      "substream_decode_cpu_share_of_6_cores_pct": 3.6,
+      "event_subscription_tested": false,
+      "latency_measured": false
+    },
     "camera_implementation_status": "home_and_school_short_recordings_verified; shared_wired_home_reboot_verified; school_shared_baseline_site_retest_pending; motion_trigger_and_preroll_not_implemented",
     "candidate_tools": [
       "Python production controller",
@@ -37,7 +49,8 @@
       "PostgreSQL"
     ],
     "unconfirmed": [
-      "exact camera commercial model/chipset/firmware and motion-event interface; ONVIF reads and RTSP/TCP verified in home",
+      "camera brand, actual motion-event delivery/latency and PoE compatibility; ONVIF-reported model string, firmware and event topics read in home",
+      "board and camera clocks: no time source on the wired lab subnet (board about 5 days slow, camera about 28 days slow on 2026-11-05)",
       "SATA connection, power, mounting and recording",
       "camera clock, packet timestamps and event alignment",
       "retention policy and pre/post durations",

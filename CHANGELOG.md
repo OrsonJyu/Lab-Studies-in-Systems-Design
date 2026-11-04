@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- home 码流与接口只读探测：ONVIF 设备信息、配置文件与事件主题，两路码流实测关键帧间隔、板卡解码 CPU 和三处时钟偏差；附两个只读探测脚本，不保存录像、不改摄像头设置。
+
 ### Changed
 
 - 版本流程在打标签之后增加“用该标签建立 GitHub Release 并核对页面”一步，并说明标签与 Release 的区别（[VERSIONING](docs/VERSIONING.md)）。
