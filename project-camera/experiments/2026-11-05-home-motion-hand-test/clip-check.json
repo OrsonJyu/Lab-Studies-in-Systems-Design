@@ -1,0 +1,110 @@
+[
+ {
+  "event_id": "20261104-192449-079bd2",
+  "status": "ok",
+  "source": "motion",
+  "duration_s": 14.001,
+  "motions": [
+   [
+    1793820289.421,
+    1793820291.91
+   ]
+  ],
+  "first_motion": 1793820289.421,
+  "last_motion": 1793820291.91,
+  "event_end": 1793820296.91,
+  "clip_window": [
+   1793820284.32,
+   1793820298.292
+  ],
+  "actual_pre_roll_s": 5.101,
+  "hand_first_seen_in_clip_s": 4.65,
+  "hand_first_seen_receive_time": 1793820288.97,
+  "detection_delay_s": 0.451,
+  "clip_before_hand_s": 4.65,
+  "clip_after_last_motion_s": 6.382,
+  "full_decode_exit": 0
+ },
+ {
+  "event_id": "20261104-192507-dc95cd",
+  "status": "ok",
+  "source": "motion",
+  "duration_s": 20.0,
+  "motions": [
+   [
+    1793820307.254,
+    1793820310.155
+   ],
+   [
+    1793820314.138,
+    1793820316.102
+   ]
+  ],
+  "first_motion": 1793820307.254,
+  "last_motion": 1793820316.102,
+  "event_end": 1793820321.102,
+  "clip_window": [
+   1793820302.312,
+   1793820322.324
+  ],
+  "actual_pre_roll_s": 4.942,
+  "hand_first_seen_in_clip_s": 4.45,
+  "hand_first_seen_receive_time": 1793820306.762,
+  "detection_delay_s": 0.492,
+  "clip_before_hand_s": 4.45,
+  "clip_after_last_motion_s": 6.222,
+  "full_decode_exit": 0
+ },
+ {
+  "event_id": "20261104-192532-e086b5",
+  "status": "ok",
+  "source": "motion",
+  "duration_s": 13.951,
+  "motions": [
+   [
+    1793820332.645,
+    1793820335.448
+   ]
+  ],
+  "first_motion": 1793820332.645,
+  "last_motion": 1793820335.448,
+  "event_end": 1793820340.448,
+  "clip_window": [
+   1793820328.36,
+   1793820342.268
+  ],
+  "actual_pre_roll_s": 4.285,
+  "hand_first_seen_in_clip_s": 3.7,
+  "hand_first_seen_receive_time": 1793820332.06,
+  "detection_delay_s": 0.585,
+  "clip_before_hand_s": 3.7,
+  "clip_after_last_motion_s": 6.82,
+  "full_decode_exit": 0
+ },
+ {
+  "event_id": "20261104-192546-1a6c65",
+  "status": "ok",
+  "source": "motion",
+  "duration_s": 12.05,
+  "motions": [
+   [
+    1793820346.717,
+    1793820347.527
+   ]
+  ],
+  "first_motion": 1793820346.717,
+  "last_motion": 1793820347.527,
+  "event_end": 1793820352.527,
+  "clip_window": [
+   1793820342.268,
+   1793820354.28
+  ],
+  "actual_pre_roll_s": 4.449,
+  "hand_first_seen_in_clip_s": 3.8,
+  "hand_first_seen_receive_time": 1793820346.068,
+  "detection_delay_s": 0.649,
+  "clip_before_hand_s": 3.8,
+  "clip_after_last_motion_s": 6.753,
+  "full_decode_exit": 0
+ }
+]

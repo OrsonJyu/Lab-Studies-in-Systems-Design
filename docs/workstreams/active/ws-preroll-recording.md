@@ -23,6 +23,7 @@ related: [D002, D003, D004, D005, D011, D012, D013]
 - [school 网络与预览](../../../project-camera/experiments/2026-10-30-school-network-preview/README.md)：有限 SSH/AP 与最终 Mac 直接有线 IINA 预览已确认；较早阶段管理待恢复；同日更晚的[板卡短录](../../../project-camera/experiments/2026-10-30-school-camera-recording/README.md)已通过。
 
 - [home 共用有线](../../../project-camera/experiments/2026-11-05-home-wired-recovery/README.md)：SD 恢复、自动连接及一次正常重启通过；三份旧无线 profile 手动。新的学校现场复测仍待完成。
+- [home 运动检测手挥动](../../../project-camera/experiments/2026-11-05-home-motion-hand-test/README.md)：recorder 0.2 用子码流帧差检测，四个事件自动开启/结束；手出现前保留 3.7–4.65 秒，检测延迟 0.45–0.65 秒。
 - [home 手动触发录制](../../../project-camera/experiments/2026-11-05-home-recorder-manual-trigger/README.md)：[recorder 0.1](../../../project-camera/src/recorder/README.md) 在内存盘做 2 秒分段滚动缓存；三个手动事件均保住触发前 5.0–5.6 秒，按静止 5 秒结束，3 秒内两次触发合并为一个事件。
 - [home 延迟测量](../../../project-camera/experiments/2026-11-05-home-latency/README.md)：稳定接收时拍摄到 ROCK 约 0.19–0.29 秒；“触发后才启动录制”第一帧内容比触发晚约 0.36–0.41 秒，FFmpeg 约 2 秒后才输出，证实需要滚动缓存。
 - [home 码流与接口探测](../../../project-camera/experiments/2026-11-05-home-stream-probe/README.md)：主/子码流关键帧间隔实测均为 2 秒；摄像头公告 ONVIF 运动事件主题（PullPoint），无录像/回放服务；板卡软件解码子码流约占 6 核的 3.6%。板卡与摄像头时钟分别慢约 5 天、28 天。
@@ -33,7 +34,8 @@ related: [D002, D003, D004, D005, D011, D012, D013]
 - [x] home 共用有线自动启动及一次正常重启恢复；同一私有 JSON、按地点记录。
 - [ ] 新学校基线现场检查、录制服务与长期/异常断电恢复。
 - [x] 循环分段、手动事件接收、片段保护、等待尾段、续接和过期清理：recorder 0.1 已在 home 用三个短事件实测。
-- [ ] 运动检测接入同一事件逻辑，并用手挥动做触发实验。
+- [x] 运动检测接入同一事件逻辑，并用手挥动做触发实验（recorder 0.2）。
+- [ ] 在实际饲养箱机位和守宫上标定检测阈值与遮罩；光线变化、夜视切换下的误触发。
 - [ ] 断流、重启、磁盘满与长期连续运行的故障/恢复记录。
 - [ ] SATA 硬盘连接、供电、挂载与正式写入验证。
 - [ ] 摄像头商业品牌、运动事件的实际触发与延迟、供电兼容性。ONVIF 自报型号字符串、固件和事件主题已读取，尚未订阅或收到事件。

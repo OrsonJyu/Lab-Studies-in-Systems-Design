@@ -2,7 +2,9 @@
 """Rolling-buffer event recorder for the SD5531 camera (Python 3.9+, stdlib only).
 
 FFmpeg copies the camera stream into short MPEG-TS segments in a RAM ring
-directory. Motion observations (manual triggers for now) open an event; the
+directory. Motion observations open an event: manual triggers, or a second
+FFmpeg process that decodes the low-resolution substream and reports the share
+of pixels that changed between frames (MotionDetector). The
 event closes once no motion has been seen for `still_s` seconds. The clip
 covers `pre_roll_s` before the first motion to the end of the still period,
 is cut at segment (keyframe) boundaries, joined without re-encoding and saved
@@ -15,7 +17,7 @@ by the capture-to-board latency, recorded as an estimate only.
   recorder.py run --config CONFIG
   recorder.py trigger --config CONFIG [--hold SECONDS]
 """
-import argparse, csv, hashlib, json, os, shutil, signal, subprocess, sys, time, uuid
+import argparse, csv, hashlib, json, os, queue, re, shutil, signal, subprocess, sys, threading, time, uuid
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -34,13 +36,30 @@ DEFAULTS = {
     'capture_latency_s': 0.23,
     'input_args': None,   # None: RTSP/TCP from source_config; a list overrides (tests)
     'codec_args': ['-c', 'copy'],
+    'motion': {
+        'enabled': False,
+        'source_config': '~/sd5531/private/camera_substream.json',
+        'input_args': None,       # a list overrides source_config (tests)
+        'fps': 10,
+        'width': 160,
+        'height': 90,
+        'pixel_threshold': 25,    # grey-level change for a pixel to count as changed
+        'changed_fraction': 0.005,  # share of changed pixels for a frame to count as motion
+        'min_frames': 2,          # consecutive motion frames before reporting motion
+        # Areas ignored, as [x, y, w, h] fractions of the frame: camera date OSD
+        # (top left) and camera name (bottom left).
+        'mask': [[0, 0, 0.45, 0.09], [0, 0.9, 0.25, 0.1]],
+        'stats_every_s': 10,
+    },
 }
 
 
 def load_config(path):
     cfg = dict(DEFAULTS)
-    if path:
-        cfg.update(json.loads(Path(path).read_text()))
+    user = json.loads(Path(path).read_text()) if path else {}
+    cfg.update({k: v for k, v in user.items() if k != 'motion'})
+    cfg['motion'] = {**DEFAULTS['motion'], **user.get('motion', {})}
+    cfg['motion']['source_config'] = str(Path(cfg['motion']['source_config']).expanduser())
     for key in ('source_config', 'ring_dir', 'output_dir'):
         cfg[key] = str(Path(cfg[key]).expanduser())
     if cfg['pre_roll_s'] < 0 or cfg['still_s'] <= 0 or cfg['segment_seconds'] <= 0:
@@ -58,17 +77,19 @@ class Event:
     motions: list = field(default_factory=list)
     end: float = None
     close_reason: str = None
+    sources: set = field(default_factory=set)
 
 
 class EventTracker:
     """Motion intervals in, closed events out. Pure logic, no I/O."""
 
-    def __init__(self, still_s, max_event_s):
+    def __init__(self, still_s, max_event_s, merge_gap_s=1.0):
         self.still_s = still_s
         self.max_event_s = max_event_s
+        self.merge_gap_s = merge_gap_s   # join motion intervals closer than this in the record
         self.open = None
 
-    def motion(self, t_start, t_end=None):
+    def motion(self, t_start, t_end=None, source='manual'):
         """Record motion seen from t_start to t_end; return any event this closed."""
         t_end = t_start if t_end is None else max(t_start, t_end)
         closed = []
@@ -77,7 +98,12 @@ class EventTracker:
         if self.open is None:
             self.open = Event(new_event_id(t_start), t_start, t_end)
         self.open.last_motion = max(self.open.last_motion, t_end)
-        self.open.motions.append([round(t_start, 3), round(t_end, 3)])
+        self.open.sources.add(source)
+        last = self.open.motions[-1] if self.open.motions else None
+        if last and t_start - last[1] <= self.merge_gap_s:
+            last[1] = round(max(last[1], t_end), 3)
+        else:
+            self.open.motions.append([round(t_start, 3), round(t_end, 3)])
         return closed
 
     def poll(self, now):
@@ -201,7 +227,8 @@ def assemble(cfg, event, segments, partial, log):
     a, b = event.start - cfg['pre_roll_s'], event.end
     chosen = select_segments(segments, a, b)
     record = {
-        'event_id': event.event_id, 'camera_id': cfg['camera_id'], 'source': 'manual',
+        'event_id': event.event_id, 'camera_id': cfg['camera_id'],
+        'source': ','.join(sorted(event.sources)),
         'clock': 'ROCK wall-clock receive time, Unix seconds',
         'motions': event.motions,
         'first_motion': round(event.start, 3), 'last_motion': round(event.last_motion, 3),
@@ -266,6 +293,97 @@ def probe_duration(path):
         return None
 
 
+# ---------------------------------------------------------------- motion
+
+YAVG = re.compile(r'lavfi\.signalstats\.YAVG=([\d.]+)')
+
+
+def motion_filter(m):
+    """FFmpeg filter chain whose per-frame YAVG is 255 x share of changed pixels."""
+    boxes = ''.join(f",drawbox=x=iw*{x}:y=ih*{y}:w=iw*{w}:h=ih*{h}:color=black:t=fill"
+                    for x, y, w, h in m['mask'])
+    return (f"fps={m['fps']},scale={m['width']}:{m['height']},format=gray{boxes},"
+            f"tblend=all_mode=difference,"
+            f"lutyuv=y='if(gt(val,{m['pixel_threshold']}),255,0)',"
+            f"signalstats,metadata=print:key=lavfi.signalstats.YAVG")
+
+
+class MotionScorer:
+    """Changed-pixel shares in, motion frames out. Pure logic, no I/O."""
+
+    def __init__(self, changed_fraction, min_frames):
+        self.changed_fraction = changed_fraction
+        self.min_frames = min_frames
+        self.run = 0
+
+    def frame(self, share):
+        self.run = self.run + 1 if share >= self.changed_fraction else 0
+        return self.run >= self.min_frames
+
+
+class MotionDetector:
+    """Second FFmpeg process on the substream. A reader thread stamps each scored
+    frame with ROCK receive time, so a busy main loop does not delay the stamp."""
+
+    def __init__(self, cfg, log):
+        m = cfg['motion']
+        self.log = log
+        self.events = queue.Queue()
+        self.scorer = MotionScorer(m['changed_fraction'], m['min_frames'])
+        self.stats_every = m['stats_every_s']
+        if m['input_args'] is not None:
+            args = list(m['input_args'])
+        else:
+            uri = json.loads(Path(m['source_config']).read_text())['uri']
+            args = ['-rtsp_transport', 'tcp', '-timeout', '10000000', '-i', uri]
+        cmd = ['ffmpeg', '-hide_banner', '-nostdin', '-loglevel', 'info'] + args + \
+              ['-an', '-vf', motion_filter(m), '-f', 'null', '-']
+        self.proc = subprocess.Popen(cmd, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+                                     stderr=subprocess.PIPE, text=True, bufsize=1)
+        self.thread = threading.Thread(target=self._read, daemon=True)
+        self.thread.start()
+        log('detector_started', fps=m['fps'], size=[m['width'], m['height']],
+            pixel_threshold=m['pixel_threshold'], changed_fraction=m['changed_fraction'],
+            min_frames=m['min_frames'], mask=m['mask'])
+
+    def _read(self):
+        shares, since = [], time.time()
+        for line in self.proc.stderr:
+            hit = YAVG.search(line)
+            if not hit:
+                continue
+            now = time.time()
+            share = float(hit.group(1)) / 255
+            shares.append(share)
+            if self.scorer.frame(share):
+                self.events.put(now)
+            if now - since >= self.stats_every:
+                ordered = sorted(shares)
+                self.log('motion_stats', frames=len(shares), median=round(ordered[len(ordered) // 2], 5),
+                         p95=round(ordered[int(len(ordered) * 0.95)], 5), max=round(ordered[-1], 5),
+                         over_threshold=sum(s >= self.scorer.changed_fraction for s in shares))
+                shares, since = [], now
+
+    def drain(self):
+        out = []
+        while True:
+            try:
+                out.append(self.events.get_nowait())
+            except queue.Empty:
+                return out
+
+    def alive(self):
+        return self.proc.poll() is None
+
+    def stop(self):
+        if self.alive():
+            self.proc.send_signal(signal.SIGINT)
+            try:
+                self.proc.wait(5)
+            except subprocess.TimeoutExpired:
+                self.proc.kill()
+
+
 # ---------------------------------------------------------------- service
 
 class Recorder:
@@ -281,6 +399,7 @@ class Recorder:
         self.segments, self.pending = [], []
         self.run_number, self.run = 0, None
         self.restart_at = 0.0
+        self.detector, self.detector_restart_at = None, 0.0
         self.stopping = False
 
     def log(self, kind, **fields):
@@ -299,12 +418,32 @@ class Recorder:
             self.run_number += 1
             self.run = SegmentRun(self.cfg, self.run_number, self.log)
 
+    def ensure_detector(self, now):
+        if not self.cfg['motion']['enabled'] or (self.detector and self.detector.alive()):
+            return
+        if self.detector:
+            self.log('detector_exited', code=self.detector.proc.returncode)
+            self.detector = None
+            self.detector_restart_at = now + 3
+        if now >= self.detector_restart_at:
+            self.detector = MotionDetector(self.cfg, self.log)
+
+    def read_motion(self):
+        if not self.detector:
+            return
+        times = self.detector.drain()
+        for t in times:
+            self.pending += self.tracker.motion(t, source='motion')
+        if times:
+            self.log('motion', source='motion', first=round(times[0], 3), last=round(times[-1], 3),
+                     frames=len(times))
+
     def read_requests(self):
         for path in sorted(self.requests.glob('*.json')):
             try:
                 req = json.loads(path.read_text())
                 t = float(req['t'])
-                for event in self.tracker.motion(t, t + float(req.get('hold', 0))):
+                for event in self.tracker.motion(t, t + float(req.get('hold', 0)), source='manual'):
                     self.pending.append(event)
                 self.log('motion', source='manual', t=round(t, 3), hold=req.get('hold', 0))
             except (ValueError, KeyError, OSError) as e:
@@ -340,6 +479,7 @@ class Recorder:
         while not self.stopping:
             now = time.time()
             self.ensure_segmenter(now)
+            self.ensure_detector(now)
             if self.run:
                 fresh = self.run.poll()
                 if fresh and self.segments and fresh[0].wall_start - self.segments[-1].wall_end > 0.5:
@@ -347,6 +487,7 @@ class Recorder:
                              end=round(fresh[0].wall_start, 3))
                 self.segments += fresh
             self.read_requests()
+            self.read_motion()
             self.pending += self.tracker.poll(now)
             self.assemble_ready(now)
             self.cleanup(now)
@@ -357,6 +498,8 @@ class Recorder:
         now = time.time()
         if self.tracker.open:
             self.pending.append(self.tracker._close(now, 'shutdown'))
+        if self.detector:
+            self.detector.stop()
         if self.run:
             self.run.stop()
             self.segments += self.run.poll()

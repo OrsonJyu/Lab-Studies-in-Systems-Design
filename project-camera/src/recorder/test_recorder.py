@@ -1,11 +1,12 @@
-"""Tests for recorder.py. Unit tests need nothing; the synthetic-stream test
-needs ffmpeg/ffprobe with libx264 on PATH and takes about 25 seconds."""
+"""Tests for recorder.py. Unit tests need nothing; the synthetic-stream tests
+need ffmpeg/ffprobe with libx264 on PATH and take about 40 seconds."""
 import json, os, shutil, subprocess, sys, tempfile, threading, time, unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import recorder
-from recorder import EventTracker, Segment, gaps_between, select_segments, stamp_segments
+from recorder import (EventTracker, MotionScorer, Segment, gaps_between, motion_filter,
+                      select_segments, stamp_segments)
 
 
 class TrackerTests(unittest.TestCase):
@@ -39,11 +40,46 @@ class TrackerTests(unittest.TestCase):
         self.assertEqual((closed.start, closed.end), (100, 105))
         self.assertEqual(t.open.start, 106)
 
+    def test_dense_motion_frames_merge_into_intervals(self):
+        t = EventTracker(5, 300)
+        for i in range(10):
+            t.motion(100 + i * 0.1, source='motion')
+        t.motion(103, source='motion')
+        t.motion(103.5, source='manual')
+        self.assertEqual(t.open.motions, [[100, 100.9], [103, 103.5]])
+        self.assertEqual(t.open.sources, {'motion', 'manual'})
+
     def test_max_event_length(self):
         t = EventTracker(5, 20)
         t.motion(100, 200)
         [e] = t.poll(120)
         self.assertEqual((e.end, e.close_reason), (120, 'max_event_s'))
+
+
+class MotionScorerTests(unittest.TestCase):
+    def test_needs_consecutive_frames_over_threshold(self):
+        s = MotionScorer(changed_fraction=0.01, min_frames=2)
+        flags = [s.frame(x) for x in [0.02, 0.0, 0.02, 0.03, 0.05, 0.001]]
+        self.assertEqual(flags, [False, False, False, True, True, False])
+
+
+@unittest.skipUnless(shutil.which('ffmpeg'), 'ffmpeg not installed')
+class MotionFilterTests(unittest.TestCase):
+    def shares(self, graph, mask):
+        cfg = dict(recorder.DEFAULTS['motion'], mask=mask)
+        r = subprocess.run(['ffmpeg', '-hide_banner', '-nostdin', '-loglevel', 'info', '-f', 'lavfi',
+                            '-i', graph, '-t', '3', '-vf', motion_filter(cfg), '-f', 'null', '-'],
+                           capture_output=True, text=True)
+        return [float(v) / 255 for v in recorder.YAVG.findall(r.stderr)]
+
+    moving_top_left = ("color=c=gray:s=320x240:r=20[bg];testsrc2=s=150x44:r=20[fg];"
+                       "[bg][fg]overlay=4:2")
+
+    def test_motion_is_measured(self):
+        self.assertGreater(max(self.shares(self.moving_top_left, [])), 0.001)
+
+    def test_masked_area_is_ignored(self):
+        self.assertEqual(max(self.shares(self.moving_top_left, [[0, 0, 0.5, 0.2]])), 0)
 
 
 class SegmentTests(unittest.TestCase):
@@ -115,6 +151,46 @@ class SyntheticStreamTest(unittest.TestCase):
         decode = subprocess.run(['ffmpeg', '-v', 'error', '-xerror', '-i', str(mp4), '-f', 'null', '-'],
                                 capture_output=True, text=True)
         self.assertEqual(decode.returncode, 0, decode.stderr)
+        shutil.rmtree(tmp)
+
+
+@unittest.skipUnless(shutil.which('ffmpeg') and shutil.which('ffprobe'), 'ffmpeg not installed')
+class SyntheticMotionTest(unittest.TestCase):
+    """Moving pattern visible from 10 s to 12 s -> detector opens one event by itself."""
+
+    def test_detected_motion_produces_one_clip(self):
+        tmp = Path(tempfile.mkdtemp())
+        graph = ("color=c=gray:s=320x240:r=20[bg];testsrc2=s=100x100:r=20[fg];"
+                 "[bg][fg]overlay=110:70:enable='between(t,10,12)'")
+        cfg_path = tmp / 'config.json'
+        cfg_path.write_text(json.dumps({
+            'ring_dir': str(tmp / 'ring'), 'output_dir': str(tmp / 'events'),
+            'pre_roll_s': 4, 'still_s': 3, 'ring_seconds': 30, 'min_free_mb': 1,
+            'input_args': ['-re', '-f', 'lavfi', '-i', graph],
+            'codec_args': ['-c:v', 'libx264', '-preset', 'ultrafast', '-tune', 'zerolatency',
+                           '-g', '40', '-keyint_min', '40', '-sc_threshold', '0'],
+            'motion': {'enabled': True, 'input_args': ['-re', '-f', 'lavfi', '-i', graph]},
+        }))
+        cfg = recorder.load_config(cfg_path)
+        rec = recorder.Recorder(cfg)
+        started = time.time()
+        worker = threading.Thread(target=rec.loop)
+        worker.start()
+        try:
+            deadline = started + 30
+            while time.time() < deadline and not list((tmp / 'events').glob('*.json')):
+                time.sleep(0.5)
+        finally:
+            rec.stopping = True
+            worker.join(15)
+        records = [json.loads(p.read_text()) for p in (tmp / 'events').glob('*.json')]
+        self.assertEqual(len(records), 1, records)
+        r = records[0]
+        self.assertEqual((r['status'], r['source']), ('ok', 'motion'), r)
+        first = r['first_motion'] - started
+        self.assertTrue(9.5 < first < 11.5, first)          # pattern appears at 10 s
+        self.assertTrue(11.5 < r['last_motion'] - started < 13, r['last_motion'] - started)
+        self.assertGreaterEqual(r['actual_pre_roll_s'], 4 - 0.3)
         shutil.rmtree(tmp)
 
 
