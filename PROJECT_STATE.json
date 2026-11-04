@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "repository_version": "1.4.0",
+  "repository_version": "1.5.0",
   "updated_on": "2026-11-05",
   "timezone": "Asia/Hong_Kong",
   "course": {
@@ -27,7 +27,7 @@
       "behavior timeline and spatial use",
       "cross-team data alignment"
     ],
-    "immediate_milestone": "Confirm n/pre-roll parameters, implement hand-motion-triggered retention with pre-event completeness and latency checks; optional website follows the recording pipeline",
+    "immediate_milestone": "Calibrate motion detection on the real enclosure and gecko, confirm p/n, add autostart, stream-loss recovery and endurance tests for recorder 0.3",
     "stream_probe": {
       "tested_on": "2026-11-05",
       "environment": "home",
@@ -253,5 +253,5 @@
     "branch_and_pr": "camera source code, conclusion-changing experiment results, large restructures; user reviews, no auto-merge",
     "agent_entry": "AGENTS.md (CLAUDE.md only points to it)"
   },
-  "version_status": "released_shared_wired_network_baseline"
+  "version_status": "released_event_recorder_and_web_page"
 }

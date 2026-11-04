@@ -1,7 +1,7 @@
 # SD5531 · Lab Studies in Systems Design
 
 **Leopard gecko observation and recording · PolyU · Project 2 / Video Recording Module**  
-[中文](README.md) · Version **v1.4.0** · Updated **5 November 2026, Hong Kong**
+[中文](README.md) · Version **v1.5.0** · Updated **5 November 2026, Hong Kong**
 
 This repository preserves the course project, laboratory exercises, design process, discussions, deliverables and supporting evidence. The project aims to provide video and thermal-array records that students, teachers and carers can replay and compare. Proposed analysis remains subject to validation.
 
@@ -29,7 +29,8 @@ This repository preserves the course project, laboratory exercises, design proce
 - Both sites now adopt one isolated wired network. Mac Wi-Fi supplies Internet independently; lab-wired retains the existing connection UUID/address and starts automatically. Optional board wireless profiles remain manual.
 - Home SD recovery, cold start, a later normal reboot, trusted SSH, read-only health checks and three-second video decoding passed. The renamed shared baseline still requires school-site retesting; no blanket Wi-Fi compatibility claim is made.
 - A later 30 October school test saved a 60-second board recording and passed full decoding. This update adds its JSON evidence; the video remains local. Earlier school preview records retain their original stage limits.
-- Motion-triggered retention, pre-roll completeness, latency measurement and optional website are next; durations remain unconfirmed. Camera/board clocks, timestamps, SATA and endurance remain open.
+- [recorder 0.3](project-camera/src/recorder/README.md) keeps a rolling RAM buffer on the ROCK, saves a clip with pre-event footage when substream frame differencing detects motion, and ends it after n seconds without motion. A LAN page shows live view, status and a timeline with one timestamped marker per saved clip. In home hand tests the clips kept 3.7–4.65 s before the hand appeared, detection took about 0.5 s and capture-to-board latency was about 0.23 s. p=4 and n=5 are still test values.
+- Next: calibrate detection on the real enclosure and gecko, autostart, stream-loss recovery and endurance, buffer replay and login on the page. The ROCK clock was set from the Mac; the camera clock, SATA and long runs remain open.
 - Video, thermal arrays, localization/identity exploration, behaviour timelines and cross-team alignment remain the complete scope. Classroom and course-submission evidence remain separate.
 
 ## Structure and reproducibility
