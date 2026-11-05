@@ -38,7 +38,7 @@
 
 Task 7 另有两份 `Real_Light.MOV`；Tasks 4/5 另有 `SerialMonitor2.mov`。原始说明保持不变，新增证据见 [EVIDENCE](EVIDENCE.md)。Task 1 仍未找到包含首次 `1500ms` 输出的新增截图，先保留待补/待复核状态。
 
-课程平台提交：**未知**。历史助手仅准备文件，用户曾明确自行上传；没有收集到提交回执，不把旧“未上传”报告直接当作今天的事实。
+课程平台提交：**未知**。2026-11-05 已在团队 Confluence 空间建立 Assignment 3 个人页面（[报告与附件](../project-camera/reports/2026-11-06-assignment3-individual/README.md)）；作业提交页的链接是否已添加另行确认。历史助手仅准备文件，用户曾明确自行上传；没有收集到提交回执，不把旧“未上传”报告直接当作今天的事实。
 
 ## 下一步
 

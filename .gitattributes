@@ -14,3 +14,5 @@ archive/** -text
 archive/raw-screen-frames/**/*.png filter=lfs diff=lfs merge=lfs -text
 # New camera experiments retain MP4 evidence through LFS without changing old imports.
 project-camera/experiments/**/*.mp4 filter=lfs diff=lfs merge=lfs -text
+# Assignment report videos are small and are kept as plain Git objects so the course page can reference them.
+project-camera/reports/**/*.mp4 -text
