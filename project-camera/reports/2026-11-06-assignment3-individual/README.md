@@ -45,5 +45,15 @@ The Confluence page above is the submission; this folder keeps every attachment 
 | [22_Video_hand_vs_gecko_replay.mp4](attachments/22_Video_hand_vs_gecko_replay.mp4) | Video: hand vs gecko trigger (replay) | `71fece5d9655af5a…` |
 | [23_Video_gecko_box_replay.mp4](attachments/23_Video_gecko_box_replay.mp4) | Video: gecko box (replay) | `459ef350bee87263…` |
 | [24_Video_raw_clip_gecko_pulled.mp4](attachments/24_Video_raw_clip_gecko_pulled.mp4) | Video: raw clip saved by the recorder (5 Nov 18:45:26) | `55143b97a5133a4b…` |
+| 25_Photo_setup_top_view.jpg | Photo: setup at school, top view, numbered labels (5 Nov) | `6f5bdc309f00bb67…` |
+| 26_Photo_setup_side_view.jpg | Photo: setup at school, side view (30 Oct) | `6547869b5136312d…` |
+| 27_Photo_camera_closeup.jpg | Photo: camera close-up (30 Oct) | `7461b09ac8935405…` |
+| 28_Video_hardware_walkthrough.mp4 | Video: hardware walk-through at home, first 46 s (30 Oct) | `21969587a51f7aae…` |
+| 29_Video_latency_clock_test.mp4 | Video: filming the latency clock test (5 Nov) | `755887fb08796f0e…` |
+| 30_Video_home_webview_hand_test.mp4 | Video: home web view hand test, 45 s middle part (5 Nov) | `c15c0a31c2aa0f2d…` |
+| 31_Video_lab_live_tracking.mp4 | Video: live tracking at school, URL bar pixelated (5 Nov) | `63474fe3f674e419…` |
+
+25–31 是真实装置的照片和视频，只放在 Confluence 页面上，不存入本仓库（上传时经过一个临时分支，上传后已删除）。照片和视频中没有人脸；30 剪掉了有地址栏的开头和结尾，31 的地址栏做了自动打码（未逐帧核查）。
+Files 25–31 (photos and videos of the real setup) are attached to the Confluence page only and are not kept in this repository.
 
 页面正文（Confluence storage format）由 [page/build_page.py](page/build_page.py) 生成为 [page/page_body.storage.xml](page/page_body.storage.xml)。

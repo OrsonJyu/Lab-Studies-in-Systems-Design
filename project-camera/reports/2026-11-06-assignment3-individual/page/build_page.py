@@ -185,8 +185,15 @@ B.append(p('I built the module in small steps. Each step answered one question; 
            'All tests were on the real camera and ROCK; a green toy lizard stood in for the gecko. Images marked “replay” were produced by '
            'feeding a recorded clip back through the same detector and tracker code, so that the boxes could be drawn on every frame.'))
 B.append(h(3, '5.1 Physical setup'))
-B.append(img('03_Hardware_Wiring_and_Power.png', 700))
-B.append(p('<em>[PHOTOS OF THE REAL SETUP — to be added]</em>'))
+B.append(p('The module as built in the lab at school. The numbers in the top view match the connection table in 4.2. '
+           'The camera lies on the desk for testing; it is not yet mounted on the enclosure.'))
+B.append(img('25_Photo_setup_top_view.jpg', 900, 'Top view (5 Nov): camera, USB-C dock, MacBook, ROCK 4C+ and switch on the desk; PoE injector and mains sockets on the floor.'))
+B.append(img('26_Photo_setup_side_view.jpg', 900, 'Side view (30 Oct, first school test): the camera cable runs down to the PoE injector, the injector’s LAN cable runs back up to the switch.'))
+B.append(img('27_Photo_camera_closeup.jpg', 600, 'The PoE IP camera (30 Oct, at home): 2.8 mm lens in the middle, a ring of 940 nm IR LEDs around it, one cable out of the back.'))
+B.append(video('28_Video_hardware_walkthrough.mp4', 360, 640,
+               'Walk-through at home (30 Oct, first build): cables from the camera through the PoE injector and switch to the ROCK 4C+, then the first live picture on the Mac'))
+B.append(p('How it works, in one line: the camera sends video over the network cable that also powers it; the ROCK 4C+ keeps the last 60 s in memory, '
+           'watches for the gecko moving, and saves a clip that starts a few seconds earlier; the Mac shows the live page and keeps the clips.'))
 B.append(iteration('5.2 Step 1 (30 Oct) — Can the ROCK receive and save the camera stream?',
     'First check of the whole chain: PoE camera → switch → ROCK, recording with FFmpeg over RTSP.',
     'FFmpeg on the ROCK records 60 s of the main stream with stream copy; the file is fully decoded and copied to the Mac with a SHA-256 check.',
@@ -198,7 +205,8 @@ B.append(iteration('5.3 Step 2 (5 Nov, home) — How late is the video, and are 
     'Filmed a millisecond clock on the Mac screen and compared it with the ROCK’s receive time. Set the ROCK clock from the Mac, and the camera clock from the ROCK over ONVIF.',
     'Camera → ROCK delay 0.19–0.29 s (median 0.23 s). Starting FFmpeg after a trigger loses ≈0.4 s plus ≈2 s before the first output, so the start of a movement would be lost → '
     'a ring buffer is required. Camera clock was ≈28 days slow; after setting it, 0.3 s off. It resets on power loss, so it is now set automatically at every start.',
-    img('15_Test_latency_clock.jpg', 900, 'Latency test: the camera films the Mac clock (left, middle); first frame received on the ROCK at school (right).')))
+    img('15_Test_latency_clock.jpg', 900, 'Latency test: the camera films the Mac clock (left, middle); first frame received on the ROCK at school (right).') +
+    video('29_Video_latency_clock_test.mp4', 360, 640, 'Filming the latency test: the camera is held in front of the millisecond clock page on the Mac')))
 B.append(iteration('5.4 Step 3 — Never miss the start: RAM ring buffer',
     'Keep the seconds before a movement without recording everything to storage.',
     'FFmpeg #1 never stops and writes 2 s segments into a 60 s RAM ring. When an event closes, the segments from ≥4 s before the first motion to 5 s after the last motion are joined into one MP4.',
@@ -218,7 +226,8 @@ B.append(iteration('5.6 Step 5 — Stage 2: detection area and environment rules
     'motion must last 0.5 s. Threshold lowered from 25 to 15 so a moving lizard is caught.',
     'No triggers from activity outside the area in ≈2 min; one whole-picture change of 31.4 % (cause not visible) was classed as a scene change and ignored — only just above the 30 % limit; 201 still frames without a false trigger; ≈0.25 ms of analysis per frame. '
     'Problem left: a hand <em>inside</em> the area still records.',
-    img('10_Code_area_rules.png', 900) + img('17_Test_stage2_detection_area.jpg', 900, 'Replay: blue = detection area, red = motion found inside it.')))
+    img('10_Code_area_rules.png', 900) + img('17_Test_stage2_detection_area.jpg', 900, 'Replay: blue = detection area, red = motion found inside it.') +
+    video('30_Video_home_webview_hand_test.mp4', 640, 360, 'Hand test at home (5 Nov), filmed off the Mac screen: the live web page with the detection area and the event timeline while a hand moves in front of the camera')))
 B.append(iteration('5.7 Step 6 — Where is the gecko? Background model and tracker',
     'To ignore hands, the system first has to know where the gecko is.',
     'Tracker: median background from still frames; foreground = grey difference &gt; 30 <em>or</em> colour difference &gt; 24; 8-connected blobs inside the area; lock on a blob that moves; '
@@ -238,7 +247,8 @@ B.append(iteration('5.8 Step 7 — Stage 3: record only when the gecko itself mo
         ['3 (18:45)', '<strong>0</strong>', 'Hand in the area for 8 s: 87 frames fired the area rule, none recorded; 3 gecko clips kept']]),
     img('11_Code_gecko_trigger.png', 900) + img('13_Code_tracker_follow_shift.png', 900) +
     img('18_Test_stage3_gecko_trigger.jpg', 900, 'Replay: red = area rule fires, green = gecko box; only the gecko moving records.') +
-    video('22_Video_hand_vs_gecko_replay.mp4', 640, 360, 'Replay: a hand waves while the gecko rests; the chips show what each trigger would do')))
+    video('22_Video_hand_vs_gecko_replay.mp4', 640, 360, 'Replay: a hand waves while the gecko rests; the chips show what each trigger would do') +
+    video('31_Video_lab_live_tracking.mp4', 640, 360, 'Live at school (5 Nov), filmed off the Mac screen: the green box stays on the toy lizard in the live web page')))
 
 # 6
 B.append(h(2, '6. Results summary'))
