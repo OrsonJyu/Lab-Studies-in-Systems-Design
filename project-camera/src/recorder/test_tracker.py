@@ -103,6 +103,15 @@ class TrackerTests(unittest.TestCase):
             s = r.feed(scene([at(15), (0, y, 36, 16, 40)]))   # 48% of the area
         self.assertAlmostEqual(s['x'], (15 + 3) / W, delta=0.03)
 
+    def test_flicker_without_travel_is_not_moving(self):
+        r = self.start_with_gecko_in_background()
+        for x in range(6, 20):
+            r.feed(scene([at(x)]))
+        r.feed(scene([at(19)]), 20)
+        for i in range(20):                              # its pixels flicker (shadow, exposure)
+            s = r.feed(scene([(19, 12, 6, 3, 90 if i % 2 else 60)]))
+            self.assertEqual(s['state'], 'still')
+
     def test_vanished_target_is_not_moving(self):
         r = self.start_with_gecko_in_background()
         for x in range(6, 20):

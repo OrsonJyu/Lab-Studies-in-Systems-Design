@@ -1,0 +1,31 @@
+{
+  "environment": "school",
+  "date_hkt": "2026-11-05",
+  "live": {
+    "code": "branch code/gecko-tracker (commit 2b9cee4): trigger=gecko, 'moving' also from pixel activity, no persistence",
+    "window_hkt": "17:46:12-17:49:41",
+    "locked_hkt": "17:47:46",
+    "events": [
+      ["17:47:46", 18.0, "lizard pulled, then stops", "wanted"],
+      ["17:48:08", 12.0, "hand waving above, lizard not moving", "unwanted"],
+      ["17:48:18", 12.0, "hand", "unwanted"],
+      ["17:48:50", 12.0, "hand", "unwanted"],
+      ["17:49:13", 16.0, "lizard moved to the left", "wanted"],
+      ["17:49:24", 12.0, "lizard moving", "wanted"]
+    ],
+    "unwanted_cause": "1-2 frame 'moving' blips with no change of position (0.461, 0.794) while the hand was in view",
+    "change_rule_shadow_hkt": [["17:47:37", "17:47:42"], ["17:47:45", "17:47:49"], ["17:47:53", "17:48:00"], ["17:48:09", "17:48:18"],
+                               ["17:48:41", "17:48:50"], ["17:48:57", "17:49:09"], ["17:49:13", "17:49:17"], ["17:49:25", "17:49:26"]],
+    "final_lost_hkt": "17:49:41 at (0.127, 0.873), near the left edge of the detection area; not checked"
+  },
+  "fix": {
+    "moving": "centre travel >= move_px within move_window_s only (pixel activity no longer counts)",
+    "persistence": "gecko movement must last persist_s (0.5 s, 1-frame gaps allowed) before it records"
+  },
+  "replay_after_fix": {
+    "input": "4 s frozen first frame + 094746 + 094808 + 094850 joined (46 s)",
+    "gecko_trigger_spans_s": [[9.0, 14.7]],
+    "change_rule_spans_s": [[4.6, 5.8], [8.3, 12.5], [13.6, 14.1], [15.7, 21.8], [27.6, 38.6]],
+    "segments": {"4-22 s": "lizard pulled then still: recorded", "22-34 s": "hand: not recorded (one 0.2 s blip at 31.0 s filtered)", "34-46 s": "hand: not recorded"}
+  }
+}

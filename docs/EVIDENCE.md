@@ -4,6 +4,7 @@
 
 | 材料 | 位置 | 可以支持 / 限制 |
 | --- | --- | --- |
+| school 守宫移动触发 | [实验与重放](../project-camera/experiments/2026-11-05-school-gecko-trigger/README.md) | 现场 6 段的内容判断、新旧规则对比、修改后重放；修改后未在现场再测 |
 | school 守宫跟踪复测 | [实验与重放](../project-camera/experiments/2026-11-05-school-gecko-tracker-colour/README.md) | 实机状态时间线；录像重放的逐帧框与对照图；修复后未在 ROCK 实机运行 |
 | school 守宫跟踪演示 | [实验与日志摘要](../project-camera/experiments/2026-11-05-school-gecko-tracker-demo/README.md) | 跟踪状态时间线、框与实物对比、颜色取样；第 4–6 步未评估 |
 | school 灵敏度调整 | [实验与日志摘要](../project-camera/experiments/2026-11-05-school-motion-sensitivity/README.md) | 修改前后的判断统计与用户观察；触发来源未逐段核对 |

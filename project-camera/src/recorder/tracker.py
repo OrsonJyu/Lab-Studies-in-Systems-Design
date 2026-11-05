@@ -257,7 +257,9 @@ class Tracker:
         tg['trail'] = [p for p in tg['trail'] if t - p[0] <= max(c['move_window_s'], 60)]
         recent = [p for p in tg['trail'] if t - p[0] <= c['move_window_s']]
         travel = max(abs(p[1] - b.cx) + abs(p[2] - b.cy) for p in recent)
-        moving = b.activity > c['still_activity_px'] or travel >= c['move_px']
+        # Moving means the centre actually travelled. Changing pixels alone are not
+        # enough: a hand's shadow or an exposure change flickers the animal's pixels.
+        moving = travel >= c['move_px']
         if moving:
             tg['state'], tg['still_since'] = 'moving', None
         else:

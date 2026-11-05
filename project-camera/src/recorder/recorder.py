@@ -534,6 +534,8 @@ class MotionDetector:
         self.track_state, self.track_trail = None, []
         self.track_file = Path(cfg['output_dir']) / 'track.jsonl'
         self.source = 'gecko' if m['trigger'] == 'gecko' and self.tracker else 'motion'
+        # The gecko must keep moving for persist_s too, so a one-frame blip does not record.
+        self.gecko_rules = MotionRules(m['fps'], m['persist_s'], m['max_gap_frames'], m['scene_cooldown_s'])
         self.shadow = queue.Queue()      # change-rule times while the gecko drives recording
         self.roi_mtime = self._roi_mtime()
         if m['input_args'] is not None:
@@ -590,8 +592,9 @@ class MotionDetector:
             counts[r['label']] = counts.get(r['label'], 0) + 1
             gecko = self.track_state is not None and self.track_state['state'] == 'moving'
             if self.source == 'gecko':
-                if gecko and not scene:
-                    self.events.put(now)
+                verdict = 'scene' if r['verdict'] == 'scene' else 'motion' if gecko else 'still'
+                for t in self.gecko_rules.frame(now, verdict)[0]:
+                    self.events.put(t)
                 for t in times:
                     self.shadow.put(t)
             else:
