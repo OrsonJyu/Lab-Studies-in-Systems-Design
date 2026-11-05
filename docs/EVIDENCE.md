@@ -4,6 +4,7 @@
 
 | 材料 | 位置 | 可以支持 / 限制 |
 | --- | --- | --- |
+| school 守宫跟踪演示 | [实验与日志摘要](../project-camera/experiments/2026-11-05-school-gecko-tracker-demo/README.md) | 跟踪状态时间线、框与实物对比、颜色取样；第 4–6 步未评估 |
 | school 灵敏度调整 | [实验与日志摘要](../project-camera/experiments/2026-11-05-school-motion-sensitivity/README.md) | 修改前后的判断统计与用户观察；触发来源未逐段核对 |
 | school 检测区域演示 | [实验与日志摘要](../project-camera/experiments/2026-11-05-school-roi-rules-demo/README.md) | 替代场景下区域、环境变化、大小、持续规则的实际表现；场景时间按录像推断，片段含人未入库 |
 | school 首次运行录制 | [实验与摘要](../project-camera/experiments/2026-11-05-school-recorder-first-run/README.md) | 网络检查、86 个事件完整性、实时帧率、摄像头断电后时间读数；板卡失联原因未查明，事件触发原因未逐个核对 |
