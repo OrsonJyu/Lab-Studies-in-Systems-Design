@@ -2,6 +2,8 @@
 
 版本：`recorder/0.3`（帧差运动检测 + 手动触发 + 局域网网页）。运行在 ROCK 4C+：Debian 12、Python 3.11（只用标准库）、FFmpeg 5.1。工作流见 [ws-preroll-recording](../../../docs/workstreams/active/ws-preroll-recording.md)。
 
+> 在另一台电脑上安装和运行整套 demo：见 [demo 一键安装与运行](../../demo/README.md)（`demo.py setup` / `start`）。本页是录制程序本身的说明。
+
 ## 做什么
 
 1. FFmpeg 不重新编码，把摄像头主码流切成约 2 秒一段的 MPEG-TS，写进内存盘 `/dev/shm`，不磨损系统卡。

@@ -11,6 +11,7 @@
 
 | 你想做什么 | 阅读入口 |
 | --- | --- |
+| **在另一台电脑上一键安装并运行守宫录像 demo** | [demo 一键安装与运行](project-camera/demo/README.md) |
 | 家里/学校用同一配置，避免开机失联 | [共用有线指南](docs/guides/SHARED_WIRED_NETWORK_GUIDE.md) → [只读检查器](project-camera/src/network/README.md) |
 | 接续下一阶段工作 | [当前上下文](docs/handoffs/2026-11-05-shared-wired-baseline.md) |
 | 第一次来，了解项目与资料位置 | [文档导航](docs/INDEX.md) → [当前状态](docs/STATUS.md) |

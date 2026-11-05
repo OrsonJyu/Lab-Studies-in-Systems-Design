@@ -6,6 +6,7 @@
 | --- | --- |
 | [共用有线指南](guides/SHARED_WIRED_NETWORK_GUIDE.md) | home/school 同一配置、旧配置去向、开机验收和恢复边界 |
 | [接续上下文](handoffs/2026-11-05-shared-wired-baseline.md) | 当前完成项、私有参数入口、下一阶段实验和发布状态 |
+| [demo 一键安装与运行](../project-camera/demo/README.md) | 在另一台主机上接同一套硬件：`demo.py setup` 安装检查、`start` 开始录制、`stop` 停止 |
 | [网络检查器](../project-camera/src/network/README.md) | 加载一份私有 JSON 的只读地址/路由/身份/自动连接检查 |
 | [STATUS](STATUS.md) | 当前完成度、硬件基线、证据与未知项 |
 | [SCOPE](SCOPE.md) | 完整项目范围、近期目标及范围边界 |
