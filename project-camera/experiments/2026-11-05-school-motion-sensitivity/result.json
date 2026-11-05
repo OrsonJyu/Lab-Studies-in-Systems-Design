@@ -1,0 +1,19 @@
+{
+  "environment": "school",
+  "date_hkt": "2026-11-05",
+  "code": "branch code/gecko-tracker (commit 02c66f6)",
+  "before": {"window_hkt": "16:10:54-16:12:45", "pixel_threshold": 25, "size_filter": true,
+             "verdicts_per_10s": {"small": "3-27", "pending": "3-16"},
+             "user_observation": "moving the toy lizard was often not recorded"},
+  "after": {"since_hkt": "16:13:31", "until_hkt": "16:18:42", "pixel_threshold": 15, "size_filter": false,
+            "persist_s": 0.5, "global_fraction": 0.3,
+            "verdicts": {"still": 2651, "pending": 130, "motion": 225},
+            "still_check": "16:13:51-16:14:11: 201 frames, all still",
+            "events": [["16:13:49", 14.0], ["16:13:56", 11.95], ["16:14:54", 12.05], ["16:15:18", 24.05], ["16:15:27", 16.0], ["16:18:29", 32.0]],
+            "all_events_ok": true, "scene_changes": 0,
+            "user_observation": "moving the lizard is recorded"},
+  "detection_area": {"redrawn_hkt": ["16:11:17", "16:15:31"], "area_px_last": 9101, "of_px": 14400,
+                     "note": "covers most of the picture, including background desks"},
+  "tracker": {"state_changes": {"learning": 2, "searching": 2, "moving": 16, "still": 14, "lost": 3},
+              "last_state": "lost", "note": "with the wide area it locked onto background objects; not evaluated"}
+}

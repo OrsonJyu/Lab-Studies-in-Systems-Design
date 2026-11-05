@@ -22,6 +22,9 @@ import argparse, csv, hashlib, json, os, queue, re, shutil, signal, subprocess, 
 from dataclasses import dataclass, field
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import tracker
+
 DEFAULTS = {
     'camera_id': 'cam-01',
     'source_config': '~/sd5531/private/camera_source.json',
@@ -45,6 +48,11 @@ DEFAULTS = {
         'width': 160,
         'height': 90,
         'pixel_threshold': 25,    # grey-level change for a pixel to count as changed
+        # What opens and extends an event: 'gecko' = the tracked animal moves (a hand or
+        # a person moving elsewhere in the area does not count); 'change' = the area
+        # rules below. With 'gecko' the change-rule times are still logged
+        # ('shadow_motion') for comparison. Falls back to 'change' without a tracker.
+        'trigger': 'gecko',
         # Detection area: polygon of [x, y] frame fractions. The web page writes roi_file;
         # 'roi' in the config is the fallback; neither means the whole frame.
         'roi_file': '~/sd5531/roi.json',
@@ -55,6 +63,7 @@ DEFAULTS = {
         'scene_cooldown_s': 2.0,  # ignore frames this long after a scene change (exposure settles)
         # Changed regions (8-connected) inside the area: smaller than min_blob_px is noise;
         # larger than max_blob_fraction of the area (a hand, a person leaning in) rejects the frame.
+        'size_filter': True,      # False: any change inside the area counts, whatever its size
         'min_blob_px': 4,
         'max_blob_fraction': 0.35,
         # Motion must last persist_s (gaps of up to max_gap_frames allowed) before it counts;
@@ -321,10 +330,19 @@ def probe_duration(path):
 
 
 def motion_filter(m):
-    """FFmpeg filter chain producing one thresholded difference frame per output frame."""
-    return (f"fps={m['fps']},scale={m['width']}:{m['height']},format=gray,"
-            f"tblend=all_mode=difference,"
-            f"lutyuv=y='if(gt(val,{m['pixel_threshold']}),255,0)'")
+    """FFmpeg filter chain producing, per output frame, five stacked grey planes:
+    the grey change image (|dY| > pixel_threshold), the colour change image
+    (|dU| + |dV| > the tracker's chroma_threshold), then the current Y, U and V."""
+    chroma = (m.get('tracker') or {}).get('chroma_threshold', tracker.DEFAULTS['chroma_threshold'])
+    # Thresholds use lut on plain grey planes: lutyuv after a full-range (yuvj, as the
+    # camera sends) plane gave a constant 87 instead of 0/255.
+    return (f"fps={m['fps']},scale={m['width']}:{m['height']},format=yuv444p,split=3[a][c][b];"
+            f"[a]extractplanes=y,tblend=all_mode=difference,"
+            f"lut=c0='if(gt(val,{m['pixel_threshold']}),255,0)'[d];"
+            f"[c]extractplanes=u+v[u0][v0];[u0]tblend=all_mode=difference[du];"
+            f"[v0]tblend=all_mode=difference[dv];"
+            f"[du][dv]blend=all_mode=addition,lut=c0='if(gt(val,{chroma}),255,0)'[dc];"
+            f"[b]extractplanes=y+u+v[y][u][v];[d][dc][y][u][v]vstack=inputs=5")
 
 
 def _popcount(x):
@@ -393,6 +411,7 @@ class FrameAnalyzer:
         self.valid_int, self.valid_px = int.from_bytes(valid, 'big'), valid.count(1)
         self.area_int, self.area_px = int.from_bytes(area, 'big'), area.count(1)
         self.max_blob_px = self.m['max_blob_fraction'] * self.area_px
+        self.area_mask = area
 
     def blobs(self, changed):
         """8-connected regions of the 0/1 bytes: list of (pixels, (x0, y0, x1, y1))."""
@@ -433,7 +452,11 @@ class FrameAnalyzer:
         found = self.blobs(in_area.to_bytes(self.n, 'big'))
         largest = max(found)
         result['largest_px'] = largest[0]
-        if largest[0] > self.max_blob_px:
+        if not self.m.get('size_filter', True):
+            x0, y0, x1, y1 = largest[1]
+            result.update(verdict='motion', box=[round(x0 / self.w, 4), round(y0 / self.h, 4),
+                                                 round(x1 / self.w, 4), round(y1 / self.h, 4)])
+        elif largest[0] > self.max_blob_px:
             result['verdict'] = 'large'
         elif largest[0] >= self.m['min_blob_px']:
             x0, y0, x1, y1 = largest[1]
@@ -505,6 +528,15 @@ class MotionDetector:
         self.analyzer = FrameAnalyzer(m, load_roi(m))
         self.rules = MotionRules(m['fps'], m['persist_s'], m['max_gap_frames'], m['scene_cooldown_s'])
         self.last, self.last_frame = None, None
+        tcfg = m.get('tracker') or {}
+        self.tracker = tracker.Tracker(tcfg, m['width'], m['height'], self.analyzer.area_mask) \
+            if tcfg.get('enabled', True) else None
+        self.track_state, self.track_trail = None, []
+        self.track_file = Path(cfg['output_dir']) / 'track.jsonl'
+        self.source = 'gecko' if m['trigger'] == 'gecko' and self.tracker else 'motion'
+        # The gecko must keep moving for persist_s too, so a one-frame blip does not record.
+        self.gecko_rules = MotionRules(m['fps'], m['persist_s'], m['max_gap_frames'], m['scene_cooldown_s'])
+        self.shadow = queue.Queue()      # change-rule times while the gecko drives recording
         self.roi_mtime = self._roi_mtime()
         if m['input_args'] is not None:
             args = list(m['input_args'])
@@ -519,8 +551,9 @@ class MotionDetector:
         self.thread.start()
         log('detector_started', fps=m['fps'], size=[m['width'], m['height']],
             pixel_threshold=m['pixel_threshold'], roi=self.analyzer.roi,
-            global_fraction=m['global_fraction'], min_blob_px=m['min_blob_px'],
-            max_blob_fraction=m['max_blob_fraction'], persist_s=m['persist_s'], mask=m['mask'])
+            trigger=m['trigger'], global_fraction=m['global_fraction'], min_blob_px=m['min_blob_px'],
+            max_blob_fraction=m['max_blob_fraction'], size_filter=m['size_filter'],
+            persist_s=m['persist_s'], mask=m['mask'])
 
     def _roi_mtime(self):
         try:
@@ -533,34 +566,65 @@ class MotionDetector:
         if mtime != self.roi_mtime:
             self.roi_mtime = mtime
             self.analyzer.set_roi(load_roi(self.m))
+            if self.tracker:
+                self.tracker.set_area(self.analyzer.area_mask)   # start over in the new area
             self.log('roi_changed', roi=self.analyzer.roi, area_px=self.analyzer.area_px)
 
     def _read(self):
         size = self.analyzer.n
-        counts, since, roi_checked = {}, time.time(), 0.0
+        counts, since, roi_checked, logged = {}, time.time(), 0.0, 0.0
         while True:
-            frame = self.proc.stdout.read(size)
-            if len(frame) < size:
+            pair = self.proc.stdout.read(5 * size)
+            if len(pair) < 5 * size:
                 return
+            frame, colour, gray = pair[:size], pair[size:2 * size], pair[2 * size:3 * size]
+            u, v = pair[3 * size:4 * size], pair[4 * size:]
             now = time.time()
             if now - roi_checked >= 1:
                 self._check_roi()
                 roi_checked = now
             r = self.analyzer.analyze(frame)
             times, scene = self.rules.frame(now, r['verdict'])
+            if self.tracker:
+                logged = self._track(now, gray, frame, r['verdict'] == 'scene', logged, u, v, colour)
             r['label'] = self.rules.label(now, r['verdict'])
             self.last, self.last_frame = r, now
             counts[r['label']] = counts.get(r['label'], 0) + 1
-            for t in times:
-                self.events.put(t)
+            gecko = self.track_state is not None and self.track_state['state'] == 'moving'
+            if self.source == 'gecko':
+                verdict = 'scene' if r['verdict'] == 'scene' else 'motion' if gecko else 'still'
+                for t in self.gecko_rules.frame(now, verdict)[0]:
+                    self.events.put(t)
+                for t in times:
+                    self.shadow.put(t)
+            else:
+                for t in times:
+                    self.events.put(t)
+            counts['gecko_moving'] = counts.get('gecko_moving', 0) + gecko
             if scene:
                 self.scenes.put((now, round(r['global_share'], 3)))
             if now - since >= self.m['stats_every_s']:
                 self.log('motion_stats', frames=sum(counts.values()), verdicts=counts)
                 counts, since = {}, now
 
+    def _track(self, now, gray, change, scene, logged, u=None, v=None, colour=None):
+        """Feed the tracker; log state changes and one position a second."""
+        st = self.tracker.frame(now, gray, change, scene=scene, u=u, v=v, colour_change=colour)
+        prev = self.track_state['state'] if self.track_state else None
+        self.track_state, self.track_trail = st, self.tracker.trail(now)
+        if st['state'] != prev:
+            self.log('track_state', state=st['state'], prev=prev, x=st.get('x'), y=st.get('y'))
+        if now - logged >= 1 and 'x' in st:
+            with open(self.track_file, 'a') as f:
+                f.write(json.dumps({'t': round(now, 3), 'state': st['state'], 'x': st['x'], 'y': st['y']}) + '\n')
+            return now
+        return logged
+
     def drain(self):
         return self._drain(self.events)
+
+    def drain_shadow(self):
+        return self._drain(self.shadow)
 
     def drain_scenes(self):
         return self._drain(self.scenes)
@@ -633,12 +697,15 @@ class Recorder:
     def read_motion(self):
         if not self.detector:
             return
-        times = self.detector.drain()
+        times, source = self.detector.drain(), self.detector.source
         for t in times:
-            self.pending += self.tracker.motion(t, source='motion')
+            self.pending += self.tracker.motion(t, source=source)
         if times:
-            self.log('motion', source='motion', first=round(times[0], 3), last=round(times[-1], 3),
+            self.log('motion', source=source, first=round(times[0], 3), last=round(times[-1], 3),
                      frames=len(times))
+        shadow = self.detector.drain_shadow()
+        if shadow:   # what the change rules would have recorded (not recorded)
+            self.log('shadow_motion', first=round(shadow[0], 3), last=round(shadow[-1], 3), frames=len(shadow))
         for t, share in self.detector.drain_scenes():
             # Not motion: noted for the web timeline only.
             self.log('scene_change', at=round(t, 3), global_share=share)
@@ -692,6 +759,7 @@ class Recorder:
             'pre_roll_s': self.cfg['pre_roll_s'], 'still_s': self.cfg['still_s'],
             'segmenter_alive': bool(self.run and self.run.alive()),
             'detector_enabled': self.cfg['motion']['enabled'],
+            'trigger': d.source if d else None,
             'detector_alive': bool(d and d.alive()),
             'detector': None if not d or d.last is None else {
                 'at': round(d.last_frame, 3), 'label': d.last['label'],
@@ -699,6 +767,7 @@ class Recorder:
                 'area_share': round(d.last['area_share'], 4), 'box': d.last['box'],
                 'largest_px': d.last['largest_px']},
             'roi': d.analyzer.roi if d else load_roi(self.cfg['motion']),
+            'tracker': None if not d or not d.track_state else {**d.track_state, 'trail': d.track_trail},
             'global_fraction': self.cfg['motion']['global_fraction'],
             'ring_seconds': round(sum(s.wall_end - s.wall_start for s in self.segments), 1),
             'open_event': None if e is None else {

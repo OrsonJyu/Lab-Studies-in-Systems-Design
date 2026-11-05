@@ -101,6 +101,12 @@ class AnalyzerTests(unittest.TestCase):
         half = FrameAnalyzer(M, roi=[[0, 0], [0.5, 0], [0.5, 1], [0, 1]])
         self.assertEqual(half.analyze(frame((0, 0, 20, 8)))['verdict'], 'large')
 
+    def test_size_filter_off_counts_any_change(self):
+        a = FrameAnalyzer(dict(M, size_filter=False))
+        self.assertEqual(a.analyze(frame((3, 3, 4, 4)))['verdict'], 'motion')        # 1 px
+        self.assertEqual(a.analyze(frame((0, 0, 20, 10)))['verdict'], 'motion')      # 25%, not a scene
+        self.assertEqual(a.analyze(frame((0, 0, 40, 10)))['verdict'], 'scene')       # scene rule stays
+
     def test_osd_mask_is_excluded(self):
         a = FrameAnalyzer(dict(M, mask=[[0, 0, 0.5, 0.5]]))
         self.assertEqual(a.analyze(frame((2, 2, 8, 8)))['verdict'], 'still')
@@ -139,7 +145,8 @@ class MotionFilterTests(unittest.TestCase):
                             '-i', graph, '-t', '2', '-vf', motion_filter(m), '-f', 'rawvideo',
                             '-pix_fmt', 'gray', '-'], capture_output=True, check=True)
         a, n = FrameAnalyzer(m, roi), m['width'] * m['height']
-        return [a.analyze(r.stdout[i:i + n])['verdict'] for i in range(n, len(r.stdout), n)]
+        # Each output frame: grey change, colour change, Y, U, V.
+        return [a.analyze(r.stdout[i:i + n])['verdict'] for i in range(0, len(r.stdout) - 5 * n + 1, 5 * n)]
 
     moving_square = ("color=c=gray:s=320x180:r=20[bg];color=c=white:s=16x16:r=20[fg];"
                      "[bg][fg]overlay=x='40+40*t':y=80")
@@ -242,7 +249,7 @@ class SyntheticMotionTest(unittest.TestCase):
             'input_args': ['-re', '-f', 'lavfi', '-i', graph],
             'codec_args': ['-c:v', 'libx264', '-preset', 'ultrafast', '-tune', 'zerolatency',
                            '-g', '40', '-keyint_min', '40', '-sc_threshold', '0'],
-            'motion': {'enabled': True, 'input_args': ['-re', '-f', 'lavfi', '-i', graph]},
+            'motion': {'enabled': True, 'trigger': 'change', 'input_args': ['-re', '-f', 'lavfi', '-i', graph]},
         }))
         cfg = recorder.load_config(cfg_path)
         rec = recorder.Recorder(cfg)

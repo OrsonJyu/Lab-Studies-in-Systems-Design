@@ -1,0 +1,22 @@
+{
+  "environment": "school",
+  "date_hkt": "2026-11-05",
+  "code": "branch code/gecko-tracker (commit 1a31546)",
+  "settings": {"analysis_size": [160, 90], "fps": 10, "tracker": "defaults (fg_threshold 30 on grey, template_tolerance 18)",
+               "motion": {"pixel_threshold": 15, "size_filter": false, "persist_s": 0.5}},
+  "detection_area": {"saved_hkt": "16:22:43", "points": [[0.11, 0.1], [0.1, 0.9], [0.84, 0.78], [0.81, 0.02]], "area_px": 8054,
+                     "note": "drawn by Claude from a 16:21 snapshot in which a board filled the view; during the demo the camera saw the desk, so the area covered the lower-left desk and part of the board"},
+  "track_states_hkt": [
+    ["16:22:43", "learning"], ["16:22:46", "searching"],
+    ["16:24:36", "moving", 0.5317, 0.7436], ["16:24:44", "still", 0.3594, 0.806], ["16:24:47", "moving", 0.2928, 0.7519],
+    ["16:25:00", "still", 0.2618, 0.8355], ["16:26:43", "lost", 0.252, 0.8461]
+  ],
+  "lost_detail": {"template_mean_diff": 18.4, "tolerance": 18, "lizard_actually_there": true},
+  "box_vs_lizard": "box [0.231, 0.811, 0.288, 0.867] covers only the darker tail end; the lizard spans roughly x 0.20-0.45, y 0.67-0.87",
+  "colour_sample_16_27_snapshot": {
+    "lizard_body_yuv": [157, 58, 81], "lizard_head_yuv": [162, 64, 89], "lizard_tail_end_yuv": [142, 59, 68],
+    "desk_yuv": [[186, 102, 145], [175, 111, 138], [156, 115, 137]]
+  },
+  "events_saved": [["16:22:43", 10.0], ["16:24:36", 12.0], ["16:24:42", 24.0], ["16:25:07", 16.0]],
+  "steps_4_to_6_in_log": "no motion, scene change or track change after 16:25:22 up to 16:27; hand, light and second move not observed"
+}
