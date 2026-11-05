@@ -44,6 +44,7 @@ The repository is the project memory; follow `docs/guides/GIT_MARKDOWN_MEMORY_GU
 | What happened when? | `docs/HISTORY.md`, with event dates in the content |
 | How far along is this task? | `docs/workstreams/active/ws-*.md`; move to `completed/` when done |
 | Camera code / camera tests | `project-camera/src/` / `project-camera/experiments/YYYY-MM-DD-topic/` |
+| How to install and run the demo on a host | `project-camera/demo/README.md` (`demo.py setup` / `start` / `stop` / `status`); never print camera stream URIs or passwords |
 | Which network/site was tested? | `project-camera/environments/` and each experiment's `environment` field; real addresses and access parameters stay in ignored local configuration |
 
 - Three file classes. **Current-state docs** (STATUS, PROJECT_STATE, SCOPE, ARCHITECTURE, ROADMAP, EVIDENCE, READMEs, workstreams): rewrite to the latest understanding; do not stack old and corrected claims, Git keeps the past. **Records** (DECISIONS, CHANGELOG, HISTORY, experiment records): append only; mark superseded decisions instead of deleting them. **Originals** (manifest-listed imports, `docs/history/`): do not edit unless the user approves that specific change (see Source and evidence discipline).

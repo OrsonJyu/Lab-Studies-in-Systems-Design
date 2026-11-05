@@ -5,6 +5,7 @@
 | 项目 | 当前状态 | 依据 |
 | --- | --- | --- |
 | 课程与完整范围 | SD5531；豹纹守宫视频、热阵列、存储/访问、定位/识别探索和跨组对齐 | [SCOPE](SCOPE.md) |
+| 一键 demo | `project-camera/demo/demo.py` 在任意 macOS/Linux 主机上完成检查、部署、启动与片段转存；在原 Mac 上用真实硬件验证，另一台主机从零运行尚未验证 | [demo 说明](../project-camera/demo/README.md) |
 | 主机与存储 | ROCK 4C+ / Debian 12 / aarch64；测试用系统 microSD；录像核对后移到 Mac 的 `recordings/`，ROCK 只暂存（D015）；SATA 仍未验收 | D002 / D012 / D015 |
 | 共用网络 | 三个数据端接独立交换机；Mac Wi-Fi 仅外网；同一私有 JSON、同一 lab-wired，自动连接/优先级 100、有线无默认路由 | [统一指南](guides/SHARED_WIRED_NETWORK_GUIDE.md) |
 | 旧配置整理 | 保留有线 UUID/地址；school-camera 改名 lab-wired；三份旧无线 profile 保留为手动，没有关闭全局射频 | [恢复实验](../project-camera/experiments/2026-11-05-home-wired-recovery/README.md) |

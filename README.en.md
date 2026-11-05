@@ -9,6 +9,7 @@ This repository preserves the course project, laboratory exercises, design proce
 
 | Audience / purpose | Entry point |
 | --- | --- |
+| **Install and run the gecko recording demo on another computer (one command)** | [Demo guide](project-camera/demo/README.md#for-agents-and-english-readers) |
 | Shared home/school wired setup | [Shared guide](docs/guides/SHARED_WIRED_NETWORK_GUIDE.md) and [read-only checker](project-camera/src/network/README.md) |
 | Resume the next work stage | [Current handoff](docs/handoffs/2026-11-05-shared-wired-baseline.md) |
 | New visitor | [Document index](docs/INDEX.md) and [current status](docs/STATUS.md) |

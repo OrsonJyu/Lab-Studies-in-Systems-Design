@@ -1,0 +1,15 @@
+{
+  "output_dir": "~/sd5531/events",
+  "pre_roll_s": 4.0,
+  "still_s": 5.0,
+  "motion": {
+    "enabled": true,
+    "trigger": "gecko",
+    "size_filter": false,
+    "pixel_threshold": 15
+  },
+  "web": {
+    "bind": "filled in by demo.py with the ROCK address",
+    "port": 8080
+  }
+}
