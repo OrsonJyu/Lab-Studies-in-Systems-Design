@@ -48,3 +48,9 @@ related: [exp-school-gecko-tracker-demo-20261105, ws-preroll-recording]
 | [replay.py](replay.py) | `34248f8518ce6c3e198e7fc1f2e8f9d5d9613f69dc07e8af20968cac8df9e98f` |
 | [replay-rows.json](replay-rows.json) | `f7ae3e2baf4c06d558cd49c2a298a50e213f2e482e454557f501be5b5bdec0e3` |
 | [replay-boxes.jpg](replay-boxes.jpg) | `0067f198ef352408c783b69282c6c33c9e2460fc922ec888f14067fe32715351` |
+
+## 后续核对（17:25，网络恢复后）
+
+- ROCK 上 FFmpeg 5.1.9 用**修复前**的滤镜处理摄像头子码流（yuvj420p）2 秒：颜色变化图静止时为 0。所以这个问题只出现在 Mac 的 FFmpeg 8.0.1 上，现场 16:47–16:49 的跟踪结果不受影响。
+- 修复后的滤镜在 ROCK 上同样正确（静止时两张变化图都为 0），已部署（`recorder.py` SHA-256 前 16 位 `f58dd12e5bccb76d`），录制程序重启后背景生成正常，状态为"未锁定"。
+- ROCK 已连续运行 5 小时 3 分钟，断网期间没有重启；断网原因是 Mac 一侧的 USB 有线网卡掉线。
