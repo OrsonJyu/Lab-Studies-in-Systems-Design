@@ -23,9 +23,9 @@ def video(name, width=640, height=360, cap=None):
          f'<ac:parameter ac:name="autostart">false</ac:parameter></ac:structured-macro></p>')
     return s + (f'<p><em>{cap} ({att(name, "download")})</em></p>' if cap else '')
 def table(head, rows):
-    th = ''.join(f'<th>{c}</th>' for c in head)
+    th = '<tr>' + ''.join(f'<th>{c}</th>' for c in head) + '</tr>' if any(head) else ''
     body = ''.join('<tr>' + ''.join(f'<td>{c}</td>' for c in r) + '</tr>' for r in rows)
-    return f'<table><tbody><tr>{th}</tr>{body}</tbody></table>'
+    return f'<table><tbody>{th}{body}</tbody></table>'
 def macro(name, body, title=None):
     t = f'<ac:parameter ac:name="title">{E(title)}</ac:parameter>' if title else ''
     return f'<ac:structured-macro ac:name="{name}" ac:schema-version="1">{t}<ac:rich-text-body>{body}</ac:rich-text-body></ac:structured-macro>'
