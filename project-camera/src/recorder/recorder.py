@@ -58,6 +58,7 @@ DEFAULTS = {
         'scene_cooldown_s': 2.0,  # ignore frames this long after a scene change (exposure settles)
         # Changed regions (8-connected) inside the area: smaller than min_blob_px is noise;
         # larger than max_blob_fraction of the area (a hand, a person leaning in) rejects the frame.
+        'size_filter': True,      # False: any change inside the area counts, whatever its size
         'min_blob_px': 4,
         'max_blob_fraction': 0.35,
         # Motion must last persist_s (gaps of up to max_gap_frames allowed) before it counts;
@@ -438,7 +439,11 @@ class FrameAnalyzer:
         found = self.blobs(in_area.to_bytes(self.n, 'big'))
         largest = max(found)
         result['largest_px'] = largest[0]
-        if largest[0] > self.max_blob_px:
+        if not self.m.get('size_filter', True):
+            x0, y0, x1, y1 = largest[1]
+            result.update(verdict='motion', box=[round(x0 / self.w, 4), round(y0 / self.h, 4),
+                                                 round(x1 / self.w, 4), round(y1 / self.h, 4)])
+        elif largest[0] > self.max_blob_px:
             result['verdict'] = 'large'
         elif largest[0] >= self.m['min_blob_px']:
             x0, y0, x1, y1 = largest[1]
@@ -530,7 +535,8 @@ class MotionDetector:
         log('detector_started', fps=m['fps'], size=[m['width'], m['height']],
             pixel_threshold=m['pixel_threshold'], roi=self.analyzer.roi,
             global_fraction=m['global_fraction'], min_blob_px=m['min_blob_px'],
-            max_blob_fraction=m['max_blob_fraction'], persist_s=m['persist_s'], mask=m['mask'])
+            max_blob_fraction=m['max_blob_fraction'], size_filter=m['size_filter'],
+            persist_s=m['persist_s'], mask=m['mask'])
 
     def _roi_mtime(self):
         try:

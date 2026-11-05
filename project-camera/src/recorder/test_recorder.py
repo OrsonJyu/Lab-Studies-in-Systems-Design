@@ -101,6 +101,12 @@ class AnalyzerTests(unittest.TestCase):
         half = FrameAnalyzer(M, roi=[[0, 0], [0.5, 0], [0.5, 1], [0, 1]])
         self.assertEqual(half.analyze(frame((0, 0, 20, 8)))['verdict'], 'large')
 
+    def test_size_filter_off_counts_any_change(self):
+        a = FrameAnalyzer(dict(M, size_filter=False))
+        self.assertEqual(a.analyze(frame((3, 3, 4, 4)))['verdict'], 'motion')        # 1 px
+        self.assertEqual(a.analyze(frame((0, 0, 20, 10)))['verdict'], 'motion')      # 25%, not a scene
+        self.assertEqual(a.analyze(frame((0, 0, 40, 10)))['verdict'], 'scene')       # scene rule stays
+
     def test_osd_mask_is_excluded(self):
         a = FrameAnalyzer(dict(M, mask=[[0, 0, 0.5, 0.5]]))
         self.assertEqual(a.analyze(frame((2, 2, 8, 8)))['verdict'], 'still')

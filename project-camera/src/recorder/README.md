@@ -14,7 +14,7 @@
 - **运动检测**（`motion.enabled: true`）：第二个 FFmpeg 进程读取子码流，每秒取 10 帧缩小为 160×90 灰度，与上一帧比较，灰度变化超过 `pixel_threshold` 的像素记为"变了"，每帧输出给 Python 判断。规则依次是：
   1. **检测区域**：只看网页上画出的区域（多边形，一般点饲养箱的 4 个角）；没画就看整幅画面。`mask` 中的区域（摄像头日期和名称）始终不算。
   2. **环境变化**：整幅画面有 `global_fraction`（30%）以上的像素同时变化，视为开关灯、自动曝光或红外切换，不算运动，只在时间轴上记一条"环境变化"；之后 `scene_cooldown_s` 秒内等画面稳定，也不算。
-  3. **大小**：区域内的变化按相连的像素分块；最大一块小于 `min_blob_px` 是噪点，大于区域面积的 `max_blob_fraction` 视为手或人探进来，都不算。
+  3. **大小**（`size_filter`，可关闭）：区域内的变化按相连的像素分块；最大一块小于 `min_blob_px` 是噪点，大于区域面积的 `max_blob_fraction` 视为手或人探进来，都不算。
   4. **持续**：符合条件的帧要持续 `persist_s` 秒（允许中间断 `max_gap_frames` 帧）才算运动；事件开始时间取这段的第一帧，触发前保留不受影响。
 
   每 `stats_every_s` 秒在日志中记录各种判断的帧数，便于调参数。
@@ -97,11 +97,12 @@ python3 recorder.py trigger --config ~/sd5531/recorder/config.json --hold 8   # 
 | `capture_latency_s` | 0.23 | 拍摄到 ROCK 的实测延迟，只写进记录作为估计 |
 | `motion.enabled` | false | 是否启用运动检测 |
 | `motion.source_config` | `~/sd5531/private/camera_substream.json` | 子码流地址（板卡私有文件，不进仓库） |
-| `motion.pixel_threshold` | 25 | 灰度变化超过多少算一个像素“变了” |
+| `motion.pixel_threshold` | 25 | 灰度变化超过多少算一个像素“变了”；越小越灵敏。学校现场设为 15 |
 | `motion.roi_file` | `~/sd5531/roi.json` | 网页保存的检测区域 |
 | `motion.roi` | 无 | 后备检测区域：`[[x, y], …]`，按画面比例；`roi_file` 存在时以它为准 |
 | `motion.global_fraction` | 0.30 | 整幅画面变化超过这个比例算环境变化 |
 | `motion.scene_cooldown_s` | 2.0 | 环境变化后多少秒内不判断运动 |
+| `motion.size_filter` | true | 是否执行第 3 条大小规则；`false` 时区域内有变化就算（环境变化规则照常）。学校现场为提高灵敏度设为 `false` |
 | `motion.min_blob_px` | 4 | 最大变化块小于多少像素（160×90 画面上）算噪点 |
 | `motion.max_blob_fraction` | 0.35 | 最大变化块超过检测区域的多少比例算"太大" |
 | `motion.persist_s` | 0.5 | 运动要持续多少秒才算 |
