@@ -45,3 +45,5 @@ The Confluence page above is the submission; this folder keeps every attachment 
 | [22_Video_hand_vs_gecko_replay.mp4](attachments/22_Video_hand_vs_gecko_replay.mp4) | Video: hand vs gecko trigger (replay) | `71fece5d9655af5a…` |
 | [23_Video_gecko_box_replay.mp4](attachments/23_Video_gecko_box_replay.mp4) | Video: gecko box (replay) | `459ef350bee87263…` |
 | [24_Video_raw_clip_gecko_pulled.mp4](attachments/24_Video_raw_clip_gecko_pulled.mp4) | Video: raw clip saved by the recorder (5 Nov 18:45:26) | `55143b97a5133a4b…` |
+
+页面正文（Confluence storage format）由 [page/build_page.py](page/build_page.py) 生成为 [page/page_body.storage.xml](page/page_body.storage.xml)。
