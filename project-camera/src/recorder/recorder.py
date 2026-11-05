@@ -48,6 +48,11 @@ DEFAULTS = {
         'width': 160,
         'height': 90,
         'pixel_threshold': 25,    # grey-level change for a pixel to count as changed
+        # What opens and extends an event: 'gecko' = the tracked animal moves (a hand or
+        # a person moving elsewhere in the area does not count); 'change' = the area
+        # rules below. With 'gecko' the change-rule times are still logged
+        # ('shadow_motion') for comparison. Falls back to 'change' without a tracker.
+        'trigger': 'gecko',
         # Detection area: polygon of [x, y] frame fractions. The web page writes roi_file;
         # 'roi' in the config is the fallback; neither means the whole frame.
         'roi_file': '~/sd5531/roi.json',
@@ -528,6 +533,8 @@ class MotionDetector:
             if tcfg.get('enabled', True) else None
         self.track_state, self.track_trail = None, []
         self.track_file = Path(cfg['output_dir']) / 'track.jsonl'
+        self.source = 'gecko' if m['trigger'] == 'gecko' and self.tracker else 'motion'
+        self.shadow = queue.Queue()      # change-rule times while the gecko drives recording
         self.roi_mtime = self._roi_mtime()
         if m['input_args'] is not None:
             args = list(m['input_args'])
@@ -542,7 +549,7 @@ class MotionDetector:
         self.thread.start()
         log('detector_started', fps=m['fps'], size=[m['width'], m['height']],
             pixel_threshold=m['pixel_threshold'], roi=self.analyzer.roi,
-            global_fraction=m['global_fraction'], min_blob_px=m['min_blob_px'],
+            trigger=m['trigger'], global_fraction=m['global_fraction'], min_blob_px=m['min_blob_px'],
             max_blob_fraction=m['max_blob_fraction'], size_filter=m['size_filter'],
             persist_s=m['persist_s'], mask=m['mask'])
 
@@ -581,8 +588,16 @@ class MotionDetector:
             r['label'] = self.rules.label(now, r['verdict'])
             self.last, self.last_frame = r, now
             counts[r['label']] = counts.get(r['label'], 0) + 1
-            for t in times:
-                self.events.put(t)
+            gecko = self.track_state is not None and self.track_state['state'] == 'moving'
+            if self.source == 'gecko':
+                if gecko and not scene:
+                    self.events.put(now)
+                for t in times:
+                    self.shadow.put(t)
+            else:
+                for t in times:
+                    self.events.put(t)
+            counts['gecko_moving'] = counts.get('gecko_moving', 0) + gecko
             if scene:
                 self.scenes.put((now, round(r['global_share'], 3)))
             if now - since >= self.m['stats_every_s']:
@@ -604,6 +619,9 @@ class MotionDetector:
 
     def drain(self):
         return self._drain(self.events)
+
+    def drain_shadow(self):
+        return self._drain(self.shadow)
 
     def drain_scenes(self):
         return self._drain(self.scenes)
@@ -676,12 +694,15 @@ class Recorder:
     def read_motion(self):
         if not self.detector:
             return
-        times = self.detector.drain()
+        times, source = self.detector.drain(), self.detector.source
         for t in times:
-            self.pending += self.tracker.motion(t, source='motion')
+            self.pending += self.tracker.motion(t, source=source)
         if times:
-            self.log('motion', source='motion', first=round(times[0], 3), last=round(times[-1], 3),
+            self.log('motion', source=source, first=round(times[0], 3), last=round(times[-1], 3),
                      frames=len(times))
+        shadow = self.detector.drain_shadow()
+        if shadow:   # what the change rules would have recorded (not recorded)
+            self.log('shadow_motion', first=round(shadow[0], 3), last=round(shadow[-1], 3), frames=len(shadow))
         for t, share in self.detector.drain_scenes():
             # Not motion: noted for the web timeline only.
             self.log('scene_change', at=round(t, 3), global_share=share)
@@ -735,6 +756,7 @@ class Recorder:
             'pre_roll_s': self.cfg['pre_roll_s'], 'still_s': self.cfg['still_s'],
             'segmenter_alive': bool(self.run and self.run.alive()),
             'detector_enabled': self.cfg['motion']['enabled'],
+            'trigger': d.source if d else None,
             'detector_alive': bool(d and d.alive()),
             'detector': None if not d or d.last is None else {
                 'at': round(d.last_frame, 3), 'label': d.last['label'],

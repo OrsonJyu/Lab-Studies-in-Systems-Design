@@ -18,6 +18,7 @@
     "width": 160,
     "height": 90,
     "pixel_threshold": 25,
+    "trigger": "gecko",
     "roi_file": "~/sd5531/roi.json",
     "roi": null,
     "global_fraction": 0.3,

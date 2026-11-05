@@ -236,6 +236,8 @@ class Tracker:
             if looks:
                 self._follow(t, gray, min(looks, key=lambda x: x[0])[1])
                 return
+            if tg['state'] == 'moving':          # not seen this frame: no longer moving
+                tg['state'], tg['still_since'] = 'still', t
             if tg['state'] != 'lost' and t - tg.get('checked', tg['confirmed']) >= c['confirm_s']:
                 self._confirm(t, gray)
             if tg['state'] != 'lost':

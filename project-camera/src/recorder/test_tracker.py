@@ -1,5 +1,5 @@
 """Tests for tracker.py with synthetic frames (no ffmpeg needed)."""
-import shutil, sys, tempfile, unittest
+import shutil, sys, tempfile, time, unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -102,6 +102,14 @@ class TrackerTests(unittest.TestCase):
         for y in range(0, 10):                           # big hand sweeps across the top
             s = r.feed(scene([at(15), (0, y, 36, 16, 40)]))   # 48% of the area
         self.assertAlmostEqual(s['x'], (15 + 3) / W, delta=0.03)
+
+    def test_vanished_target_is_not_moving(self):
+        r = self.start_with_gecko_in_background()
+        for x in range(6, 20):
+            s = r.feed(scene([at(x)]))
+        self.assertEqual(s['state'], 'moving')
+        s = r.feed(scene([]), 4)                         # taken away
+        self.assertNotEqual(s['state'], 'moving')
 
     def test_carried_far_is_found_by_appearance(self):
         r = self.start_with_gecko_in_background()
@@ -225,6 +233,30 @@ class DetectorPipelineTest(unittest.TestCase):
     def test_green_on_beige_is_tracked_by_colour(self):
         # Grey levels about 183 vs 165: below fg_threshold, so only colour separates them.
         self.check(self.track('0xc8b496', '0x6ed24a'))
+
+    def test_hand_elsewhere_does_not_trigger_recording(self):
+        import recorder
+        graph = ("color=c=0xc8c8c8:s=320x180:r=10[bg];color=c=0x404040:s=24x12:r=10[fg];"
+                 "color=c=0x806040:s=40x40:r=10[hand];"
+                 "[bg][fg]overlay=x='if(lt(t,4),60,if(lt(t,6),60+60*(t-4),180))':y=90[a];"
+                 "[a][hand]overlay=x='20+40*(t-7.5)':y=20:enable='between(t,7.5,9.5)'")
+        tmp = Path(tempfile.mkdtemp())
+        cfg = recorder.load_config(None)
+        cfg['output_dir'] = str(tmp)
+        cfg['motion'].update(enabled=True, mask=[], roi_file=str(tmp / 'roi.json'),
+                             input_args=['-re', '-f', 'lavfi', '-i', graph, '-t', '11'])
+        t0 = time.time()
+        det = recorder.MotionDetector(cfg, lambda *a, **k: None)
+        det.proc.wait(25)
+        det.thread.join(5)
+        det.proc.stdout.close()
+        shutil.rmtree(tmp)
+        events = [t - t0 for t in det.drain()]
+        shadow = [t - t0 for t in det.drain_shadow()]
+        self.assertEqual(det.source, 'gecko')
+        self.assertTrue(events, 'the moving square should trigger')
+        self.assertTrue(all(3.5 < t < 7.5 for t in events), events)          # only while it moves
+        self.assertTrue(any(7.5 < t < 10 for t in shadow), shadow)          # the hand: logged only
 
 
 if __name__ == '__main__':

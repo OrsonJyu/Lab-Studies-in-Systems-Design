@@ -197,7 +197,7 @@ const pad = n => String(n).padStart(2, '0');
 const hms = t => { const d = new Date(t * 1000); return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`; };
 const day = t => { const d = new Date(t * 1000); return `${d.getMonth() + 1}/${d.getDate()}`; };
 const secs = s => s == null ? '—' : s < 60 ? `${s.toFixed(1)} 秒` : `${Math.floor(s / 60)} 分 ${Math.round(s % 60)} 秒`;
-const SOURCE = { motion: '运动检测', manual: '手动' };
+const SOURCE = { gecko: '守宫移动', motion: '画面变化', manual: '手动' };
 const STATUS = { ok: '已保存', partial: '不完整', failed: '失败' };
 
 const VERDICT = { still: '画面静止', small: '变化太小（噪点）', pending: '有变化，确认是否持续…', motion: '检测到运动',
@@ -325,7 +325,7 @@ async function pollStatus() {
       $('s-start').textContent = ev ? hms(ev.first_motion) : '—';
       $('s-last').textContent = ev ? `${hms(ev.last_motion)}（${secs(r.board_time - ev.last_motion)}前）` : '—';
       $('s-ring').textContent = `最近 ${secs(state.ring_seconds)}`;
-      $('s-params').textContent = `触发前保留 ${state.pre_roll_s} 秒 · 静止 ${state.still_s} 秒结束`;
+      $('s-params').textContent = `${state.trigger === 'gecko' ? '守宫移动才录' : '画面变化就录'} · 触发前保留 ${state.pre_roll_s} 秒 · 静止 ${state.still_s} 秒结束`;
       const d = state.detector && r.board_time - state.detector.at < 3 ? state.detector : null;
       const th = state.global_fraction;
       $('s-verdict').textContent = d ? (VERDICT[d.label] || d.label) : '—';

@@ -249,7 +249,7 @@ class SyntheticMotionTest(unittest.TestCase):
             'input_args': ['-re', '-f', 'lavfi', '-i', graph],
             'codec_args': ['-c:v', 'libx264', '-preset', 'ultrafast', '-tune', 'zerolatency',
                            '-g', '40', '-keyint_min', '40', '-sc_threshold', '0'],
-            'motion': {'enabled': True, 'input_args': ['-re', '-f', 'lavfi', '-i', graph]},
+            'motion': {'enabled': True, 'trigger': 'change', 'input_args': ['-re', '-f', 'lavfi', '-i', graph]},
         }))
         cfg = recorder.load_config(cfg_path)
         rec = recorder.Recorder(cfg)
