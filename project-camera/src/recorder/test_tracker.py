@@ -62,7 +62,7 @@ class TrackerTests(unittest.TestCase):
         self.assertEqual(s['state'], 'still')
         self.assertAlmostEqual(s['x'], (25 + 3) / W, delta=0.03)
         # The spot it left (substrate, unlike the start-up background) was absorbed.
-        fg = r.tr._foreground(scene([at(25)]), bytes(W * H))
+        fg = r.tr._foreground((scene([at(25)]),), set())
         self.assertEqual(len(fg), 1)
         self.assertGreater(fg[0].cx, 20)
 
@@ -113,14 +113,92 @@ class TrackerTests(unittest.TestCase):
         self.assertAlmostEqual(s['y'], (22 + 1.5) / H, delta=0.05)
 
 
+def planes(objects, base=(200, 110, 140)):
+    """Y, U, V planes; each object is (x, y, w, h, (Y, U, V))."""
+    out = []
+    for c in range(3):
+        f = bytearray([base[c]]) * (W * H)
+        for x, y, w, h, val in objects:
+            for yy in range(y, y + h):
+                f[yy * W + x:yy * W + x + w] = bytes([val[c]]) * w
+        out.append(bytes(f))
+    return out
+
+
+class ColourRun(Run):
+    def feed(self, img, n=1, scene_change=False):
+        out = None
+        for i in range(n):
+            ch = change(img[0], self.prev[0]) if self.prev else bytes(W * H)
+            if self.prev:   # a colour-only object still shows in the change image via U/V
+                ch = bytes(a or (abs(p - q) > 25) for a, p, q in zip(ch, img[1], self.prev[1]))
+            out = self.tr.frame(self.t, img[0], ch, scene=scene_change and i == 0, u=img[1], v=img[2])
+            self.prev, self.t = img, self.t + 0.1
+        return out
+
+
+# Green toy on a beige desk: grey almost equal (190 vs 200), colour far apart.
+TOY = (190, 60, 80)
+
+
+def toy(x, w=10):
+    return (x, 12, w, 4, TOY)
+
+
+class ColourTests(unittest.TestCase):
+    def test_colour_only_object_is_tracked_whole(self):
+        r = ColourRun()
+        r.feed(planes([toy(5)]), 40)
+        for x in range(6, 22):
+            s = r.feed(planes([toy(x)]))
+        s = r.feed(planes([toy(21)]), 30)
+        self.assertEqual(s['state'], 'still')
+        x0, y0, x1, y1 = s['box']
+        self.assertAlmostEqual(x0, 21 / W, delta=0.03)
+        self.assertAlmostEqual(x1, 31 / W, delta=0.03)       # the whole 10 px body, not a piece
+
+    def test_grey_alone_misses_it(self):
+        r = Run()
+        r.feed(planes([toy(5)])[0], 40)
+        for x in range(6, 22):
+            s = r.feed(planes([toy(x)])[0])
+        self.assertEqual(s['state'], 'searching')
+
+    def test_slow_exposure_drift_while_resting_is_not_lost(self):
+        r = ColourRun()
+        r.feed(planes([toy(5)]), 40)
+        for x in range(6, 22):
+            r.feed(planes([toy(x)]))
+        r.feed(planes([toy(21)]), 30)
+        for k in range(1, 900):                                 # 90 s, grey creeps up 15 levels
+            g = k * 15 // 900
+            s = r.feed(planes([(21, 12, 10, 4, (190 + g, 60, 80))], base=(200 + g, 110, 140)))
+        self.assertEqual(s['state'], 'still')
+        self.assertGreater(s['last_confirmed'], r.t - 6)
+
+    def test_lost_needs_repeated_misses(self):
+        r = ColourRun()
+        r.feed(planes([toy(5)]), 40)
+        for x in range(6, 22):
+            r.feed(planes([toy(x)]))
+        r.feed(planes([toy(21)]), 30)
+        empty = planes([])
+        r.tr.reset_background()                                 # as after a scene change
+        s = r.feed(empty, 40)                                   # background rebuilt without the toy
+        s = r.feed(empty, 50)                                   # 5 s: one failed check
+        self.assertNotEqual(s['state'], 'lost')
+        s = r.feed(empty, 120)                                  # 12 s more: three failed checks
+        self.assertEqual(s['state'], 'lost')
+
+
 @unittest.skipUnless(shutil.which('ffmpeg'), 'ffmpeg not installed')
 class DetectorPipelineTest(unittest.TestCase):
     """Real FFmpeg pipeline: a dark square sits still for 4 s, slides right for 2 s,
     then rests. The tracker should lock on and report it resting at the new spot."""
 
-    def test_square_is_tracked_through_the_detector(self):
+    def track(self, bg, fg):
         import recorder
-        graph = ("color=c=0xc8c8c8:s=320x180:r=10[bg];color=c=0x404040:s=24x12:r=10[fg];"
+        graph = (f"color=c={bg}:s=320x180:r=10[bg];color=c={fg}:s=24x12:r=10[fg];"
                  "[bg][fg]overlay=x='if(lt(t,4),60,if(lt(t,6),60+60*(t-4),180))':y=90")
         tmp = Path(tempfile.mkdtemp())
         cfg = recorder.load_config(None)
@@ -131,11 +209,22 @@ class DetectorPipelineTest(unittest.TestCase):
         det.proc.wait(20)
         det.thread.join(5)
         det.proc.stdout.close()
-        st = det.track_state
         shutil.rmtree(tmp)
+        return det.track_state
+
+    def check(self, st):
         self.assertEqual(st['state'], 'still', st)
         self.assertAlmostEqual(st['x'], (180 + 12) / 320, delta=0.03)
         self.assertAlmostEqual(st['y'], (90 + 6) / 180, delta=0.04)
+        x0, _, x1, _ = st['box']
+        self.assertGreater(x1 - x0, 18 / 320)                 # most of the 24 px width
+
+    def test_dark_square_is_tracked_through_the_detector(self):
+        self.check(self.track('0xc8c8c8', '0x404040'))
+
+    def test_green_on_beige_is_tracked_by_colour(self):
+        # Grey levels about 183 vs 165: below fg_threshold, so only colour separates them.
+        self.check(self.track('0xc8b496', '0x6ed24a'))
 
 
 if __name__ == '__main__':

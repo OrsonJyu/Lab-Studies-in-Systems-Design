@@ -325,11 +325,16 @@ def probe_duration(path):
 
 
 def motion_filter(m):
-    """FFmpeg filter chain producing, per output frame, the thresholded difference
-    image (top half) stacked on the current grey frame (bottom half)."""
-    return (f"fps={m['fps']},scale={m['width']}:{m['height']},format=gray,split[a][b];"
-            f"[a]tblend=all_mode=difference,"
-            f"lutyuv=y='if(gt(val,{m['pixel_threshold']}),255,0)'[d];[d][b]vstack")
+    """FFmpeg filter chain producing, per output frame, five stacked grey planes:
+    the grey change image (|dY| > pixel_threshold), the colour change image
+    (|dU| + |dV| > the tracker's chroma_threshold), then the current Y, U and V."""
+    chroma = (m.get('tracker') or {}).get('chroma_threshold', tracker.DEFAULTS['chroma_threshold'])
+    return (f"fps={m['fps']},scale={m['width']}:{m['height']},format=yuv444p,split=3[a][c][b];"
+            f"[a]format=gray,tblend=all_mode=difference,"
+            f"lutyuv=y='if(gt(val,{m['pixel_threshold']}),255,0)'[d];"
+            f"[c]tblend=all_mode=difference,extractplanes=u+v[du][dv];"
+            f"[du][dv]blend=all_mode=addition,lutyuv=y='if(gt(val,{chroma}),255,0)'[dc];"
+            f"[b]extractplanes=y+u+v[y][u][v];[d][dc][y][u][v]vstack=inputs=5")
 
 
 def _popcount(x):
@@ -557,10 +562,11 @@ class MotionDetector:
         size = self.analyzer.n
         counts, since, roi_checked, logged = {}, time.time(), 0.0, 0.0
         while True:
-            pair = self.proc.stdout.read(2 * size)
-            if len(pair) < 2 * size:
+            pair = self.proc.stdout.read(5 * size)
+            if len(pair) < 5 * size:
                 return
-            frame, gray = pair[:size], pair[size:]
+            frame, colour, gray = pair[:size], pair[size:2 * size], pair[2 * size:3 * size]
+            u, v = pair[3 * size:4 * size], pair[4 * size:]
             now = time.time()
             if now - roi_checked >= 1:
                 self._check_roi()
@@ -568,7 +574,7 @@ class MotionDetector:
             r = self.analyzer.analyze(frame)
             times, scene = self.rules.frame(now, r['verdict'])
             if self.tracker:
-                logged = self._track(now, gray, frame, r['verdict'] == 'scene', logged)
+                logged = self._track(now, gray, frame, r['verdict'] == 'scene', logged, u, v, colour)
             r['label'] = self.rules.label(now, r['verdict'])
             self.last, self.last_frame = r, now
             counts[r['label']] = counts.get(r['label'], 0) + 1
@@ -580,9 +586,9 @@ class MotionDetector:
                 self.log('motion_stats', frames=sum(counts.values()), verdicts=counts)
                 counts, since = {}, now
 
-    def _track(self, now, gray, change, scene, logged):
+    def _track(self, now, gray, change, scene, logged, u=None, v=None, colour=None):
         """Feed the tracker; log state changes and one position a second."""
-        st = self.tracker.frame(now, gray, change, scene=scene)
+        st = self.tracker.frame(now, gray, change, scene=scene, u=u, v=v, colour_change=colour)
         prev = self.track_state['state'] if self.track_state else None
         self.track_state, self.track_trail = st, self.tracker.trail(now)
         if st['state'] != prev:
