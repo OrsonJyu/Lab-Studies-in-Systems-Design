@@ -3,8 +3,9 @@
 
 FFmpeg copies the camera stream into short MPEG-TS segments in a RAM ring
 directory. Motion observations open an event: manual triggers, or a second
-FFmpeg process that decodes the low-resolution substream and reports the share
-of pixels that changed between frames (MotionDetector). The
+FFmpeg process that decodes the low-resolution substream into per-frame change
+images, filtered by detection area, scene-change, size and persistence rules
+(MotionDetector). The
 event closes once no motion has been seen for `still_s` seconds. The clip
 covers `pre_roll_s` before the first motion to the end of the still period,
 is cut at segment (keyframe) boundaries, joined without re-encoding and saved
@@ -44,8 +45,22 @@ DEFAULTS = {
         'width': 160,
         'height': 90,
         'pixel_threshold': 25,    # grey-level change for a pixel to count as changed
-        'changed_fraction': 0.005,  # share of changed pixels for a frame to count as motion
-        'min_frames': 2,          # consecutive motion frames before reporting motion
+        # Detection area: polygon of [x, y] frame fractions. The web page writes roi_file;
+        # 'roi' in the config is the fallback; neither means the whole frame.
+        'roi_file': '~/sd5531/roi.json',
+        'roi': None,
+        # A frame where at least this share of the whole picture changed is a scene
+        # change (lights, auto exposure, IR switch), never motion.
+        'global_fraction': 0.30,
+        'scene_cooldown_s': 2.0,  # ignore frames this long after a scene change (exposure settles)
+        # Changed regions (8-connected) inside the area: smaller than min_blob_px is noise;
+        # larger than max_blob_fraction of the area (a hand, a person leaning in) rejects the frame.
+        'min_blob_px': 4,
+        'max_blob_fraction': 0.35,
+        # Motion must last persist_s (gaps of up to max_gap_frames allowed) before it counts;
+        # the event then starts at the first frame of that run.
+        'persist_s': 0.5,
+        'max_gap_frames': 1,
         # Areas ignored, as [x, y, w, h] fractions of the frame: camera date OSD
         # (top left) and camera name (bottom left).
         'mask': [[0, 0, 0.45, 0.09], [0, 0.9, 0.25, 0.1]],
@@ -59,7 +74,8 @@ def load_config(path):
     user = json.loads(Path(path).read_text()) if path else {}
     cfg.update({k: v for k, v in user.items() if k != 'motion'})
     cfg['motion'] = {**DEFAULTS['motion'], **user.get('motion', {})}
-    cfg['motion']['source_config'] = str(Path(cfg['motion']['source_config']).expanduser())
+    for key in ('source_config', 'roi_file'):
+        cfg['motion'][key] = str(Path(cfg['motion'][key]).expanduser())
     for key in ('source_config', 'ring_dir', 'output_dir'):
         cfg[key] = str(Path(cfg[key]).expanduser())
     if cfg['pre_roll_s'] < 0 or cfg['still_s'] <= 0 or cfg['segment_seconds'] <= 0:
@@ -294,83 +310,267 @@ def probe_duration(path):
 
 
 # ---------------------------------------------------------------- motion
-
-YAVG = re.compile(r'lavfi\.signalstats\.YAVG=([\d.]+)')
+#
+# FFmpeg decodes the substream, scales it down and outputs, per frame, a grey image
+# where a pixel is 255 if it changed by more than pixel_threshold since the previous
+# frame and 0 otherwise. Python then applies the rules:
+#   1. only changes inside the detection area count (camera OSD always excluded);
+#   2. a frame where a large share of the whole picture changed is a scene change;
+#   3. changed regions are grouped; too small is noise, too large rejects the frame;
+#   4. motion must persist for persist_s before it opens or extends an event.
 
 
 def motion_filter(m):
-    """FFmpeg filter chain whose per-frame YAVG is 255 x share of changed pixels."""
-    boxes = ''.join(f",drawbox=x=iw*{x}:y=ih*{y}:w=iw*{w}:h=ih*{h}:color=black:t=fill"
-                    for x, y, w, h in m['mask'])
-    return (f"fps={m['fps']},scale={m['width']}:{m['height']},format=gray{boxes},"
+    """FFmpeg filter chain producing one thresholded difference frame per output frame."""
+    return (f"fps={m['fps']},scale={m['width']}:{m['height']},format=gray,"
             f"tblend=all_mode=difference,"
-            f"lutyuv=y='if(gt(val,{m['pixel_threshold']}),255,0)',"
-            f"signalstats,metadata=print:key=lavfi.signalstats.YAVG")
+            f"lutyuv=y='if(gt(val,{m['pixel_threshold']}),255,0)'")
 
 
-class MotionScorer:
-    """Changed-pixel shares in, motion frames out. Pure logic, no I/O."""
+def _popcount(x):
+    return x.bit_count() if hasattr(x, 'bit_count') else bin(x).count('1')
 
-    def __init__(self, changed_fraction, min_frames):
-        self.changed_fraction = changed_fraction
-        self.min_frames = min_frames
-        self.run = 0
 
-    def frame(self, share):
-        self.run = self.run + 1 if share >= self.changed_fraction else 0
-        return self.run >= self.min_frames
+def box_mask(boxes, w, h):
+    """1 for pixels inside any [x, y, w, h] fraction box."""
+    out = bytearray(w * h)
+    for bx, by, bw, bh in boxes:
+        x0, y0 = round(bx * w), round(by * h)
+        x1, y1 = min(w, round((bx + bw) * w)), min(h, round((by + bh) * h))
+        for y in range(max(0, y0), y1):
+            out[y * w + max(0, x0):y * w + x1] = b'\x01' * (x1 - max(0, x0))
+    return out
+
+
+def polygon_mask(points, w, h):
+    """1 for pixels whose centre lies inside the polygon (fractions of the frame)."""
+    pts = [(x * w, y * h) for x, y in points]
+    out = bytearray(w * h)
+    n = len(pts)
+    for py in range(h):
+        cy = py + 0.5
+        xs = []
+        for i in range(n):
+            (x1, y1), (x2, y2) = pts[i], pts[(i + 1) % n]
+            if (y1 <= cy < y2) or (y2 <= cy < y1):
+                xs.append(x1 + (cy - y1) * (x2 - x1) / (y2 - y1))
+        xs.sort()
+        for a, b in zip(xs[::2], xs[1::2]):
+            lo, hi = max(0, int(a + 0.5)), min(w, int(b + 0.5))
+            if hi > lo:
+                out[py * w + lo:py * w + hi] = b'\x01' * (hi - lo)
+    return out
+
+
+def valid_roi(points):
+    """A polygon of 3-12 [x, y] points inside the frame, or None."""
+    if not isinstance(points, list) or not 3 <= len(points) <= 12:
+        return None
+    try:
+        pts = [[float(x), float(y)] for x, y in points]
+    except (TypeError, ValueError):
+        return None
+    if not all(0 <= v <= 1 for p in pts for v in p):
+        return None
+    area = sum(pts[i][0] * pts[i - 1][1] - pts[i - 1][0] * pts[i][1] for i in range(len(pts))) / 2
+    return [[round(x, 4), round(y, 4)] for x, y in pts] if abs(area) > 1e-4 else None
+
+
+class FrameAnalyzer:
+    """Thresholded difference frame in, verdict out. Pure logic, no I/O."""
+
+    def __init__(self, m, roi=None):
+        self.m, self.w, self.h = m, m['width'], m['height']
+        self.n = self.w * self.h
+        self.osd = box_mask(m['mask'], self.w, self.h)
+        self.set_roi(roi)
+
+    def set_roi(self, roi):
+        self.roi = roi
+        inside = polygon_mask(roi, self.w, self.h) if roi else bytearray(b'\x01' * self.n)
+        valid = bytes(0 if o else 1 for o in self.osd)
+        area = bytes(a & v for a, v in zip(inside, valid))
+        self.valid_int, self.valid_px = int.from_bytes(valid, 'big'), valid.count(1)
+        self.area_int, self.area_px = int.from_bytes(area, 'big'), area.count(1)
+        self.max_blob_px = self.m['max_blob_fraction'] * self.area_px
+
+    def blobs(self, changed):
+        """8-connected regions of the 0/1 bytes: list of (pixels, (x0, y0, x1, y1))."""
+        w, todo, out = self.w, set(), []
+        i = changed.find(1)
+        while i >= 0:
+            todo.add(i)
+            i = changed.find(1, i + 1)
+        while todo:
+            stack = [todo.pop()]
+            count, x0, y0, x1, y1 = 0, w, self.h, -1, -1
+            while stack:
+                p = stack.pop()
+                count += 1
+                y, x = divmod(p, w)
+                x0, x1, y0, y1 = min(x0, x), max(x1, x), min(y0, y), max(y1, y)
+                for dy in (-w, 0, w):
+                    for dx in ((-1, 0, 1) if 0 < x < w - 1 else (0, 1) if x == 0 else (-1, 0)):
+                        q = p + dy + dx
+                        if q in todo:
+                            todo.remove(q)
+                            stack.append(q)
+            out.append((count, (x0, y0, x1 + 1, y1 + 1)))
+        return out
+
+    def analyze(self, frame):
+        bits = int.from_bytes(frame, 'big')   # bytes are 0x00 or 0xff
+        global_share = _popcount(bits & self.valid_int) / max(1, self.valid_px)
+        in_area = bits & self.area_int
+        area_share = _popcount(in_area) / max(1, self.area_px)
+        result = {'global_share': global_share, 'area_share': area_share, 'box': None,
+                  'largest_px': 0, 'verdict': 'still'}
+        if global_share >= self.m['global_fraction']:
+            result['verdict'] = 'scene'
+            return result
+        if not in_area:
+            return result
+        found = self.blobs(in_area.to_bytes(self.n, 'big'))
+        largest = max(found)
+        result['largest_px'] = largest[0]
+        if largest[0] > self.max_blob_px:
+            result['verdict'] = 'large'
+        elif largest[0] >= self.m['min_blob_px']:
+            x0, y0, x1, y1 = largest[1]
+            result.update(verdict='motion', box=[round(x0 / self.w, 4), round(y0 / self.h, 4),
+                                                 round(x1 / self.w, 4), round(y1 / self.h, 4)])
+        else:
+            result['verdict'] = 'small'
+        return result
+
+
+class MotionRules:
+    """Per-frame verdicts in, confirmed motion times and scene changes out. Pure logic."""
+
+    def __init__(self, fps, persist_s, max_gap_frames, scene_cooldown_s):
+        self.needed = max(1, round(persist_s * fps))
+        self.max_gap, self.cooldown = max_gap_frames, scene_cooldown_s
+        self.scene_until = float('-inf')
+        self._reset()
+
+    def _reset(self):
+        self.run, self.gap, self.waiting = 0, 0, []
+
+    def frame(self, t, verdict):
+        """Return (motion times to report, True if a new scene change started)."""
+        if verdict == 'scene':
+            new = t >= self.scene_until
+            self.scene_until = t + self.cooldown
+            self._reset()
+            return [], new
+        if t < self.scene_until:
+            return [], False
+        if verdict == 'motion':
+            self.run, self.gap = self.run + 1, 0
+            self.waiting.append(t)
+            if self.run >= self.needed:
+                out, self.waiting = self.waiting, []
+                return out, False
+            return [], False
+        if self.run:
+            self.gap += 1
+            if self.gap > self.max_gap:
+                self._reset()
+        return [], False
+
+    def label(self, t, verdict):
+        if verdict != 'scene' and t < self.scene_until:
+            return 'settling'
+        if verdict == 'motion' and self.run < self.needed:
+            return 'pending'
+        return verdict
+
+
+def load_roi(m):
+    """Detection area from the web page's file, else the config, else None (whole frame)."""
+    try:
+        return valid_roi(json.loads(Path(m['roi_file']).read_text()).get('points'))
+    except (OSError, ValueError, AttributeError):
+        return valid_roi(m['roi']) if m['roi'] else None
 
 
 class MotionDetector:
-    """Second FFmpeg process on the substream. A reader thread stamps each scored
-    frame with ROCK receive time, so a busy main loop does not delay the stamp."""
+    """Second FFmpeg process on the substream. A reader thread stamps each frame with
+    ROCK receive time, so a busy main loop does not delay the stamp."""
 
     def __init__(self, cfg, log):
         m = cfg['motion']
-        self.log = log
-        self.events = queue.Queue()
-        self.scorer = MotionScorer(m['changed_fraction'], m['min_frames'])
-        self.stats_every = m['stats_every_s']
-        self.last_share, self.last_frame = None, None
+        self.m, self.log = m, log
+        self.events, self.scenes = queue.Queue(), queue.Queue()
+        self.analyzer = FrameAnalyzer(m, load_roi(m))
+        self.rules = MotionRules(m['fps'], m['persist_s'], m['max_gap_frames'], m['scene_cooldown_s'])
+        self.last, self.last_frame = None, None
+        self.roi_mtime = self._roi_mtime()
         if m['input_args'] is not None:
             args = list(m['input_args'])
         else:
             uri = json.loads(Path(m['source_config']).read_text())['uri']
             args = ['-rtsp_transport', 'tcp', '-timeout', '10000000', '-i', uri]
-        cmd = ['ffmpeg', '-hide_banner', '-nostdin', '-loglevel', 'info'] + args + \
-              ['-an', '-vf', motion_filter(m), '-f', 'null', '-']
-        self.proc = subprocess.Popen(cmd, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
-                                     stderr=subprocess.PIPE, text=True, bufsize=1)
+        cmd = ['ffmpeg', '-hide_banner', '-nostdin', '-loglevel', 'error'] + args + \
+              ['-an', '-vf', motion_filter(m), '-f', 'rawvideo', '-pix_fmt', 'gray', 'pipe:1']
+        self.proc = subprocess.Popen(cmd, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                                     stderr=subprocess.DEVNULL)
         self.thread = threading.Thread(target=self._read, daemon=True)
         self.thread.start()
         log('detector_started', fps=m['fps'], size=[m['width'], m['height']],
-            pixel_threshold=m['pixel_threshold'], changed_fraction=m['changed_fraction'],
-            min_frames=m['min_frames'], mask=m['mask'])
+            pixel_threshold=m['pixel_threshold'], roi=self.analyzer.roi,
+            global_fraction=m['global_fraction'], min_blob_px=m['min_blob_px'],
+            max_blob_fraction=m['max_blob_fraction'], persist_s=m['persist_s'], mask=m['mask'])
+
+    def _roi_mtime(self):
+        try:
+            return os.stat(self.m['roi_file']).st_mtime
+        except OSError:
+            return None
+
+    def _check_roi(self):
+        mtime = self._roi_mtime()
+        if mtime != self.roi_mtime:
+            self.roi_mtime = mtime
+            self.analyzer.set_roi(load_roi(self.m))
+            self.log('roi_changed', roi=self.analyzer.roi, area_px=self.analyzer.area_px)
 
     def _read(self):
-        shares, since = [], time.time()
-        for line in self.proc.stderr:
-            hit = YAVG.search(line)
-            if not hit:
-                continue
+        size = self.analyzer.n
+        counts, since, roi_checked = {}, time.time(), 0.0
+        while True:
+            frame = self.proc.stdout.read(size)
+            if len(frame) < size:
+                return
             now = time.time()
-            share = float(hit.group(1)) / 255
-            shares.append(share)
-            self.last_share, self.last_frame = share, now
-            if self.scorer.frame(share):
-                self.events.put(now)
-            if now - since >= self.stats_every:
-                ordered = sorted(shares)
-                self.log('motion_stats', frames=len(shares), median=round(ordered[len(ordered) // 2], 5),
-                         p95=round(ordered[int(len(ordered) * 0.95)], 5), max=round(ordered[-1], 5),
-                         over_threshold=sum(s >= self.scorer.changed_fraction for s in shares))
-                shares, since = [], now
+            if now - roi_checked >= 1:
+                self._check_roi()
+                roi_checked = now
+            r = self.analyzer.analyze(frame)
+            times, scene = self.rules.frame(now, r['verdict'])
+            r['label'] = self.rules.label(now, r['verdict'])
+            self.last, self.last_frame = r, now
+            counts[r['label']] = counts.get(r['label'], 0) + 1
+            for t in times:
+                self.events.put(t)
+            if scene:
+                self.scenes.put((now, round(r['global_share'], 3)))
+            if now - since >= self.m['stats_every_s']:
+                self.log('motion_stats', frames=sum(counts.values()), verdicts=counts)
+                counts, since = {}, now
 
     def drain(self):
+        return self._drain(self.events)
+
+    def drain_scenes(self):
+        return self._drain(self.scenes)
+
+    @staticmethod
+    def _drain(q):
         out = []
         while True:
             try:
-                out.append(self.events.get_nowait())
+                out.append(q.get_nowait())
             except queue.Empty:
                 return out
 
@@ -439,6 +639,11 @@ class Recorder:
         if times:
             self.log('motion', source='motion', first=round(times[0], 3), last=round(times[-1], 3),
                      frames=len(times))
+        for t, share in self.detector.drain_scenes():
+            # Not motion: noted for the web timeline only.
+            self.log('scene_change', at=round(t, 3), global_share=share)
+            with open(Path(self.cfg['output_dir']) / 'scene_changes.jsonl', 'a') as f:
+                f.write(json.dumps({'t': round(t, 3), 'global_share': share}) + '\n')
 
     def read_requests(self):
         for path in sorted(self.requests.glob('*.json')):
@@ -488,9 +693,13 @@ class Recorder:
             'segmenter_alive': bool(self.run and self.run.alive()),
             'detector_enabled': self.cfg['motion']['enabled'],
             'detector_alive': bool(d and d.alive()),
-            'motion_share': None if not d or d.last_share is None else round(d.last_share, 5),
-            'motion_share_at': None if not d or d.last_frame is None else round(d.last_frame, 3),
-            'changed_fraction': self.cfg['motion']['changed_fraction'],
+            'detector': None if not d or d.last is None else {
+                'at': round(d.last_frame, 3), 'label': d.last['label'],
+                'global_share': round(d.last['global_share'], 4),
+                'area_share': round(d.last['area_share'], 4), 'box': d.last['box'],
+                'largest_px': d.last['largest_px']},
+            'roi': d.analyzer.roi if d else load_roi(self.cfg['motion']),
+            'global_fraction': self.cfg['motion']['global_fraction'],
             'ring_seconds': round(sum(s.wall_end - s.wall_start for s in self.segments), 1),
             'open_event': None if e is None else {
                 'event_id': e.event_id, 'first_motion': round(e.start, 3),

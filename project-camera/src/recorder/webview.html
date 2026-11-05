@@ -41,6 +41,23 @@
   @keyframes blink { 50% { opacity: .25; } }
   .live .off { position: absolute; inset: 0; display: grid; place-items: center; color: #fff;
                background: #000c; font-size: 14px; }
+  .live .overlay { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .overlay polygon { fill: #2f6fde22; stroke: #6b9cff; stroke-width: 2; vector-effect: non-scaling-stroke; }
+  .overlay polygon.draft { fill: #f0b44022; stroke: #f0b440; stroke-dasharray: 6 4; }
+  .overlay polyline { fill: none; stroke: #f0b440; stroke-width: 2; stroke-dasharray: 6 4; vector-effect: non-scaling-stroke; }
+  .overlay rect { fill: none; stroke: #ff6159; stroke-width: 2; vector-effect: non-scaling-stroke; }
+  .overlay circle { fill: #f0b440; stroke: #000; stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .live.editing { cursor: crosshair; }
+  .btn { border: 1px solid var(--line); background: var(--panel); color: var(--ink); padding: 3px 10px;
+         font-size: 12px; border-radius: 6px; cursor: pointer; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn:disabled { opacity: .45; cursor: default; }
+  .roi-bar { display: none; margin-top: 10px; gap: 8px; flex-wrap: wrap; align-items: center; font-size: 13px; }
+  .roi-bar.on { display: flex; }
+  .roi-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; }
+  .roi-note { color: var(--muted); font-size: 12px; margin-top: 8px; }
+  .scene { position: absolute; top: 4px; height: 18px; width: 2px; margin-left: -1px; background: var(--muted); opacity: .7; }
+  .scene::after { content: ""; position: absolute; inset: -4px -5px; }
   dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; margin: 0; }
   dt { color: var(--muted); } dd { margin: 0; font-variant-numeric: tabular-nums; }
   .meter { height: 8px; background: var(--track); border-radius: 4px; position: relative; overflow: hidden; margin-top: 4px; }
@@ -100,12 +117,26 @@
 </header>
 <main>
   <section>
-    <h2>实时画面（子码流）</h2>
-    <div class="live">
+    <div class="tl-head">
+      <h2 id="live-title">实时画面（子码流）</h2>
+      <button type="button" class="btn" id="roi-edit">设置检测区域</button>
+    </div>
+    <div class="live" id="live-box">
       <img id="live" alt="实时画面">
+      <svg class="overlay" id="overlay" viewBox="0 0 1 1" preserveAspectRatio="none" aria-hidden="true"></svg>
       <div class="badge" id="rec-badge">录制中</div>
       <div class="off" id="live-off">画面已暂停 · <button id="resume" type="button">继续观看</button></div>
     </div>
+    <div class="roi-bar" id="roi-bar">
+      <span id="roi-hint">在画面上依次点出饲养箱的 4 个角（可多点，最多 12 个）。</span>
+      <span class="roi-actions">
+        <button type="button" class="btn" id="roi-undo">撤销一点</button>
+        <button type="button" class="btn" id="roi-clear">不限区域（整幅画面）</button>
+        <button type="button" class="btn" id="roi-cancel">取消</button>
+        <button type="button" class="btn primary" id="roi-save" disabled>保存</button>
+      </span>
+    </div>
+    <div class="roi-note" id="roi-note"></div>
   </section>
   <section>
     <h2>当前状态</h2>
@@ -118,7 +149,9 @@
     </dl>
     <div style="margin-top:12px">
       <div style="display:flex;justify-content:space-between;color:var(--muted);font-size:12px">
-        <span>画面变化</span><span id="s-share">—</span></div>
+        <span>检测判断</span><span id="s-verdict">—</span></div>
+      <div style="display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-top:8px">
+        <span>整幅画面变化</span><span id="s-share">—</span></div>
       <div class="meter"><b id="m-bar"></b><i id="m-th"></i></div>
     </div>
     <div class="warn" id="clock-warn"></div>
@@ -137,6 +170,7 @@
       <span style="--c:var(--accent)">检测到运动 → 静止结束</span>
       <span style="--c:var(--rec)">正在录制</span>
       <span style="--c:var(--warn)">保存失败 / 不完整</span>
+      <span style="--c:var(--muted)">环境变化（开关灯等，不录）</span>
     </div>
     <div class="player" id="player">
       <video id="video" controls playsinline preload="metadata"></video>
@@ -162,7 +196,67 @@ const secs = s => s == null ? '—' : s < 60 ? `${s.toFixed(1)} 秒` : `${Math.f
 const SOURCE = { motion: '运动检测', manual: '手动' };
 const STATUS = { ok: '已保存', partial: '不完整', failed: '失败' };
 
-let span = 3600, events = [], state = null, offset = 0, selected = null;
+const VERDICT = { still: '画面静止', small: '变化太小（噪点）', pending: '有变化，确认是否持续…', motion: '检测到运动',
+                  large: '变化范围太大（不算）', scene: '环境变化（整幅画面一起变）', settling: '环境变化后等待画面稳定' };
+
+let span = 3600, events = [], scenes = [], state = null, offset = 0, selected = null;
+let roi = null, box = null, draft = null;   // draft: points being drawn, or null
+
+// ---- detection area overlay and editor. Coordinates are fractions of the picture.
+// The live box takes the picture's aspect ratio, so the SVG covers exactly the picture.
+function fitBox() {
+  const img = $('live');
+  if (img.naturalWidth) $('live-box').style.aspectRatio = `${img.naturalWidth} / ${img.naturalHeight}`;
+}
+setInterval(fitBox, 1000);
+
+function drawOverlay() {
+  const pts = p => p.map(([x, y]) => `${x},${y}`).join(' ');
+  let svg = '';
+  if (draft) {
+    svg += draft.length >= 3 ? `<polygon class="draft" points="${pts(draft)}"/>` : `<polyline points="${pts(draft)}"/>`;
+    const w = $('live-box').clientWidth || 1, h = $('live-box').clientHeight || 1;
+    svg += draft.map(([x, y]) => `<ellipse cx="${x}" cy="${y}" rx="${5 / w}" ry="${5 / h}" fill="#f0b440" stroke="#000" stroke-width="1" vector-effect="non-scaling-stroke"/>`).join('');
+  } else {
+    if (roi) svg += `<polygon points="${pts(roi)}"/>`;
+    if (box) svg += `<rect x="${box[0]}" y="${box[1]}" width="${box[2] - box[0]}" height="${box[3] - box[1]}"/>`;
+  }
+  $('overlay').innerHTML = svg;
+  $('roi-note').textContent = draft ? '' : roi ? `检测区域：已设置（${roi.length} 个点）。框外的变化不参与判断；红框是当前检测到的运动。`
+    : '检测区域：未设置，整幅画面都参与判断（摄像头日期和名称除外）。';
+}
+
+function editRoi(on) {
+  draft = on ? [] : null;
+  $('roi-bar').classList.toggle('on', on);
+  $('live-box').classList.toggle('editing', on);
+  $('roi-edit').style.display = on ? 'none' : '';
+  $('live-title').textContent = on ? '设置检测区域（静止截图）' : '实时画面（子码流）';
+  if (on) { stopLive(); $('live-off').style.display = 'none'; $('live').src = '/snapshot.jpg?' + Date.now(); }
+  else startLive();
+  updateRoiButtons(); drawOverlay();
+}
+function updateRoiButtons() { $('roi-save').disabled = !draft || draft.length < 3; }
+
+$('roi-edit').onclick = () => editRoi(true);
+$('roi-cancel').onclick = () => editRoi(false);
+$('roi-undo').onclick = () => { if (draft) { draft.pop(); updateRoiButtons(); drawOverlay(); } };
+$('live-box').addEventListener('pointerdown', e => {
+  if (!draft || draft.length >= 12) return;
+  const r = $('live-box').getBoundingClientRect();
+  const f = v => Math.round(Math.min(1, Math.max(0, v)) * 10000) / 10000;
+  draft.push([f((e.clientX - r.left) / r.width), f((e.clientY - r.top) / r.height)]);
+  updateRoiButtons(); drawOverlay();
+});
+async function sendRoi(points) {
+  const res = await fetch('/api/roi', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ points }) });
+  const body = await res.json();
+  if (!res.ok) { alert('没有保存：' + body.error); return; }
+  roi = body.points; editRoi(false);
+}
+$('roi-save').onclick = () => sendRoi(draft);
+$('roi-clear').onclick = () => { if (confirm('取消检测区域，改为整幅画面都参与判断？')) sendRoi(null); };
 
 // Live view: release the stream when the tab is hidden so the board can stop it.
 function startLive() { $('live').src = '/live.mjpg?' + Date.now(); $('live-off').style.display = 'none'; }
@@ -209,13 +303,17 @@ async function pollStatus() {
       $('s-last').textContent = ev ? `${hms(ev.last_motion)}（${secs(r.board_time - ev.last_motion)}前）` : '—';
       $('s-ring').textContent = `最近 ${secs(state.ring_seconds)}`;
       $('s-params').textContent = `触发前保留 ${state.pre_roll_s} 秒 · 静止 ${state.still_s} 秒结束`;
-      const share = state.motion_share, th = state.changed_fraction, full = th * 4;
-      $('s-share').textContent = share == null ? '—' : `${(share * 100).toFixed(2)}%（阈值 ${(th * 100).toFixed(1)}%）`;
-      $('m-bar').style.width = share == null ? 0 : Math.min(100, share / full * 100) + '%';
-      $('m-bar').style.background = share != null && share >= th ? 'var(--rec)' : 'var(--accent)';
-      $('m-th').style.left = '25%';
+      const d = state.detector && r.board_time - state.detector.at < 3 ? state.detector : null;
+      const th = state.global_fraction;
+      $('s-verdict').textContent = d ? (VERDICT[d.label] || d.label) : '—';
+      $('s-verdict').style.color = d && (d.label === 'motion') ? 'var(--rec)' : '';
+      $('s-share').textContent = d ? `${(d.global_share * 100).toFixed(1)}%（≥ ${(th * 100).toFixed(0)}% 视为环境变化）` : '—';
+      $('m-bar').style.width = d ? Math.min(100, d.global_share / (th * 2) * 100) + '%' : 0;
+      $('m-bar').style.background = d && d.global_share >= th ? 'var(--warn)' : 'var(--accent)';
+      $('m-th').style.left = '50%';
+      roi = state.roi; box = d && d.label === 'motion' ? d.box : null;
     }
-    drawTimeline();
+    drawOverlay(); drawTimeline();
   } catch (e) {
     pill('p-seg', false, '无法连接板卡'); pill('p-det', false, '运动检测');
   }
@@ -228,6 +326,7 @@ async function pollEvents() {
       events = list; drawRows(); drawTimeline();
     }
   } catch (e) { /* status poll reports connection problems */ }
+  try { scenes = await (await fetch('/api/scenes')).json(); } catch (e) { /* optional */ }
 }
 
 function drawTimeline() {
@@ -238,6 +337,8 @@ function drawTimeline() {
   for (let t = Math.ceil(t0 / step) * step; t < now; t += step)
     parts.push(`<div class="tick" style="left:${x(t)}px"><span>${span > 43200 ? day(t) + ' ' : ''}${hms(t).slice(0, 5)}</span></div>`);
   parts.push(`<div class="now" style="left:${w - 2}px"></div>`);
+  for (const s of scenes)
+    if (s.t >= t0) parts.push(`<div class="scene" style="left:${x(s.t)}px" title="${hms(s.t)} 环境变化：整幅画面 ${Math.round(s.global_share * 100)}% 一起变，未录制"></div>`);
   const shown = events.map(e => ({ id: e.event_id, a: e.first_motion, b: e.event_end, pre: e.actual_pre_roll_s ?? e.pre_roll_s,
                                    cls: e.status === 'ok' ? '' : 'failed' }));
   if (state && state.open_event)

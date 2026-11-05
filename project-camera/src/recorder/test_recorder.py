@@ -5,7 +5,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import recorder
-from recorder import (EventTracker, MotionScorer, Segment, gaps_between, motion_filter,
+from recorder import (EventTracker, FrameAnalyzer, MotionRules, Segment, gaps_between, motion_filter,
+                      polygon_mask, valid_roi,
                       select_segments, stamp_segments)
 
 
@@ -56,32 +57,104 @@ class TrackerTests(unittest.TestCase):
         self.assertEqual((e.end, e.close_reason), (120, 'max_event_s'))
 
 
-class MotionScorerTests(unittest.TestCase):
-    def test_needs_consecutive_frames_over_threshold(self):
-        s = MotionScorer(changed_fraction=0.01, min_frames=2)
-        flags = [s.frame(x) for x in [0.02, 0.0, 0.02, 0.03, 0.05, 0.001]]
-        self.assertEqual(flags, [False, False, False, True, True, False])
+M = dict(recorder.DEFAULTS['motion'], width=40, height=20, mask=[])
+
+
+def frame(*rects):
+    """40x20 difference frame with 255 inside each (x0, y0, x1, y1) pixel rectangle."""
+    f = bytearray(40 * 20)
+    for x0, y0, x1, y1 in rects:
+        for y in range(y0, y1):
+            f[y * 40 + x0:y * 40 + x1] = b'\xff' * (x1 - x0)
+    return bytes(f)
+
+
+class AnalyzerTests(unittest.TestCase):
+    def test_polygon_mask_covers_inside_only(self):
+        m = polygon_mask([[0.25, 0], [0.75, 0], [0.75, 1], [0.25, 1]], 40, 20)
+        self.assertEqual(m.count(1), 20 * 20)
+        self.assertEqual((m[9], m[10], m[29], m[30]), (0, 1, 1, 0))
+
+    def test_valid_roi(self):
+        self.assertIsNone(valid_roi([[0, 0], [1, 0]]))
+        self.assertIsNone(valid_roi([[0, 0], [1.2, 0], [1, 1]]))
+        self.assertIsNone(valid_roi([[0, 0], [0.5, 0.5], [1, 1]]))       # no area
+        self.assertEqual(valid_roi([[0, 0], [1, 0], ['1', 1]]), [[0, 0], [1, 0], [1, 1]])
+
+    def test_small_object_inside_area_is_motion(self):
+        r = FrameAnalyzer(M).analyze(frame((10, 5, 13, 8)))
+        self.assertEqual(r['verdict'], 'motion')
+        self.assertEqual(r['box'], [0.25, 0.25, 0.325, 0.4])
+
+    def test_change_outside_area_is_ignored(self):
+        a = FrameAnalyzer(M, roi=[[0, 0], [0.5, 0], [0.5, 1], [0, 1]])
+        self.assertEqual(a.analyze(frame((30, 5, 34, 9)))['verdict'], 'still')
+        self.assertEqual(a.analyze(frame((10, 5, 14, 9)))['verdict'], 'motion')
+
+    def test_whole_picture_change_is_scene(self):
+        self.assertEqual(FrameAnalyzer(M).analyze(frame((0, 0, 40, 10)))['verdict'], 'scene')
+
+    def test_noise_and_oversized_regions(self):
+        a = FrameAnalyzer(M)
+        self.assertEqual(a.analyze(frame((3, 3, 4, 4), (20, 10, 21, 11)))['verdict'], 'small')
+        # 160 px: 20% of the picture (not a scene) but 40% of the left-half area (> 35%).
+        half = FrameAnalyzer(M, roi=[[0, 0], [0.5, 0], [0.5, 1], [0, 1]])
+        self.assertEqual(half.analyze(frame((0, 0, 20, 8)))['verdict'], 'large')
+
+    def test_osd_mask_is_excluded(self):
+        a = FrameAnalyzer(dict(M, mask=[[0, 0, 0.5, 0.5]]))
+        self.assertEqual(a.analyze(frame((2, 2, 8, 8)))['verdict'], 'still')
+
+
+class RulesTests(unittest.TestCase):
+    def run_rules(self, verdicts):
+        r = MotionRules(fps=10, persist_s=0.3, max_gap_frames=1, scene_cooldown_s=1.0)
+        out, scenes = [], []
+        for i, v in enumerate(verdicts):
+            times, scene = r.frame(i / 10, v)
+            out += times
+            if scene:
+                scenes.append(i / 10)
+        return out, scenes
+
+    def test_motion_must_persist_and_starts_at_first_frame(self):
+        out, _ = self.run_rules(['motion', 'motion', 'still', 'still', 'motion', 'motion', 'motion', 'motion'])
+        self.assertEqual(out, [0.4, 0.5, 0.6, 0.7])      # the first two frames were too short
+
+    def test_single_dropout_is_tolerated(self):
+        out, _ = self.run_rules(['motion', 'small', 'motion', 'motion'])
+        self.assertEqual(out, [0.0, 0.2, 0.3])
+
+    def test_scene_change_suppresses_motion_during_cooldown(self):
+        out, scenes = self.run_rules(['scene', 'motion', 'motion', 'motion', 'scene'] + ['motion'] * 14)
+        self.assertEqual(scenes, [0.0])                  # the second one is inside the cooldown
+        self.assertEqual(out, [1.4, 1.5, 1.6, 1.7, 1.8])  # cooldown runs to 0.4 + 1.0 s
 
 
 @unittest.skipUnless(shutil.which('ffmpeg'), 'ffmpeg not installed')
 class MotionFilterTests(unittest.TestCase):
-    def shares(self, graph, mask):
-        cfg = dict(recorder.DEFAULTS['motion'], mask=mask)
-        r = subprocess.run(['ffmpeg', '-hide_banner', '-nostdin', '-loglevel', 'info', '-f', 'lavfi',
-                            '-i', graph, '-t', '3', '-vf', motion_filter(cfg), '-f', 'null', '-'],
-                           capture_output=True, text=True)
-        return [float(v) / 255 for v in recorder.YAVG.findall(r.stderr)]
+    def verdicts(self, graph, roi=None):
+        m = dict(recorder.DEFAULTS['motion'], mask=[])
+        r = subprocess.run(['ffmpeg', '-hide_banner', '-nostdin', '-loglevel', 'error', '-f', 'lavfi',
+                            '-i', graph, '-t', '2', '-vf', motion_filter(m), '-f', 'rawvideo',
+                            '-pix_fmt', 'gray', '-'], capture_output=True, check=True)
+        a, n = FrameAnalyzer(m, roi), m['width'] * m['height']
+        return [a.analyze(r.stdout[i:i + n])['verdict'] for i in range(n, len(r.stdout), n)]
 
-    moving_top_left = ("color=c=gray:s=320x240:r=20[bg];testsrc2=s=150x44:r=20[fg];"
-                       "[bg][fg]overlay=4:2")
+    moving_square = ("color=c=gray:s=320x180:r=20[bg];color=c=white:s=16x16:r=20[fg];"
+                     "[bg][fg]overlay=x='40+40*t':y=80")
 
-    def test_motion_is_measured(self):
-        self.assertGreater(max(self.shares(self.moving_top_left, [])), 0.001)
+    def test_moving_square_is_motion(self):
+        self.assertIn('motion', self.verdicts(self.moving_square))
 
-    def test_masked_area_is_ignored(self):
-        self.assertEqual(max(self.shares(self.moving_top_left, [[0, 0, 0.5, 0.2]])), 0)
+    def test_area_elsewhere_ignores_it(self):
+        right = [[0.6, 0], [1, 0], [1, 1], [0.6, 1]]
+        self.assertNotIn('motion', self.verdicts(self.moving_square, right))
 
-
+    def test_brightness_jump_is_scene(self):
+        graph = ("color=c=0x505050:s=320x180:r=20:d=1[a];color=c=0xb0b0b0:s=320x180:r=20:d=1[b];"
+                 "[a][b]concat")
+        self.assertIn('scene', self.verdicts(graph))
 class SegmentTests(unittest.TestCase):
     segs = [Segment(f's{i}', 100 + 2 * i, 102 + 2 * i, 1) for i in range(10)]
 
