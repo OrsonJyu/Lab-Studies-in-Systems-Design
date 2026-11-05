@@ -1,0 +1,13 @@
+{
+  "environment": "school",
+  "observed_at_utc": "2026-11-05T06:56:00Z",
+  "preflight_utc": "2026-11-05T04:14:19Z",
+  "preflight": {"tcp_and_route_checks_ok": 9, "board_remote_state": "warn: no authenticated session at the time"},
+  "board_dropout": {"symptom": "board unreachable (ping and SSH) shortly after start; camera and Mac link stayed up", "recovery": "user power-cycled the board", "boot_at_utc_from_uptime": "2026-11-05T04:23", "previous_boot_user_journal_last_entry": "2026-11-04T20:05:48Z (clock before correction)", "system_journal_readable": false, "cause": "not determined"},
+  "board_clock": {"mac_minus_board_s_approx": -0.08, "method": "Mac date before/after one SSH read"},
+  "camera_clock_after_power_loss": {"camera_utc": "2026-11-04T22:47:14Z", "board_utc": "2026-11-05T06:55:46Z", "camera_minus_board_s": -29313.0, "time_type": "NTP", "tz": "AWST-8WDT"},
+  "recorder": {"segmenter_alive": true, "detector_alive": true, "ring_seconds": 60.1, "pre_roll_s": 4.0, "still_s": 5.0, "changed_fraction": 0.005},
+  "events_since_boot": {"count": 86, "by_utc_hour": {"04": 20, "05": 32, "06": 34}, "status_ok": 86, "close_reason_still": 86, "partial": 0, "gaps": 0, "duration_s_median": 12.0, "duration_s_max": 36.05, "duration_s_total": 1142.1, "actual_pre_roll_s_min": 4.004, "actual_pre_roll_s_max": 5.928, "events_dir_size": "209M", "root_fs_used": "6.3G of 115G"},
+  "live_view": {"window_s": 4, "jpeg_frames": 42, "bytes": 1581454},
+  "local_copy": {"mp4_in_recordings_dir": 97}
+}

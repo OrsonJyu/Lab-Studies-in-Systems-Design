@@ -76,7 +76,8 @@
       "residual_offset_ms": 10.2,
       "evidence": "project-camera/experiments/2026-11-05-home-board-clock-set/README.md",
       "persists_across_reboot": "not_tested",
-      "camera_clock_changed": "set from the ROCK via ONVIF, Manual time, 2026-11-05; see project-camera/experiments/2026-11-05-home-camera-clock-set/README.md"
+      "camera_clock_changed": "set from the ROCK via ONVIF, Manual time, 2026-11-05; see project-camera/experiments/2026-11-05-home-camera-clock-set/README.md",
+      "camera_clock_after_power_loss": "lost: reverted to NTP and about 8 h slow at school on 2026-11-05; see project-camera/experiments/2026-11-05-school-recorder-first-run/README.md"
     },
     "camera_implementation_status": "home_and_school_short_recordings_verified; shared_wired_home_reboot_verified; school_shared_baseline_site_retest_pending; motion_trigger_and_preroll_not_implemented",
     "candidate_tools": [
