@@ -53,10 +53,13 @@ ROCK 上 `~/sd5531/recorder/` 放着 [start.sh](start.sh) 和 [stop.sh](stop.sh)
 
 用户的 Mac 上另有两个双击脚本（在 `Video_SD5531/live-preview/`，读取本机私有网络配置，不在仓库里）：
 
-- **开始录制.command**：连接 ROCK（需要时输入密码）→ 检查板卡时间，相差超过 1 秒就先运行校时 → 运行 `start.sh` → 打开网页 → 窗口开着期间每 10 秒把新片段复制到 Mac 的 `Video_SD5531/recordings/`。关闭窗口只停止复制，ROCK 继续录制。
-- **停止录制.command**：运行 `stop.sh`，再复制最后的片段。
+- **开始录制.command**：连接 ROCK（需要时输入密码）→ 检查板卡时间，相差超过 1 秒就先运行校时 → 检查摄像头时间（画面左上角），相差超过 1 秒就用 [cam_time.py](cam_time.py) `set` 按 ROCK 时间设置并读回核对 → 运行 `start.sh` → 打开网页 → 窗口开着期间每 10 秒把新片段**移到** Mac 的 `Video_SD5531/recordings/`。关闭窗口后 ROCK 继续录制，新片段暂存在 ROCK 上，等下次打开窗口或停止录制时再移走。
+- **停止录制.command**：运行 `stop.sh`，再移走最后的片段。
 
-复制通过 SSH 进行（ROCK 上没有 rsync），每段视频按其 JSON 记录里的 SHA-256 核对后才保留，JSON 最后写入；两边都不删除文件。`recordings/` 在 Git 仓库之外：片段里可能有房间和人物，不提交到 GitHub。
+摄像头没有断电保持时间的能力（[学校记录](../../experiments/2026-11-05-school-recorder-first-run/README.md)），所以每次开始录制都检查。
+
+转存通过 SSH 进行（ROCK 上没有 rsync）：每段视频先复制到 Mac，按其 JSON 记录里的 SHA-256 核对一致后，才删除 ROCK 上的 MP4；核对不符时 ROCK 上的原片保留，下次重试。几 KB 的 JSON 记录留在 ROCK 上，网页时间轴仍显示该事件，并注明视频已存到 Mac（`/api/events` 的 `on_board` 为 `false`）。Mac 上的文件不会被删除。视频在 ROCK 上最多停留到下一次转存（窗口开着时约 10 秒）。
+`recordings/` 在 Git 仓库之外：片段里可能有房间和人物，不提交到 GitHub。
 
 ## 运行
 

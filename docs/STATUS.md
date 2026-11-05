@@ -5,7 +5,7 @@
 | 项目 | 当前状态 | 依据 |
 | --- | --- | --- |
 | 课程与完整范围 | SD5531；豹纹守宫视频、热阵列、存储/访问、定位/识别探索和跨组对齐 | [SCOPE](SCOPE.md) |
-| 主机与存储 | ROCK 4C+ / Debian 12 / aarch64；测试用系统 microSD；SATA 仍未验收 | D002 / D012 |
+| 主机与存储 | ROCK 4C+ / Debian 12 / aarch64；测试用系统 microSD；录像核对后移到 Mac 的 `recordings/`，ROCK 只暂存（D015）；SATA 仍未验收 | D002 / D012 / D015 |
 | 共用网络 | 三个数据端接独立交换机；Mac Wi-Fi 仅外网；同一私有 JSON、同一 lab-wired，自动连接/优先级 100、有线无默认路由 | [统一指南](guides/SHARED_WIRED_NETWORK_GUIDE.md) |
 | 旧配置整理 | 保留有线 UUID/地址；school-camera 改名 lab-wired；三份旧无线 profile 保留为手动，没有关闭全局射频 | [恢复实验](../project-camera/experiments/2026-11-05-home-wired-recovery/README.md) |
 | home 开机恢复 | SD 检查发现有线不自启和待恢复日志；完成备份、恢复、单行修改；装卡启动及统一后正常重启均自动恢复 SSH | [结构化结果](../project-camera/experiments/2026-11-05-home-wired-recovery/result.json) |

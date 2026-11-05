@@ -58,9 +58,12 @@ def load_events(output_dir, limit=500):
     records = []
     for js in sorted(Path(output_dir).glob('*.json'), reverse=True)[:limit]:
         try:
-            records.append(json.loads(js.read_text()))
+            rec = json.loads(js.read_text())
         except (OSError, ValueError):
             continue
+        # The Mac's sync deletes the MP4 here once its own copy is verified; the record stays.
+        rec['on_board'] = bool(rec.get('file')) and (Path(output_dir) / rec['file']).is_file()
+        records.append(rec)
     return records
 
 
