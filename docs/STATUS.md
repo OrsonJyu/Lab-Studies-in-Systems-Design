@@ -12,9 +12,9 @@
 | home 当前链路 | 主机密钥、静态地址/路由、端口和远端状态检查通过；重启后三秒解码 60 帧，无错误，未保存新录像 | [health](../project-camera/experiments/2026-11-05-home-wired-recovery/health-check.json) · [video](../project-camera/experiments/2026-11-05-home-wired-recovery/video-check.json) |
 | 历史 home 媒体 | 合成基础保存、真实约 60 秒录像与完整解码，FFplay 动态画面由用户确认 | [实验索引](../project-camera/experiments/README.md) |
 | school 后续短录 | 10-30 较早网络/预览后恢复板卡管理，17:40 起完成 60.001 秒、1200 帧、完整解码及复制哈希核对；JSON 已补录，原片本地保留 | [school 录像](../project-camera/experiments/2026-10-30-school-camera-recording/README.md) |
-| school 新基线 | 已采用统一政策，实际学校现场复测仍待完成；旧热点/802.1X 观察不作为全部校园隔离证明 | [school](../project-camera/environments/school/README.md) |
+| school 新基线 | 2026-11-05 学校现场只读检查 9 项通过，录制程序连续运行约 2.5 小时保存 86 个完整事件；板卡中途失联一次、重插电恢复，原因未明（[记录](../project-camera/experiments/2026-11-05-school-recorder-first-run/README.md)）；旧热点/802.1X 观察不作为全部校园隔离证明 | [school](../project-camera/environments/school/README.md) |
 | 码流与接口 | 主/子码流 2560×1440 / 800×448、20 fps，关键帧间隔实测 2 秒；ONVIF 公告运动事件（PullPoint），没有录像/回放服务；子码流解码约占 6 核 3.6% | [只读探测](../project-camera/experiments/2026-11-05-home-stream-probe/README.md) |
-| 时间与录制服务 | ROCK 已于 2026-11-05 按 Mac 时间校准（偏差约 10 毫秒，重启后保持未验证）；摄像头时间已于同日按 ROCK 设置为手动时间（原慢约 28 天，修改后差 0.3 秒，[记录](../project-camera/experiments/2026-11-05-home-camera-clock-set/README.md)），断电后保持与漂移未测；包时间戳/DTS、事件边界仍待核；通用持久录制服务未实现 | [当前工作流](workstreams/active/ws-preroll-recording.md) |
+| 时间与录制服务 | ROCK 已于 2026-11-05 按 Mac 时间校准（偏差约 10 毫秒，重启后保持未验证）；摄像头时间已于同日按 ROCK 设置为手动时间（原慢约 28 天，修改后差 0.3 秒，[记录](../project-camera/experiments/2026-11-05-home-camera-clock-set/README.md)），断电后**不能保持**（学校现场断电后回到 NTP、慢约 8 小时），漂移未测；包时间戳/DTS、事件边界仍待核；通用持久录制服务未实现 | [当前工作流](workstreams/active/ws-preroll-recording.md) |
 | 延迟 | 拍摄到 ROCK 约 0.23 秒（中位）；触发后才录会丢开头约 0.4 秒以上，需滚动缓存；预览显示与检测延迟未测 | [延迟实验](../project-camera/experiments/2026-11-05-home-latency/README.md) |
 | 事件录制 | recorder 0.2：内存盘 2 秒分段缓存 + 子码流帧差运动检测（也可手动触发）；home 手挥动四个事件均自动录制，手出现前保留 3.7–4.65 秒，检测延迟约 0.5–0.65 秒；守宫场景阈值、断流恢复、长期运行未做 | [手挥动](../project-camera/experiments/2026-11-05-home-motion-hand-test/README.md) · [手动](../project-camera/experiments/2026-11-05-home-recorder-manual-trigger/README.md) · [代码](../project-camera/src/recorder/README.md) |
 | 网页 | recorder 0.3 的局域网页面：实时画面、录制状态、带时间戳标记的时间轴和片段回放；无登录，只绑定隔离实验网；2026-11-05 用户在自己浏览器中确认可用（同期 6 个运动事件均保存成功，无断流或进程退出记录） | [说明](../project-camera/src/recorder/README.md) |

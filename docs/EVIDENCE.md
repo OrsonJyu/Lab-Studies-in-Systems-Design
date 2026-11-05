@@ -4,6 +4,7 @@
 
 | 材料 | 位置 | 可以支持 / 限制 |
 | --- | --- | --- |
+| school 首次运行录制 | [实验与摘要](../project-camera/experiments/2026-11-05-school-recorder-first-run/README.md) | 网络检查、86 个事件完整性、实时帧率、摄像头断电后时间读数；板卡失联原因未查明，事件触发原因未逐个核对 |
 | home 摄像头校时 | [实验与读回](../project-camera/experiments/2026-11-05-home-camera-clock-set/README.md) | 用户同意后修改摄像头时间设置；ONVIF 读回与画面时间核对；不含长期漂移或断电测试 |
 | home 运动检测手挥动 | [实验与事件记录](../project-camera/experiments/2026-11-05-home-motion-hand-test/README.md) | recorder 0.2 帧差检测自动触发；四个事件、一个静止场景、用手模拟；不证明能检测守宫 |
 | home 手动触发录制 | [实验与事件记录](../project-camera/experiments/2026-11-05-home-recorder-manual-trigger/README.md) | recorder 0.1 在真实摄像头上的预录、结束和续接规则；三个短事件，按时钟读数核对；不含运动检测、断流、长期或 SATA |
