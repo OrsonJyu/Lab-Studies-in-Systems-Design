@@ -7,10 +7,16 @@
                   viewers, started on demand and stopped when nobody watches
   /api/status     recorder state.json plus board time
   /api/events     saved event records (newest first)
+  /api/scenes     recent scene changes (lights, exposure) that were not counted as motion
+  /api/roi        POST {"points": [[x, y], ...]} (frame fractions) sets the detection
+                  area; {"points": null} clears it (whole frame). The recorder picks
+                  the change up within about a second.
+  /snapshot.jpg   one current frame, for drawing the detection area
   /clips/NAME     saved MP4 with HTTP Range support for seeking
 
-Reads the same config as recorder.py. No authentication: bind it only to the
-isolated lab network or to localhost.
+Reads the same config as recorder.py. No authentication (anyone who can reach
+the page can also change the detection area): bind it only to the isolated lab
+network or to localhost.
 
   webview.py --config CONFIG
 """
@@ -65,6 +71,34 @@ def load_events(output_dir, limit=500):
         rec['on_board'] = bool(rec.get('file')) and (Path(output_dir) / rec['file']).is_file()
         records.append(rec)
     return records
+
+
+def load_scenes(output_dir, limit=500):
+    path = Path(output_dir) / 'scene_changes.jsonl'
+    try:
+        lines = path.read_text().splitlines()[-limit:]
+    except OSError:
+        return []
+    out = []
+    for line in lines:
+        try:
+            out.append(json.loads(line))
+        except ValueError:
+            continue
+    return out
+
+
+def save_roi(path, points):
+    """Validate and write the detection area atomically; returns the saved points."""
+    roi = None if points is None else recorder.valid_roi(points)
+    if points is not None and roi is None:
+        raise ValueError('need 3-12 [x, y] points between 0 and 1 enclosing an area')
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix('.part')
+    tmp.write_text(json.dumps({'points': roi, 'saved_at': round(time.time(), 3)}))
+    tmp.replace(path)
+    return roi
 
 
 class LiveFeed:
@@ -172,12 +206,52 @@ def make_handler(cfg, feed):
                 self.send_json({'board_time': time.time(), 'recorder': state})
             elif path == '/api/events':
                 self.send_json(load_events(out_dir))
+            elif path == '/api/scenes':
+                self.send_json(load_scenes(out_dir))
             elif path == '/live.mjpg':
                 self.live()
+            elif path == '/snapshot.jpg':
+                self.snapshot()
             elif path.startswith('/clips/') and EVENT_NAME.match(path[7:]):
                 self.clip(out_dir / path[7:])
             else:
                 self.send_error(404)
+
+        def do_POST(self):
+            if self.path.split('?', 1)[0] != '/api/roi':
+                self.send_error(404)
+                return
+            try:
+                length = int(self.headers.get('Content-Length') or 0)
+                if length > 4096:
+                    raise ValueError('request too large')
+                body = json.loads(self.rfile.read(length) or b'{}')
+                roi = save_roi(cfg['motion']['roi_file'], body.get('points'))
+            except (ValueError, AttributeError) as e:
+                self.send_response(400)
+                msg = json.dumps({'error': str(e)}).encode()
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Content-Length', str(len(msg)))
+                self.end_headers()
+                self.wfile.write(msg)
+                return
+            self.send_json({'points': roi})
+
+        def snapshot(self):
+            feed.join()
+            try:
+                frame, _ = feed.next_frame(feed.seq)   # wait for a fresh frame
+            finally:
+                feed.leave()
+            if frame is None:
+                self.send_error(503, 'no frame from the camera')
+                return
+            self.send_response(200)
+            self.send_header('Content-Type', 'image/jpeg')
+            self.send_header('Cache-Control', 'no-store')
+            self.send_header('Content-Length', str(len(frame)))
+            self.end_headers()
+            self.wfile.write(frame)
 
         def live(self):
             self.send_response(200)

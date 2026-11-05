@@ -1,9 +1,9 @@
 """Tests for webview.py. Range parsing needs nothing; the server test needs ffmpeg."""
-import json, shutil, subprocess, sys, tempfile, threading, time, unittest, urllib.request
+import json, shutil, urllib.error, subprocess, sys, tempfile, threading, time, unittest, urllib.request
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import webview
+import recorder, webview
 from webview import EVENT_NAME, parse_range
 
 
@@ -51,6 +51,7 @@ class ServerTest(unittest.TestCase):
         cfg_path = self.tmp / 'config.json'
         cfg_path.write_text(json.dumps({
             'ring_dir': str(self.tmp / 'ring'), 'output_dir': str(events),
+            'motion': {'roi_file': str(self.tmp / 'roi.json')},
             'web': {'port': 0, 'idle_stop_s': 1,
                     'input_args': ['-re', '-f', 'lavfi', '-i', 'testsrc2=s=320x180:r=20']}}))
         self.server, self.feed = webview.serve(webview.load_config(cfg_path))
@@ -73,6 +74,31 @@ class ServerTest(unittest.TestCase):
         self.assertIsNone(status['recorder']['open_event'])
         [event] = json.load(self.get('/api/events'))
         self.assertEqual(event['event_id'], '20261105-033359-ccd8fb')
+
+    def post(self, path, obj):
+        req = urllib.request.Request(self.base + path, json.dumps(obj).encode(),
+                                     {'Content-Type': 'application/json'})
+        return urllib.request.urlopen(req, timeout=5)
+
+    def test_roi_is_saved_validated_and_cleared(self):
+        quad = [[0.1, 0.2], [0.9, 0.25], [0.85, 0.9], [0.15, 0.95]]
+        self.assertEqual(json.load(self.post('/api/roi', {'points': quad}))['points'], quad)
+        self.assertEqual(json.loads((self.tmp / 'roi.json').read_text())['points'], quad)
+        m = dict(recorder.DEFAULTS['motion'], roi_file=str(self.tmp / 'roi.json'))
+        self.assertEqual(recorder.load_roi(m), quad)
+        with self.assertRaises(urllib.error.HTTPError) as bad:
+            self.post('/api/roi', {'points': [[0, 0], [2, 0], [1, 1]]})
+        self.assertEqual(bad.exception.code, 400)
+        self.assertEqual(json.loads((self.tmp / 'roi.json').read_text())['points'], quad)  # unchanged
+        self.assertIsNone(json.load(self.post('/api/roi', {'points': None}))['points'])
+        self.assertIsNone(recorder.load_roi(m))
+
+    def test_snapshot_and_scenes(self):
+        jpg = self.get('/snapshot.jpg').read()
+        self.assertTrue(jpg.startswith(b'\xff\xd8') and jpg.endswith(b'\xff\xd9'))
+        self.assertEqual(json.load(self.get('/api/scenes')), [])
+        (self.tmp / 'events' / 'scene_changes.jsonl').write_text('{"t": 1, "global_share": 0.6}\nbad\n')
+        self.assertEqual(json.load(self.get('/api/scenes')), [{'t': 1, 'global_share': 0.6}])
 
     def test_clip_range(self):
         r = self.get('/clips/' + self.clip.name, {'Range': 'bytes=10-19'})

@@ -11,10 +11,17 @@
 
 运动信号有两个来源，进入同一套事件逻辑：
 
-- **运动检测**（`motion.enabled: true`）：第二个 FFmpeg 进程读取子码流，每秒取 10 帧缩小为 160×90 灰度，与上一帧比较；灰度变化超过 `pixel_threshold` 的像素占比达到 `changed_fraction` 并连续 `min_frames` 帧，就报告一次运动。`mask` 中的区域不参与检测（默认遮住摄像头日期和名称）。每 `stats_every_s` 秒在日志中记录变化量统计，便于调阈值。
+- **运动检测**（`motion.enabled: true`）：第二个 FFmpeg 进程读取子码流，每秒取 10 帧缩小为 160×90 灰度，与上一帧比较，灰度变化超过 `pixel_threshold` 的像素记为"变了"，每帧输出给 Python 判断。规则依次是：
+  1. **检测区域**：只看网页上画出的区域（多边形，一般点饲养箱的 4 个角）；没画就看整幅画面。`mask` 中的区域（摄像头日期和名称）始终不算。
+  2. **环境变化**：整幅画面有 `global_fraction`（30%）以上的像素同时变化，视为开关灯、自动曝光或红外切换，不算运动，只在时间轴上记一条"环境变化"；之后 `scene_cooldown_s` 秒内等画面稳定，也不算。
+  3. **大小**：区域内的变化按相连的像素分块；最大一块小于 `min_blob_px` 是噪点，大于区域面积的 `max_blob_fraction` 视为手或人探进来，都不算。
+  4. **持续**：符合条件的帧要持续 `persist_s` 秒（允许中间断 `max_gap_frames` 帧）才算运动；事件开始时间取这段的第一帧，触发前保留不受影响。
+
+  每 `stats_every_s` 秒在日志中记录各种判断的帧数，便于调参数。
+- **在网页上设置检测区域**：点"设置检测区域"，画面换成一张静止截图，依次点出饲养箱的角（3–12 个点），点"保存"。区域写入 `motion.roi_file`，录制程序约 1 秒内改用新区域，不用重启。之后实时画面上一直叠着半透明的区域框，摄像头被碰歪时能看出来；检测到运动时，运动的那一块用红框标出。也可以在配置的 `motion.roi` 里直接写点的坐标（按画面比例），作为后备。
 - **手动信号**（`trigger` 命令），用于测试或人工标记。
 
-帧差法只看画面变化，不识别物体：物体停住后事件照常按 `still_s` 结束，再动时开新事件。阈值是针对手挥动标定的，未在守宫场景验证，见[手挥动实验](../../experiments/2026-11-05-home-motion-hand-test/README.md)。
+帧差法只看画面变化，不识别物体：物体停住后事件照常按 `still_s` 结束，再动时开新事件（定位并锁定静止的守宫是下一步）。大小和持续参数是按替代场景（玩具）设的初始值，未在守宫场景验证，见[手挥动实验](../../experiments/2026-11-05-home-motion-hand-test/README.md)。
 
 为什么要缓存而不是检测到再开始录：见 [延迟实验](../../experiments/2026-11-05-home-latency/README.md)，触发后才连接摄像头，第一帧比触发晚约 0.4 秒，FFmpeg 约 2 秒后才开始输出。
 
@@ -91,8 +98,14 @@ python3 recorder.py trigger --config ~/sd5531/recorder/config.json --hold 8   # 
 | `motion.enabled` | false | 是否启用运动检测 |
 | `motion.source_config` | `~/sd5531/private/camera_substream.json` | 子码流地址（板卡私有文件，不进仓库） |
 | `motion.pixel_threshold` | 25 | 灰度变化超过多少算一个像素“变了” |
-| `motion.changed_fraction` | 0.005 | 变化像素占比达到多少算一帧“有运动” |
-| `motion.min_frames` | 2 | 连续多少帧才报告运动 |
+| `motion.roi_file` | `~/sd5531/roi.json` | 网页保存的检测区域 |
+| `motion.roi` | 无 | 后备检测区域：`[[x, y], …]`，按画面比例；`roi_file` 存在时以它为准 |
+| `motion.global_fraction` | 0.30 | 整幅画面变化超过这个比例算环境变化 |
+| `motion.scene_cooldown_s` | 2.0 | 环境变化后多少秒内不判断运动 |
+| `motion.min_blob_px` | 4 | 最大变化块小于多少像素（160×90 画面上）算噪点 |
+| `motion.max_blob_fraction` | 0.35 | 最大变化块超过检测区域的多少比例算"太大" |
+| `motion.persist_s` | 0.5 | 运动要持续多少秒才算 |
+| `motion.max_gap_frames` | 1 | 持续期间允许中断的帧数 |
 | `motion.mask` | 日期、名称区域 | 不参与检测的矩形，`[x, y, w, h]`，按画面比例 |
 
 `pre_roll_s=4`、`still_s=5` 是测试值，不是已确认的项目参数。
