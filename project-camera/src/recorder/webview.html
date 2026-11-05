@@ -277,7 +277,8 @@ function select(id) {
   if (!e) return;   // the open event has no clip yet
   selected = id;
   $('player').classList.add('on');
-  if (e.file) { $('video').src = '/clips/' + e.file; $('video').style.display = 'block'; }
+  const playable = e.file && e.on_board !== false;
+  if (playable) { $('video').src = '/clips/' + e.file; $('video').style.display = 'block'; }
   else { $('video').removeAttribute('src'); $('video').style.display = 'none'; }
   $('detail').innerHTML = `
     <dt>检测到运动</dt><dd>${day(e.first_motion)} ${hms(e.first_motion)}</dd>
@@ -287,7 +288,8 @@ function select(id) {
     <dt>触发前保留</dt><dd>${secs(e.actual_pre_roll_s)}</dd>
     <dt>运动段数</dt><dd>${e.motions.length}</dd>
     <dt>状态</dt><dd>${STATUS[e.status] || e.status}${e.failure ? '：' + e.failure : ''}</dd>
-    <dt>文件</dt><dd>${e.file ? `<a href="/clips/${e.file}" download>${e.file}</a>` : '—'}</dd>`;
+    <dt>文件</dt><dd>${!e.file ? '—' : playable ? `<a href="/clips/${e.file}" download>${e.file}</a>`
+      : `${e.file}<br><span style="color:var(--muted)">已存到 Mac 的 recordings 文件夹，ROCK 上不再保留</span>`}</dd>`;
   drawRows(); drawTimeline();
 }
 

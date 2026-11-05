@@ -25,6 +25,18 @@ class RangeTests(unittest.TestCase):
 
 
 @unittest.skipUnless(shutil.which('ffmpeg'), 'ffmpeg not installed')
+
+class LoadEventsTest(unittest.TestCase):
+    def test_marks_clips_moved_off_the_board(self):
+        with tempfile.TemporaryDirectory() as d:
+            for name, keep in (('20261105-010000-aaaaaa', True), ('20261105-020000-bbbbbb', False)):
+                Path(d, name + '.json').write_text(json.dumps({'event_id': name, 'file': name + '.mp4'}))
+                if keep:
+                    Path(d, name + '.mp4').write_bytes(b'x')
+            Path(d, '20261105-030000-cccccc.json').write_text(json.dumps({'event_id': 'c', 'file': None}))
+            got = {r['event_id']: r['on_board'] for r in webview.load_events(d)}
+        self.assertEqual(got, {'20261105-010000-aaaaaa': True, '20261105-020000-bbbbbb': False, 'c': False})
+
 class ServerTest(unittest.TestCase):
     def setUp(self):
         self.tmp = Path(tempfile.mkdtemp())
