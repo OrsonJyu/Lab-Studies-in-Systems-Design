@@ -22,6 +22,9 @@ import argparse, csv, hashlib, json, os, queue, re, shutil, signal, subprocess, 
 from dataclasses import dataclass, field
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import tracker
+
 DEFAULTS = {
     'camera_id': 'cam-01',
     'source_config': '~/sd5531/private/camera_source.json',
@@ -321,10 +324,11 @@ def probe_duration(path):
 
 
 def motion_filter(m):
-    """FFmpeg filter chain producing one thresholded difference frame per output frame."""
-    return (f"fps={m['fps']},scale={m['width']}:{m['height']},format=gray,"
-            f"tblend=all_mode=difference,"
-            f"lutyuv=y='if(gt(val,{m['pixel_threshold']}),255,0)'")
+    """FFmpeg filter chain producing, per output frame, the thresholded difference
+    image (top half) stacked on the current grey frame (bottom half)."""
+    return (f"fps={m['fps']},scale={m['width']}:{m['height']},format=gray,split[a][b];"
+            f"[a]tblend=all_mode=difference,"
+            f"lutyuv=y='if(gt(val,{m['pixel_threshold']}),255,0)'[d];[d][b]vstack")
 
 
 def _popcount(x):
@@ -393,6 +397,7 @@ class FrameAnalyzer:
         self.valid_int, self.valid_px = int.from_bytes(valid, 'big'), valid.count(1)
         self.area_int, self.area_px = int.from_bytes(area, 'big'), area.count(1)
         self.max_blob_px = self.m['max_blob_fraction'] * self.area_px
+        self.area_mask = area
 
     def blobs(self, changed):
         """8-connected regions of the 0/1 bytes: list of (pixels, (x0, y0, x1, y1))."""
@@ -505,6 +510,11 @@ class MotionDetector:
         self.analyzer = FrameAnalyzer(m, load_roi(m))
         self.rules = MotionRules(m['fps'], m['persist_s'], m['max_gap_frames'], m['scene_cooldown_s'])
         self.last, self.last_frame = None, None
+        tcfg = m.get('tracker') or {}
+        self.tracker = tracker.Tracker(tcfg, m['width'], m['height'], self.analyzer.area_mask) \
+            if tcfg.get('enabled', True) else None
+        self.track_state, self.track_trail = None, []
+        self.track_file = Path(cfg['output_dir']) / 'track.jsonl'
         self.roi_mtime = self._roi_mtime()
         if m['input_args'] is not None:
             args = list(m['input_args'])
@@ -533,21 +543,26 @@ class MotionDetector:
         if mtime != self.roi_mtime:
             self.roi_mtime = mtime
             self.analyzer.set_roi(load_roi(self.m))
+            if self.tracker:
+                self.tracker.set_area(self.analyzer.area_mask)   # start over in the new area
             self.log('roi_changed', roi=self.analyzer.roi, area_px=self.analyzer.area_px)
 
     def _read(self):
         size = self.analyzer.n
-        counts, since, roi_checked = {}, time.time(), 0.0
+        counts, since, roi_checked, logged = {}, time.time(), 0.0, 0.0
         while True:
-            frame = self.proc.stdout.read(size)
-            if len(frame) < size:
+            pair = self.proc.stdout.read(2 * size)
+            if len(pair) < 2 * size:
                 return
+            frame, gray = pair[:size], pair[size:]
             now = time.time()
             if now - roi_checked >= 1:
                 self._check_roi()
                 roi_checked = now
             r = self.analyzer.analyze(frame)
             times, scene = self.rules.frame(now, r['verdict'])
+            if self.tracker:
+                logged = self._track(now, gray, frame, r['verdict'] == 'scene', logged)
             r['label'] = self.rules.label(now, r['verdict'])
             self.last, self.last_frame = r, now
             counts[r['label']] = counts.get(r['label'], 0) + 1
@@ -558,6 +573,19 @@ class MotionDetector:
             if now - since >= self.m['stats_every_s']:
                 self.log('motion_stats', frames=sum(counts.values()), verdicts=counts)
                 counts, since = {}, now
+
+    def _track(self, now, gray, change, scene, logged):
+        """Feed the tracker; log state changes and one position a second."""
+        st = self.tracker.frame(now, gray, change, scene=scene)
+        prev = self.track_state['state'] if self.track_state else None
+        self.track_state, self.track_trail = st, self.tracker.trail(now)
+        if st['state'] != prev:
+            self.log('track_state', state=st['state'], prev=prev, x=st.get('x'), y=st.get('y'))
+        if now - logged >= 1 and 'x' in st:
+            with open(self.track_file, 'a') as f:
+                f.write(json.dumps({'t': round(now, 3), 'state': st['state'], 'x': st['x'], 'y': st['y']}) + '\n')
+            return now
+        return logged
 
     def drain(self):
         return self._drain(self.events)
@@ -699,6 +727,7 @@ class Recorder:
                 'area_share': round(d.last['area_share'], 4), 'box': d.last['box'],
                 'largest_px': d.last['largest_px']},
             'roi': d.analyzer.roi if d else load_roi(self.cfg['motion']),
+            'tracker': None if not d or not d.track_state else {**d.track_state, 'trail': d.track_trail},
             'global_fraction': self.cfg['motion']['global_fraction'],
             'ring_seconds': round(sum(s.wall_end - s.wall_start for s in self.segments), 1),
             'open_event': None if e is None else {

@@ -139,7 +139,8 @@ class MotionFilterTests(unittest.TestCase):
                             '-i', graph, '-t', '2', '-vf', motion_filter(m), '-f', 'rawvideo',
                             '-pix_fmt', 'gray', '-'], capture_output=True, check=True)
         a, n = FrameAnalyzer(m, roi), m['width'] * m['height']
-        return [a.analyze(r.stdout[i:i + n])['verdict'] for i in range(n, len(r.stdout), n)]
+        # Each output frame is the change image stacked on the grey frame.
+        return [a.analyze(r.stdout[i:i + n])['verdict'] for i in range(0, len(r.stdout) - 2 * n + 1, 2 * n)]
 
     moving_square = ("color=c=gray:s=320x180:r=20[bg];color=c=white:s=16x16:r=20[fg];"
                      "[bg][fg]overlay=x='40+40*t':y=80")

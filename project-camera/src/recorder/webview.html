@@ -46,6 +46,9 @@
   .overlay polygon.draft { fill: #f0b44022; stroke: #f0b440; stroke-dasharray: 6 4; }
   .overlay polyline { fill: none; stroke: #f0b440; stroke-width: 2; stroke-dasharray: 6 4; vector-effect: non-scaling-stroke; }
   .overlay rect { fill: none; stroke: #ff6159; stroke-width: 2; vector-effect: non-scaling-stroke; }
+  .overlay rect.gecko { stroke: #4cc47f; stroke-width: 3; }
+  .overlay rect.gecko.lost { stroke: #f0b440; stroke-dasharray: 5 4; }
+  .overlay polyline.trail { stroke: #4cc47f; stroke-dasharray: none; opacity: .8; }
   .overlay circle { fill: #f0b440; stroke: #000; stroke-width: 1; vector-effect: non-scaling-stroke; }
   .live.editing { cursor: crosshair; }
   .btn { border: 1px solid var(--line); background: var(--panel); color: var(--ink); padding: 3px 10px;
@@ -146,6 +149,7 @@
       <dt>最近运动</dt><dd id="s-last">—</dd>
       <dt>缓存</dt><dd id="s-ring">—</dd>
       <dt>参数</dt><dd id="s-params">—</dd>
+      <dt>守宫</dt><dd id="s-gecko">—</dd>
     </dl>
     <div style="margin-top:12px">
       <div style="display:flex;justify-content:space-between;color:var(--muted);font-size:12px">
@@ -200,7 +204,20 @@ const VERDICT = { still: '画面静止', small: '变化太小（噪点）', pend
                   large: '变化范围太大（不算）', scene: '环境变化（整幅画面一起变）', settling: '环境变化后等待画面稳定' };
 
 let span = 3600, events = [], scenes = [], state = null, offset = 0, selected = null;
-let roi = null, box = null, draft = null;   // draft: points being drawn, or null
+let roi = null, box = null, draft = null, gecko = null;
+
+const ago = (now, t) => secs(Math.max(0, now - t));
+const where = g => `(${Math.round(g.x * 100)}%, ${Math.round(g.y * 100)}%)`;
+function geckoText(g, now) {
+  if (!g) return '—';
+  if (g.state === 'learning') return `正在生成背景图，请保持画面静止（${Math.round((g.progress || 0) * 100)}%）`;
+  if (g.state === 'searching') return '未锁定：等它第一次移动';
+  const re = g.learning ? '；环境变化后正在重建背景，凭样子保持锁定' : '';
+  if (g.state === 'moving') return `移动中，位于 ${where(g)}${re}`;
+  if (g.state === 'still') return `静止于 ${where(g)}，已 ${ago(now, g.still_since ?? g.last_seen)}，最后确认 ${ago(now, g.last_confirmed)}前${re}`;
+  if (g.state === 'lost') return `丢失：最后出现于 ${where(g)}（${ago(now, g.last_seen)}前）`;
+  return g.state;
+}   // draft: points being drawn, or null
 
 // ---- detection area overlay and editor. Coordinates are fractions of the picture.
 // The live box takes the picture's aspect ratio, so the SVG covers exactly the picture.
@@ -220,10 +237,16 @@ function drawOverlay() {
   } else {
     if (roi) svg += `<polygon points="${pts(roi)}"/>`;
     if (box) svg += `<rect x="${box[0]}" y="${box[1]}" width="${box[2] - box[0]}" height="${box[3] - box[1]}"/>`;
+    if (gecko && gecko.box) {
+      if (gecko.trail && gecko.trail.length > 1) svg += `<polyline class="trail" points="${pts(gecko.trail)}"/>`;
+      const [x0, y0, x1, y1] = gecko.box;
+      svg += `<rect class="gecko ${gecko.state === 'lost' ? 'lost' : ''}" x="${x0}" y="${y0}" width="${x1 - x0}" height="${y1 - y0}"/>`;
+    }
   }
   $('overlay').innerHTML = svg;
   $('roi-note').textContent = draft ? '' : roi ? `检测区域：已设置（${roi.length} 个点）。框外的变化不参与判断；红框是当前检测到的运动。`
     : '检测区域：未设置，整幅画面都参与判断（摄像头日期和名称除外）。';
+  if (!draft) $('roi-note').textContent += ' 绿框是锁定的守宫，绿线是最近 1 分钟的轨迹。';
 }
 
 function editRoi(on) {
@@ -312,6 +335,7 @@ async function pollStatus() {
       $('m-bar').style.background = d && d.global_share >= th ? 'var(--warn)' : 'var(--accent)';
       $('m-th').style.left = '50%';
       roi = state.roi; box = d && d.label === 'motion' ? d.box : null;
+      gecko = state.tracker; $('s-gecko').textContent = geckoText(gecko, r.board_time);
     }
     drawOverlay(); drawTimeline();
   } catch (e) {
