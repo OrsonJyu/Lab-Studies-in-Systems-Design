@@ -329,11 +329,14 @@ def motion_filter(m):
     the grey change image (|dY| > pixel_threshold), the colour change image
     (|dU| + |dV| > the tracker's chroma_threshold), then the current Y, U and V."""
     chroma = (m.get('tracker') or {}).get('chroma_threshold', tracker.DEFAULTS['chroma_threshold'])
+    # Thresholds use lut on plain grey planes: lutyuv after a full-range (yuvj, as the
+    # camera sends) plane gave a constant 87 instead of 0/255.
     return (f"fps={m['fps']},scale={m['width']}:{m['height']},format=yuv444p,split=3[a][c][b];"
-            f"[a]format=gray,tblend=all_mode=difference,"
-            f"lutyuv=y='if(gt(val,{m['pixel_threshold']}),255,0)'[d];"
-            f"[c]tblend=all_mode=difference,extractplanes=u+v[du][dv];"
-            f"[du][dv]blend=all_mode=addition,lutyuv=y='if(gt(val,{chroma}),255,0)'[dc];"
+            f"[a]extractplanes=y,tblend=all_mode=difference,"
+            f"lut=c0='if(gt(val,{m['pixel_threshold']}),255,0)'[d];"
+            f"[c]extractplanes=u+v[u0][v0];[u0]tblend=all_mode=difference[du];"
+            f"[v0]tblend=all_mode=difference[dv];"
+            f"[du][dv]blend=all_mode=addition,lut=c0='if(gt(val,{chroma}),255,0)'[dc];"
             f"[b]extractplanes=y+u+v[y][u][v];[d][dc][y][u][v]vstack=inputs=5")
 
 
