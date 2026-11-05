@@ -52,6 +52,10 @@ DEFAULTS = {
     'confirm_s': 5.0,
     'template_tolerance': 18,  # appearance difference accepted as "still the same animal"
     'lost_misses': 3,          # failed appearance checks in a row -> lost
+    'size_learn': 10,          # follows after a lock before the size band applies (the first
+                               # blobs are only the part outside its start-up spot)
+    'size_band': 1.6,          # a candidate more than this times larger/smaller than the target's
+                               # usual size is a merge (hand, shadow) or a fragment: not followed
     'ghost_share': 0.6,        # blobs this much like the surrounding substrate are ghosts, never the target
     'track_every': 2,          # full analysis on every n-th frame (changes in between are kept)
     'bg_every': 4,             # background drift applied every n-th analysis (alpha scaled to match)
@@ -59,7 +63,7 @@ DEFAULTS = {
 
 
 class Blob:
-    __slots__ = ('pixels', 'box', 'cx', 'cy', 'activity')
+    __slots__ = ('pixels', 'box', 'cx', 'cy', 'activity', 'ghost', 'raw_box')
 
     def __init__(self, pixels, w):
         self.pixels = pixels
@@ -68,6 +72,8 @@ class Blob:
         self.box = (min(xs), min(ys), max(xs) + 1, max(ys) + 1)
         self.cx, self.cy = sum(xs) / len(xs), sum(ys) / len(ys)
         self.activity = 0
+        self.ghost = 0.0      # share of pixels that look like the surrounding substrate
+        self.raw_box = self.box
 
 
 def connected(pixels, w, h):
@@ -211,27 +217,37 @@ class Tracker:
         if ref is None:
             return 0.0
         index = self.index
-        same = sum(1 for p in b.pixels if not self._differs(gray, index[p], p, ref))
-        return same / len(b.pixels)
+        core = [p for p in b.pixels if self._differs(gray, index[p], p, ref)]
+        if core and len(core) < len(b.pixels):
+            # Position and box from the animal's own pixels, without a joined ghost.
+            w = self.w
+            xs, ys = [p % w for p in core], [p // w for p in core]
+            b.box = (min(xs), min(ys), max(xs) + 1, max(ys) + 1)
+            b.cx, b.cy = sum(xs) / len(xs), sum(ys) / len(ys)
+        return 1 - len(core) / len(b.pixels)
 
     def _track(self, t, gray, blobs):
         c, tg = self.c, self.target
         fg = set()
         for b in blobs:
             fg.update(b.pixels)
-        blobs = [b for b in blobs if self._ghost_share(gray, b, fg) < c['ghost_share']]
+        for b in blobs:
+            b.ghost = self._ghost_share(gray, b, fg)
+        blobs = [b for b in blobs if b.ghost < c['ghost_share']]
         if tg is not None:
             # A target splitting from its ghost moves its centre by up to its own width.
             reach = max(c['max_jump'] * self.w, tg['box'][2] - tg['box'][0], tg['box'][3] - tg['box'][1])
-            near = [b for b in blobs if self._plausible(b)
-                    and abs(b.cx - tg['cx']) + abs(b.cy - tg['cy']) <= reach]
+            near = [b for b in blobs if self._plausible(b) and self._same_size(b)
+                    and abs(b.cx - tg['cx']) + abs(b.cy - tg['cy']) <= reach
+                    and (self._overlaps(b.box, tg['box']) or self._looks_like(gray, b))]
             if near:
                 b = min(near, key=lambda b: abs(b.cx - tg['cx']) + abs(b.cy - tg['cy']) - b.activity)
                 self._follow(t, gray, b)
                 return
             # Moved further than max_jump (carried, or missed while hidden by a hand):
             # pick the blob that looks like the stored appearance.
-            looks = [(self._match_at(gray, b.cx, b.cy), b) for b in blobs if self._plausible(b)]
+            looks = [(self._match_at(gray, b.cx, b.cy), b) for b in blobs
+                     if self._plausible(b) and self._same_size(b)]
             looks = [(d, b) for d, b in looks if d is not None and d <= c['template_tolerance']]
             if looks:
                 self._follow(t, gray, min(looks, key=lambda x: x[0])[1])
@@ -247,19 +263,70 @@ class Tracker:
         if active:
             self._follow(t, gray, max(active, key=lambda b: b.activity), new=True)
 
+    @staticmethod
+    def _overlaps(a, b, margin=2):
+        return a[0] - margin < b[2] and b[0] - margin < a[2] and a[1] - margin < b[3] and b[1] - margin < a[3]
+
+    def _looks_like(self, gray, b):
+        d = self._match_at(gray, b.cx, b.cy)
+        return d is not None and d <= self.c['template_tolerance']
+
+    def _same_size(self, b):
+        size = self.target.get('size') if self.target else None
+        if not size or self.target.get('follows', 0) < self.c['size_learn']:
+            return True                      # still learning its real size after the lock
+        band = self.c['size_band']
+        return size / band <= self._core(b) <= size * band
+
+    @staticmethod
+    def _core(b):
+        """Blob size without its ghost part (substrate-like pixels joined to it)."""
+        return len(b.pixels) * (1 - b.ghost)
+
     def _follow(self, t, gray, b, new=False):
         c = self.c
         if new or self.target is None:
             self.target = {'since': t, 'trail': [], 'still_since': None, 'template': None}
         tg = self.target
-        tg.update(cx=b.cx, cy=b.cy, box=b.box, px=len(b.pixels), seen=t, confirmed=t, checked=t, misses=0)
+        last = tg.get('box')    # where it was last seen, however long ago
+        unseen = t - tg.get('seen', t)
+        tg.update(cx=b.cx, cy=b.cy, box=b.box, px=len(b.pixels), seen=t, confirmed=t, checked=t, misses=0,
+                  follows=tg.get('follows', 0) + 1)
+        # Usual size, slowly updated, so a sudden merge or split stands out.
         tg['trail'].append((t, b.cx, b.cy))
         tg['trail'] = [p for p in tg['trail'] if t - p[0] <= max(c['move_window_s'], 60)]
-        recent = [p for p in tg['trail'] if t - p[0] <= c['move_window_s']]
-        travel = max(abs(p[1] - b.cx) + abs(p[2] - b.cy) for p in recent)
-        # Moving means the centre actually travelled. Changing pixels alone are not
-        # enough: a hand's shadow or an exposure change flickers the animal's pixels.
+        tg.setdefault('boxes', []).append((t, b.box))
+        tg['boxes'] = [p for p in tg['boxes'] if t - p[0] <= c['move_window_s']]
+        if new:
+            tg['footprint'] = b.raw_box          # it sat here when the background was taken
+        elif unseen > 1.0 and last:
+            tg['footprint'] = last               # it had merged into a rebuilt background here
+        fp = tg.get('footprint')
+        if fp and not self._overlaps(b.box, fp, margin=1):   # touching still counts
+            tg['footprint'] = fp = None          # left the spot: the background is clean now
+        olds = [box for _, box in tg['boxes']] + ([last] if last and not new else [])
+        if fp:
+            # Still overlapping its own image in the background, so only the part outside
+            # that spot is visible and the box grows on one side as it moves: use the
+            # centre, as the edge rule would see no movement.
+            centre = lambda bx: ((bx[0] + bx[2]) / 2, (bx[1] + bx[3]) / 2)
+            cx, cy = centre(b.box)
+            travel = max(abs(centre(bx)[0] - cx) + abs(centre(bx)[1] - cy) for bx in olds)
+        else:
+            travel = max(self._shift(box, b.box) for box in olds)
+        # Moving means the whole box shifted: both left and right edges (and top and
+        # bottom) moved. Pixels flickering (exposure, a hand's shadow) or the blob
+        # growing on one side as a shadow joins it are not movement.
         moving = travel >= c['move_px']
+        # Locking on happens only on a changing blob, and a target that had merged into
+        # the background (after start-up or a scene change) shows up again only by moving.
+        if new or (unseen > 1.0 and b.activity >= c['lock_activity_px']):
+            moving = True
+        core = self._core(b)
+        if not tg.get('size'):
+            tg['size'] = core
+        elif moving or tg['follows'] < c['size_learn']:   # a resting animal does not change size
+            tg['size'] = 0.8 * tg['size'] + 0.2 * core
         if moving:
             tg['state'], tg['still_since'] = 'moving', None
         else:
@@ -268,6 +335,14 @@ class Tracker:
             tg['state'] = 'still'
         if moving or tg['template'] is None or tg['template'][0] != b.box:
             tg['template'] = self._patch(gray, b.box)   # also after a ghost part is absorbed
+
+    @staticmethod
+    def _shift(a, b):
+        """How far box b moved from box a, counting only what both opposite edges did."""
+        def edge(lo0, hi0, lo1, hi1):
+            dl, dh = lo1 - lo0, hi1 - hi0
+            return min(abs(dl), abs(dh)) if dl * dh > 0 else 0
+        return edge(a[0], a[2], b[0], b[2]) + edge(a[1], a[3], b[1], b[3])
 
     def _patch(self, img, box):
         x0, y0, x1, y1 = box

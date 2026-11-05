@@ -87,12 +87,14 @@ class TrackerTests(unittest.TestCase):
         self.assertFalse(s['learning'])
         self.assertIn(s['state'], ('still', 'lost'))     # brighter gecko may not match
         self.assertAlmostEqual(s['x'], (25 + 3) / W, delta=0.03)
-        for x in range(26, 32):                          # moves again: picked up again
+        # Moves again. While it still touches its own image in the rebuilt background only
+        # the part outside that spot is visible, so it takes a little longer to read as moving.
+        for x in range(26, 34):
             s = r.feed(scene([(x, 12, 6, 3, 130)], base=240))
         self.assertEqual(s['state'], 'moving')
-        s = r.feed(scene([(31, 12, 6, 3, 130)], base=240), 30)   # ghost part absorbed
+        s = r.feed(scene([(33, 12, 6, 3, 130)], base=240), 30)   # ghost part absorbed
         self.assertEqual(s['state'], 'still')
-        self.assertAlmostEqual(s['x'], (31 + 3) / W, delta=0.03)
+        self.assertAlmostEqual(s['x'], (33 + 3) / W, delta=0.03)
 
     def test_hand_is_never_the_target(self):
         r = self.start_with_gecko_in_background()
@@ -111,6 +113,17 @@ class TrackerTests(unittest.TestCase):
         for i in range(20):                              # its pixels flicker (shadow, exposure)
             s = r.feed(scene([(19, 12, 6, 3, 90 if i % 2 else 60)]))
             self.assertEqual(s['state'], 'still')
+
+    def test_shadow_merging_with_target_is_not_followed(self):
+        r = self.start_with_gecko_in_background()
+        for x in range(6, 20):
+            r.feed(scene([at(x)]))
+        r.feed(scene([at(19)]), 30)
+        before = r.tr.state(r.t)['x']
+        for k in range(15):                              # a darker area grows from the gecko upwards
+            s = r.feed(scene([at(19), (15, max(0, 11 - k), 14, k + 1, 120)]))
+            self.assertNotEqual(s['state'], 'moving')
+        self.assertAlmostEqual(s['x'], before, delta=0.03)
 
     def test_vanished_target_is_not_moving(self):
         r = self.start_with_gecko_in_background()
