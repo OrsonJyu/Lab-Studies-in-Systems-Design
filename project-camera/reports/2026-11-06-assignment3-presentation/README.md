@@ -13,6 +13,7 @@ slides: Figma "Final PPT" section, slides 05–15 (Part 01 · IP Camera)
 - 本部分时长：约 6 分钟（约 940 个英文单词，按每分钟 150 词计；各页标注的秒数是目标值，合计约 5.7 分钟，语速稍快即可达到）。如需压缩到 3.5 分钟，见文末“短版”。
 - 每页先列英文讲稿，再用一行中文写本页要点，方便记忆。方括号里是动作提示，不用念出来。
 - 数字都和幻灯片上一致；讲稿里没有新增幻灯片上没有的结论。
+- **按制作过程讲的版本（中英文 PDF）**：[英文](step-by-step-script/ip-camera-step-by-step-script-EN.pdf) · [中文](step-by-step-script/ip-camera-step-by-step-script-ZH.pdf)。按我们实际做的顺序（10-30 首次录像 → 11-05 延迟、环形缓冲、学校 86 段、检测区域、跟踪、三轮测试）讲第 05–15 页，约 6½ 分钟，附时间线和可能被问到的问题；由 [build_pdf.py](step-by-step-script/build_pdf.py) 生成（需要 Chrome）。
 
 ---
 
