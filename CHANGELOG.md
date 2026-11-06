@@ -5,6 +5,7 @@
 ## [Unreleased]
 
 - Assignment 3 个人技术可行性页面（ZHU Kecheng）建在团队 Confluence 空间，附件与索引存于 `project-camera/reports/2026-11-06-assignment3-individual/`：EasyEDA 接线与供电原理图（截图 + 源文件 zip）、源码快照、代码截图、测试拼图与 4 段视频。
+- Assignment 3 最终展示：Figma “Final PPT” 增加 Agenda、4 张分节页、统一页码和右上角进度条（改动前备份为旁边的 section）；IP camera 部分演讲稿与删减建议存于 `project-camera/reports/2026-11-06-assignment3-presentation/`。
 - 守宫"移动"再改为要求整个框平移（影子并入只让框一边变大，不算），跟踪只跟与上一个框重叠或外观像守宫、大小稳定的块：第二轮现场测试中影子让跟踪框被拉到手上，修改后第三轮现场 3 段录像全是蜥蜴移动，手在区域里的 8 秒不录。
 - 守宫"移动"改为只看位置是否真的移动（像素闪动不算），并且要持续 0.5 秒才触发录制：现场第一版因手伸入时蜥蜴像素闪动仍录了 3 段手的片段，修改后重放中不再录。
 - 用户要求后，录制改为由锁定的守宫移动触发（`motion.trigger: gecko`，默认）：手在检测区域里动而守宫没动时不再录制；画面变化规则本会触发的时刻写进日志（`shadow_motion`）以便对比；可改回 `change`。同时修复：目标突然消失时跟踪状态停在"移动中"，会让录像一直不结束。
