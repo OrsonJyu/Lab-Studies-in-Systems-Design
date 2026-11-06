@@ -16,7 +16,7 @@ slides: Figma "Final PPT" section, slides 05–15 (Part 01 · IP Camera)
 
 ---
 
-## 05 · Camera Module (≈20 s)
+## 05 · IP Camera Module (≈20 s)
 
 > I'm Kecheng, and I'll start with the video part: the IP camera module. The question is simple: how does the camera decide *what* to record? I'll go through it in four steps — the hardware, how motion becomes a recording, how we make the detection precise, and how the system finds the gecko.
 
@@ -28,13 +28,13 @@ slides: Figma "Final PPT" section, slides 05–15 (Part 01 · IP Camera)
 
 要点：PoE 一根网线同时供电和传视频；交换机连接所有设备；ROCK 由 Mac 的 USB-C 供电，两次意外停机可能与此有关（未确认）。
 
-## 07 · Information Flow (≈35 s)
+## 07 · Two Streams, One Clip per Event (≈35 s)
 
 > The camera sends two streams. The full-resolution main stream, 2560 by 1440 at 20 frames per second, is only copied — never re-encoded — into a 60-second ring of 2-second segments in RAM. The small substream goes to a second FFmpeg process that shrinks it to 160 by 90 for analysis, and Python decides when an event starts and ends. Then we cut the clip out of the ring and move it to the Mac with a SHA-256 check. [Point to the latency test] We measured the delay by filming the Mac clock: the median from camera to ROCK is 0.23 seconds, and detection plus tracking uses about 13 % of the ROCK's CPU.
 
 要点：两路码流——主码流只复制进 RAM 环形缓冲，子码流缩小后做分析；剪出片段、SHA-256 校验后传到 Mac；延迟中位数 0.23 s，CPU 约 13 %。
 
-## 08 · Motion → Recording (≈40 s)
+## 08 · Keep the Seconds Before Motion (≈40 s)
 
 > Why a ring buffer? If we only start recording after we see motion, we lose the start: detection takes up to 0.65 seconds, connecting takes 0.4, and FFmpeg's first output takes about 2 seconds. That is exactly the moment a student wants to see. So FFmpeg never stops: it writes into RAM all the time. When an event closes, we join the segments from 4 seconds before the first motion to 5 seconds after the last one, without re-encoding. [Point to the clip] In this real clip the gecko is pulled at 5.1 seconds, and you can still see it before it moved. 97 clips were checked and moved to the Mac this way.
 
@@ -64,19 +64,19 @@ slides: Figma "Final PPT" section, slides 05–15 (Part 01 · IP Camera)
 
 要点：实验室三轮测试，每次失败变成一条规则：3 段 → 2 段 → 0 段只有手的片段；第三轮手在区域内 8 秒，旧规则触发 87 帧，但没有录，3 段守宫片段都保留。
 
-## 13 · Where Is the Gecko · Method (≈30 s)
+## 13 · Gecko Tracking · Method (≈30 s)
 
 > Stage three depends on knowing where the gecko is, so here is how the tracker finds it. It learns a background from still frames, marks pixels that differ from it, groups them into blobs, locks on the one that moves, and cleans up the "ghost" left behind. The key was colour. In brightness alone, our green lizard is almost the same grey as the desk — 157 against 156 to 186 — so the box covered only its tail. In the two colour channels it stands far apart. All this runs in pure Python at about 8 milliseconds per frame.
 
 要点：跟踪方法——背景模型 → 前景 → 连通块 → 锁定跟随 → 清除残影；关键是颜色：亮度上蜥蜴和桌面几乎一样，颜色通道上差别明显；纯 Python，每帧约 8 ms。
 
-## 14 · Where Is the Gecko · Results (≈25 s)
+## 14 · Gecko Tracking · Results (≈25 s)
 
 > On our recorded clips the box stays on the lizard while it moves and while it rests: the whole lizard was boxed in 5 of 6 sampled frames, and it stayed still for 55 seconds without a false "lost". The limit: if the lizard is pulled away fast, the box can stay on the empty spot for about two seconds.
 
 要点：结果——6 帧抽样中 5 帧框住整只蜥蜴；静止 55 秒没有误判“丢失”；局限：被快速拿走时框会在原地停留约 2 秒。
 
-## 15 · Results & Limits (≈35 s)
+## 15 · Results, Limits & Next Steps (≈35 s)
 
 > To sum up the camera part: clips keep 4 to 6 seconds before the first motion, changes outside the area and lighting changes are ignored, and a hand in the area no longer records. What we have not tested yet: a real gecko — every test used a toy lizard — night recording with the camera's IR, and runs longer than a few hours. Next, we test in the real enclosure with the gecko, run a night test, and give the ROCK its own power supply for a 24-hour run. We also want to link clips to thermal events — which brings us to the thermal sensor. [Hand over to the next speaker]
 
@@ -110,6 +110,8 @@ slides: Figma "Final PPT" section, slides 05–15 (Part 01 · IP Camera)
 - 页码统一为“NN / 36”（原来混用 “/ 14”“/ 10”“/ 07”）。
 - 第 05–36 页右上角加了进度条（01 IP CAMERA … 05 SYSTEM），当前部分为绿色。
 - 物理集成页左上角标签由 “06 / PHYSICAL INTEGRATION · 0X” 统一为 “SD5531 / TEAM 02 / PHYSICAL INTEGRATION”。
+- IP Camera 部分改了 6 个标题：05 Camera Module → IP Camera Module；07 Information Flow → Two Streams, One Clip per Event（副标题相应改写）；08 Motion → Recording → Keep the Seconds Before Motion；13 / 14 Where Is the Gecko → Gecko Tracking；15 Results & Limits → Results, Limits & Next Steps。CAM 00 的目录项同步更新。
+- 修复第 15 页 NEXT 栏文字重叠（“…then a 24 h run” 折行后压住下一条）。
 
 ## 删减建议（36 页偏多）
 
