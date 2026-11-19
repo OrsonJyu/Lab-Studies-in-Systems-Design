@@ -39,7 +39,7 @@ The repository is the project memory; follow `docs/guides/GIT_MARKDOWN_MEMORY_GU
 
 | Question | Location |
 | --- | --- |
-| What is true now? | `docs/STATUS.md` + `PROJECT_STATE.json` (keep both consistent; do not create `PROJECT_STATUS.md`) |
+| What is true now? | `docs/STATUS.md` + `PROJECT_STATE.json` (keep both consistent); `PROJECT_STATUS.md` is the short entry required by project-standards and only links to them |
 | What was decided and why? | `docs/DECISIONS.md` |
 | What happened when? | `docs/HISTORY.md`, with event dates in the content |
 | How far along is this task? | `docs/workstreams/active/ws-*.md`; move to `completed/` when done |
@@ -49,6 +49,10 @@ The repository is the project memory; follow `docs/guides/GIT_MARKDOWN_MEMORY_GU
 - Three file classes. **Current-state docs** (STATUS, PROJECT_STATE, SCOPE, ARCHITECTURE, ROADMAP, EVIDENCE, READMEs, workstreams): rewrite to the latest understanding; do not stack old and corrected claims, Git keeps the past. **Records** (DECISIONS, CHANGELOG, HISTORY, experiment records): append only; mark superseded decisions instead of deleting them. **Originals** (manifest-listed imports, `docs/history/`): do not edit unless the user approves that specific change (see Source and evidence discipline).
 - Task-specific requirements and unconfirmed parameters stay in that workstream. Promote them to DECISIONS only after the user or team confirms them.
 - Reference other records by relative link and stable ID (`D0xx`, `ws-*`, `exp-*`); do not copy content between files. Add `aliases` in front matter so keyword search finds alternate names.
+
+## Project standard and file library
+
+This repository follows [project-standards](https://github.com/OrsonJyu/project-standards) (version in `.project-standard.json`, modules hardware + software). Project rules above take precedence where they are stricter. The file library is linked as the ignored `library/`; run `python3 scripts/library.py link` in a new checkout and `status` before committing, and record its contents in `docs/LIBRARY.md`. Root `experiments/` and `environments/` only point to `project-camera/`.
 
 ## Branches
 

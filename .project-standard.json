@@ -1,0 +1,11 @@
+{
+  "standard": "1.3.0",
+  "modules": [
+    "hardware",
+    "software"
+  ],
+  "exclude": [
+    "project-camera/references/Tutorial/*"
+  ],
+  "local_name": "Lab-Studies-in-Systems-Design"
+}

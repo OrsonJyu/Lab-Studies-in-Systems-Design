@@ -1,0 +1,16 @@
+name: Check repository
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # Full history lets the check date each active workstream.
+          fetch-depth: 0
+      - run: python3 scripts/check_standard.py

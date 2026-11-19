@@ -1,0 +1,4 @@
+# Orca runs this in every new worktree of this repository.
+scripts:
+  setup: |
+    python3 scripts/library.py link
