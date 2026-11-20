@@ -4,6 +4,7 @@
 
 ## [Unreleased]
 
+- 新增 [Node-RED / MongoDB 接入方案](docs/guides/NODE_RED_MONGODB_INTEGRATION_GUIDE.md)：实时画面显示、数据入库和硬盘录像读取的建议做法与待定项；仅为方案，未实现、未测试。
 - 接入 project-standards 1.3.0（模块 hardware、software）：新增 `PROJECT_STATUS.md` 入口、`.project-standard.json`、校验脚本与提交钩子、`scripts/library.py` 与被忽略的 `library/` 文件库链接、`docs/LIBRARY.md`；导入原件 `project-camera/references/Tutorial/` 的旧链接列入校验排除。文件库资料尚未归位。
 - 按规范整理文件库（[LIBRARY](docs/LIBRARY.md)）：Assignment 3 展示素材 12 个进 `outcomes/assignment3-presentation-assets/`；录制 Demo、私有配置、事件片段、SD 备份和实拍原片进本地 `localdata/`；停用的 `live-preview/` 脚本删除，录制说明改指向 Demo。
 - Assignment 3 个人技术可行性页面（ZHU Kecheng）建在团队 Confluence 空间，附件与索引存于 `project-camera/reports/2026-11-06-assignment3-individual/`：EasyEDA 接线与供电原理图（截图 + 源文件 zip）、源码快照、代码截图、测试拼图与 4 段视频。

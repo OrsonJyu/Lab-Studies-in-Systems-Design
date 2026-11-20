@@ -16,6 +16,7 @@
 | [Workstreams](workstreams/README.md) | 正在进行与已完成的工作，各自的现状与待定项 |
 | [测试环境](../project-camera/environments/README.md) | 共用网络策略；home 恢复及 school 后续短录，地点证据不混用 |
 | [home 硬件与实验复现指南](guides/HOME_HARDWARE_AND_EXPERIMENT_GUIDE.md) | 接线、参数、ONVIF、录像、解码、Mac 预览及 agent 验收步骤 |
+| [Node-RED / MongoDB 接入方案](guides/NODE_RED_MONGODB_INTEGRATION_GUIDE.md) | 建议方案（未实现）：实时画面上 dashboard、事件与轨迹入库、硬盘录像如何被读取 |
 | [school 网络与预览指南](guides/SCHOOL_NETWORK_AND_PREVIEW_GUIDE.md) | 有线拓扑、静态配置恢复、ROCK AP、Mac 直接 IINA 预览及证据边界 |
 | [HISTORY](HISTORY.md) | 从早期探索到当前方向的可检索时间线 |
 | [SYNC_REPORT](SYNC_REPORT.md) | 归档来源、同步状态、缺失材料与旧链接 |
